@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-26",
+  "repository_revision": "7d17deee1cb685f016ff16cb6706e8db12ebe6b2",
+  "python_version": "3.12.14",
+  "code_cells_executed": 6,
+  "checks": {
+    "parameter_round_trip": 3,
+    "time_round_trip": 3,
+    "transformed_derivatives": 36,
+    "state_round_trip": 36,
+    "report_example": 3,
+    "normalized_rhs": 36,
+    "coordinate_bridge": 36,
+    "time_chain_rule": 72,
+    "loss_weight_conversion": 72,
+    "group_unit_invariance": 9,
+    "unit_change_rhs": 108,
+    "state_unit_invariance": 108,
+    "boundary_limits": 6,
+    "lv_conserved_derivative": 18,
+    "low_prey_response_error": 9,
+    "half_saturation": 3
+  },
+  "total_exact_equalities": 558,
+  "maximum_discrepancy_at_tested_inputs": "0 (exact rational arithmetic)",
+  "scope": "Finite algebra checks, not empirical validation or a general symbolic proof.",
+  "notebook_sha256": "69a762625c3a3d371f85e8c9c8e8464a8438c8818facc870bfec8fb39fe0e4e7"
+}

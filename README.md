@@ -1,7 +1,8 @@
 # Lynx Hare Project
 
 MAC F314 Mathematical Modelling: Canadian lynx and snowshoe hare dynamics.
-This repository contains **Yash's inverse physics-informed neural network (PINN) work package**.
+This repository contains **Yash's inverse physics-informed neural network (PINN) work package**,
+**Joel's stability analysis**, and **Arnav's model formulation and scaling contribution**.
 All included observations and reported experiments are **synthetic**. The year labels
 1900–1920 reproduce the intended train/test arrangement; they are not historical pelt counts.
 
@@ -19,6 +20,13 @@ Start with [the notebook](notebooks/yash_pinn.ipynb), [measured results](docs/re
 or [the mathematical method](docs/method.md).
 
 ## Teammate quick start
+
+Arnav's contribution is in [`contributions/arnav/`](contributions/arnav/README.md):
+the phase-by-phase explanation, [compiled report](contributions/arnav/main.pdf),
+LaTeX sources and bibliography, [executed notebook](contributions/arnav/arnav_model_explained.ipynb),
+equation/units sheet, presentation notes, and team handoff. Its dimensionless notation
+matches Joel's current analysis. The notebook verifies coordinate transformations;
+it does not fit historical data or replace the shared solver or PINN.
 
 Clone the project and create a branch for your work:
 

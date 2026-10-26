@@ -1,0 +1,309 @@
+\section{Problem and observation convention}
+The project asks whether a mechanistic predator--prey model can explain recurring
+hare--lynx fluctuations and support useful predictions beyond the observations used
+for calibration. This section establishes the equations, their biological assumptions,
+units and dimensionless form. It supplies the common mathematical foundation for the
+team's stability analysis, numerical simulations and parameter estimation.
+
+The planned historical application uses annual observations labelled 1900--1920.
+The Stan case study supplies a public transcription of Hudson's Bay Company pelt
+records in thousands of pelts, with a documented source chain
+\cite{arnav_carpenter2018}. These measurements are trade records, not population
+censuses. We interpret $H(t)$ and $P(t)$ as nonnegative hare and lynx abundance
+\emph{indices}, respectively, in explicitly declared species-specific units.
+The comparison between a continuous state and an annual pelt total is an observation
+approximation: trapping effort, capture probability, seasonal aggregation and
+unmodelled ecology can all affect the relationship.
+
+The proposed historical convention is one index unit per thousand pelts for each
+species, subject to Advay's final data provenance check. Synthetic indices in the
+existing repository have no established conversion to those historical units.
+Set $t=\mathrm{Year}-1900$ in years. The agreed evaluation design uses 1900--1915
+for calibration and 1916--1920 only for final scoring. Neither normalization nor
+parameter selection may use the held-out observations. This section makes no
+historical fit or forecast claim.
+
+\section{From Lotka--Volterra to the chosen model}
+\subsection{The reference model and its limitation}
+For a first comparison, let
+\begin{equation}\label{eq:arnav_lv}
+\dot H=rH-cHP,\qquad \dot P=ecHP-mP,
+\end{equation}
+where a dot means differentiation with respect to years. The prey grows at rate
+$rH$ without predators, encounters remove prey at rate $cHP$, conversion of consumed
+prey contributes $ecHP$ to predator growth, and predator mortality removes $mP$.
+Here $c>0$ is the encounter coefficient; it is not the saturation parameter $a$
+introduced below. The other parameters are positive.
+
+The positive equilibrium is $H_*=m/(ec)$, $P_*=r/c$. To see why the cycles are
+neutral, rather than simply asserting it, define for positive $H,P$
+\begin{equation}
+V=ec\left[H-H_*-H_*\log(H/H_*)\right]
+ +c\left[P-P_*-P_*\log(P/P_*)\right].
+\end{equation}
+The logarithms have dimensionless arguments. Differentiation gives
+\begin{align}
+\dot V&=(ec-m/H)\dot H+(c-r/P)\dot P\\
+&=(ecH-m)(r-cP)+(cP-r)(ecH-m)=0.
+\end{align}
+Each bracket in $V$ has a strict minimum at its equilibrium value and diverges at
+zero or infinity. Thus nonzero level sets are closed curves in the positive
+quadrant, surrounding the equilibrium. The vector field has no other positive
+equilibrium on a level set, so trajectories follow periodic orbits. A perturbation
+generally moves the state to a different orbit; it does not relax back to one
+selected cycle. The equilibrium is a centre, not an attractor. Also, predator-free
+prey grows exponentially without a resource limit. These are reasons to refine the
+model; they do not mean that Lotka--Volterra cannot oscillate.
+
+\subsection{Resource limitation and saturating predation}
+Let the prey's per-capita net growth decrease linearly from $r$ at low abundance
+to zero at $H=K$. Multiplication by $H$ gives logistic growth,
+\begin{equation}
+G(H)=rH(1-H/K).
+\end{equation}
+The carrying capacity $K$ describes the prey-only resource limit under fixed
+environmental conditions; it is not an absolute ceiling on every trajectory.
+
+Let $g(H)$ be consumption per predator. A simple search-and-handling argument
+assumes an encounter-limited rate $qH$ while searching and a maximum processing
+rate $a$. If the fractions of time searching and handling are $g/(qH)$ and $g/a$,
+their sum is one. For $H>0$,
+\begin{equation}
+\frac{g}{qH}+\frac{g}{a}=1
+\quad\Longrightarrow\quad
+g(H)=\frac{aqH}{a+qH}=\frac{aH}{b+H},\qquad b=\frac{a}{q}.
+\end{equation}
+Extend continuously by $g(0)=0$. This is the Holling type II response
+\cite{arnav_holling1959}. It assumes an effectively constant prey level over the
+short feeding interval and no predator interference. In index units it is an
+effective response law, not a direct measurement of handling time. The parameters
+have transparent interpretations:
+\begin{equation}
+g(b)=a/2,\qquad \lim_{H\to\infty}g(H)=a,\qquad
+g(H)\simeq(a/b)H\quad\text{when }H/b\ll1.
+\end{equation}
+The auxiliary $q=a/b$ has units inverse lynx index per year. It is not an additional
+parameter to estimate. The linear response would be simpler but cannot represent
+saturation; a type III response would introduce a different low-prey mechanism
+that the present project does not establish.
+
+\subsection{Dimensional Rosenzweig--MacArthur equations}
+Combining logistic growth, total prey consumption $g(H)P$, conversion and mortality
+gives the project's Rosenzweig--MacArthur model
+\cite{arnav_rosenzweig1963}:
+\begin{align}
+\frac{dH}{dt}&=rH\left(1-\frac{H}{K}\right)-\frac{aHP}{b+H},\label{eq:arnav_H}\\
+\frac{dP}{dt}&=\frac{eaHP}{b+H}-mP.\label{eq:arnav_P}
+\end{align}
+These are exactly the dimensional equations in the shared repository
+\cite{arnav_teamrepo2026}. Logistic
+growth and saturation allow stability to depend on parameters. Whether a specified
+case approaches an equilibrium or exhibits a stable cycle requires the subsequent
+analysis and numerical evidence; it does not follow merely from naming the model.
+
+\section{Units and assumptions}
+Let $U_H$ and $U_P$ denote the chosen hare and lynx index units. Keeping these labels
+distinct prevents an unjustified interpretation of conversion efficiency.
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Symbol & Meaning & Units\\\midrule
+$t$ & Elapsed time & year\\
+$H$, $P$ & Hare and lynx states & $U_H$, $U_P$\\
+$r$ & Low-density hare net growth rate & year$^{-1}$\\
+$K$ & Prey-only carrying capacity & $U_H$\\
+$a$ & Saturated consumption per predator & $U_H U_P^{-1}$ year$^{-1}$\\
+$b$ & Prey abundance at half saturation & $U_H$\\
+$e$ & Predator gain per unit prey consumed & $U_P U_H^{-1}$\\
+$m$ & Predator mortality rate & year$^{-1}$\\
+$H_0$, $P_0$ & States at the initial time & $U_H$, $U_P$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+All six parameters are strictly positive. For example,
+$[aHP/(b+H)]=U_H$/year and $[eaHP/(b+H)]=U_P$/year, matching the two left-hand
+sides. In separately scaled abundance indices, $e$ is an effective conversion
+factor. It need not be a dimensionless biomass efficiency bounded above by one.
+
+The simplifying assumptions and their consequences are:
+\begin{enumerate}
+\item A closed two-species system has no immigration, emigration, alternative prey
+or other predators. This isolates the proposed feedback but omits a food web.
+\item Continuous, spatially mixed states omit age structure, territories and local
+differences. The approximation is unsuitable for individual-level extinction claims.
+\item Constant parameters omit seasons, weather and changing resource availability.
+Fitted rates summarize the chosen interval rather than universal ecological constants.
+\item Resource limitation is represented by logistic prey growth. Plants are not
+modelled as a third dynamical state.
+\item Predation follows the type II response with no interference between predators.
+Predator growth depends on prey; without prey, $P$ decays at rate $m$.
+\item Pelt totals are treated as noisy abundance proxies. Constant observation
+scales are a working assumption. Unknown or changing capture rates can confound
+parameter inference. Harvest is not modelled as an additional removal process.
+\end{enumerate}
+
+\subsection{Basic consistency checks}
+The equations have the form $\dot H=H A(H,P)$, $\dot P=P B(H)$ with continuous
+coefficients for $H\geq0$. Along a finite solution interval,
+\begin{equation}
+H(t)=H_0\exp\!\left(\int_0^t A(H(s),P(s))\,ds\right),\quad
+P(t)=P_0\exp\!\left(\int_0^t B(H(s))\,ds\right).
+\end{equation}
+Positive initial states remain positive, and either zero boundary is invariant by
+uniqueness. A numerical method can still introduce negative approximations, so its
+outputs must be checked. Also $\dot H\leq rH(1-H/K)$, giving
+$H(t)\leq\max\{H_0,K\}$ for $t\geq0$. Since $\dot P\leq eaP$, predator abundance
+cannot blow up in finite time. These checks establish basic consistency, not
+ecological accuracy or long-term stability.
+
+\section{Non dimensionalisation}
+\subsection{Choosing the scales}
+For a fixed parameter vector define
+\begin{equation}\label{eq:arnav_scales}
+s=rt,\qquad x=H/K,\qquad y=\frac{aP}{rK}.
+\end{equation}
+The corresponding reference time and states are $1/r$, $K$ and $rK/a$.
+Their units are year, $U_H$ and $U_P$. The scales therefore make all three new
+variables dimensionless. Choosing $K$ for prey makes the prey-only capacity one;
+choosing $rK/a$ for predators makes the prey-loss coefficient one. This is the
+same notation used in Joel's existing dimensionless analysis
+\cite{arnav_joel2026}.
+
+Define the three dimensionless groups
+\begin{equation}\label{eq:arnav_groups}
+\beta=b/K,\qquad \alpha=ea/r,\qquad \delta=m/r.
+\end{equation}
+They compare half saturation with carrying capacity, maximum predator growth with
+prey growth, and predator mortality with prey growth, respectively. This scaling
+also means a sweep of $K$ changes both $\beta$ and the state scales. If the
+dimensional initial states are held fixed in that sweep, their scaled values must
+be recomputed for each $K$.
+
+\subsection{Substitution and chain rule}
+Because $H=Kx$, $P=(rK/a)y$ and $ds/dt=r$,
+\begin{equation}
+\frac{dH}{dt}=rK\frac{dx}{ds},\qquad
+\frac{dP}{dt}=\frac{r^2K}{a}\frac{dy}{ds}.
+\end{equation}
+Substitution into the prey equation gives
+\begin{equation}
+rK\frac{dx}{ds}=rKx(1-x)-\frac{rKxy}{b/K+x}.
+\end{equation}
+Substitution into the predator equation gives
+\begin{equation}
+\frac{r^2K}{a}\frac{dy}{ds}
+=\frac{erKxy}{b/K+x}-\frac{mrK}{a}y.
+\end{equation}
+Dividing by the respective factors yields
+\begin{align}
+\frac{dx}{ds}&=x(1-x)-\frac{xy}{\beta+x},\label{eq:arnav_x}\\
+\frac{dy}{ds}&=\alpha\frac{xy}{\beta+x}-\delta y.\label{eq:arnav_y}
+\end{align}
+The two systems describe the same trajectories after the changes of units. Reducing
+six dimensional parameters to three groups does not prove that all six can be
+identified from data: physical scales and initial conditions also carry information.
+
+\subsection{Initial conditions and conversion back}
+At year 1900, $s=0$, $x_0=H_0/K$ and $y_0=aP_0/(rK)$. Recover the dimensional
+variables using
+\begin{equation}
+\mathrm{Year}=1900+s/r,\qquad H=Kx,\qquad P=(rK/a)y.
+\end{equation}
+If $r,K,a$ are separately specified, recover
+$b=\beta K$, $e=\alpha r/a$ and $m=\delta r$. The three dimensionless groups alone
+cannot reconstruct all six dimensional parameters.
+
+For an arithmetic check, use the repository's synthetic values
+\cite{arnav_teamrepo2026}:
+\[
+(r,K,a,b,e,m)=(1,60,2,20,0.6,0.5),\qquad (H_0,P_0)=(35,9).
+\]
+These give
+\begin{equation}
+(\beta,\alpha,\delta)=(1/3,1.2,0.5),\qquad (x_0,y_0)=(7/12,0.3).
+\end{equation}
+At this initial state, $(\dot H,\dot P)=(413/132,261/110)$ in their respective
+index units per year. The dimensionless derivatives are
+$(dx/ds,dy/ds)=(413/7920,87/1100)$; multiplying by $rK=60$ and
+$r^2K/a=30$ recovers the dimensional values. These are synthetic checks, not fitted
+historical estimates.
+
+An equally valid alternative is $X=H/b=x/\beta$ and $Y=aP/(rb)=y/\beta$,
+with the same time $s$. Writing $\kappa=K/b=1/\beta$ gives
+$X_s=X(1-X/\kappa)-XY/(1+X)$ and
+$Y_s=\alpha XY/(1+X)-\delta Y$. This keeps state scales fixed during a $K$
+sweep when other parameters remain fixed. We use the $K$-based form as the main
+convention to match the existing team analysis, while retaining the alternative
+as an explanation of the scaling tradeoff.
+
+\section{Compatibility with data scaling and the PINN}
+\subsection{Keep mathematical and numerical coordinates explicit}
+The existing PINN \cite{arnav_teamrepo2026} uses fixed training maxima $s_H,s_P$, normalized outputs
+$u=H/s_H$, $v=P/s_P$, training duration $T=15$ years, and internal time input
+$\xi=2t/T-1$. It differentiates with respect to elapsed years $t$.
+These numerical choices can coexist with the dimensionless theory coordinates.
+In elapsed time,
+\begin{align}
+\frac{du}{dt}&=ru(1-s_Hu/K)-\frac{a s_Puv}{b+s_Hu},\\
+\frac{dv}{dt}&=\frac{ea s_Huv}{b+s_Hu}-mv.
+\end{align}
+The bridge to the theoretical variables is
+\begin{equation}
+x=(s_H/K)u,\qquad y=\frac{a s_P}{rK}v,\qquad
+s=\frac{rT}{2}(\xi+1).
+\end{equation}
+If differentiation is instead performed with respect to $\xi$, the chain rule
+requires $du/dt=(2/T)du/d\xi$, and likewise for $v$. Thus a residual formed in
+years is $R_u=(2/T)u_\xi-f_H/s_H$. If one forms a residual in $\xi$ coordinates,
+$\widetilde R_u=u_\xi-(T/2)f_H/s_H=(T/2)R_u$. With the same averaging convention,
+its squared penalty is $(T/2)^2$ larger; the loss coefficient must be multiplied
+by $(2/T)^2$ to preserve the same objective. This is a unit change, not evidence
+that one trained model is better.
+
+Because $r$ and $a$ are inferred in Yash's current experiment, directly using $rt$
+and $aP/(rK)$ as fixed training inputs or targets would introduce parameter-dependent
+coordinates. Retaining his fixed training normalization avoids that complication.
+The proposed dimensionless form is for derivation, interpretation and consistent
+mapping, and does not require rewriting the PINN.
+
+\subsection{Why measurement units change parameter meanings}
+For any constant positive changes $\widetilde H=c_HH$,
+$\widetilde P=c_PP$, keeping time in years preserves the model form if
+\begin{equation}\label{eq:arnav_unitmap}
+\widetilde r=r,\quad \widetilde m=m,\quad
+\widetilde K=c_HK,\quad \widetilde b=c_Hb,\quad
+\widetilde a=\frac{c_H}{c_P}a,\quad
+\widetilde e=\frac{c_P}{c_H}e.
+\end{equation}
+This follows by substituting into both derivatives, including the denominator.
+It leaves $\beta,\alpha,\delta,x,y$ unchanged. For example, converting both species
+from counts to thousands uses $c_H=c_P=10^{-3}$: $K$ and $b$ divide by 1000,
+while $a$ and $e$ keep their numerical values. Unequal species scales change
+$a$ and $e$ too. Unknown pelt-to-population multipliers have the same algebraic
+effect, but their unknown values prevent conversion to absolute biological rates.
+Time-varying multipliers would add derivative terms and are outside this model.
+
+\section{Validation responsibilities and limits}
+The derivations supply a model to test, not a claim that a published model is novel
+or that a PINN earns bonus marks automatically. The independent contribution here
+is the explicit reasoning, unit audit, coordinate transformations and interpretation
+under the chosen observation convention. The accompanying notebook checks algebraic
+equivalence at multiple exact rational inputs. These checks do not replace empirical
+validation or establish parameter identifiability.
+
+Joel's repository contribution supplies equilibrium, stability and Hopf analysis
+\cite{arnav_joel2026}; Rishi will check
+the solver and parameter regimes; Advay will freeze data provenance and evaluate
+held-out errors; Yash will supply PINN recovery and ODE forecasts. For historical
+prediction, both methods must use the same training years, fixed-parameter choices,
+initial-state convention and solver settings. Report hare and lynx MAE and RMSE
+separately in original evaluation units, with observed-versus-predicted graphs.
+Forecasts currently integrate from the first training observation, rather than
+restarting at an observed test state.
+
+Five held-out years offer limited evidence. Synthetic recovery generated by the
+same equations checks the inverse procedure under favourable assumptions; it is
+not independent evidence that those equations describe real ecology. A small
+training error does not show unique biological parameters. Future report claims
+must be restricted to the mathematical and empirical evidence actually obtained.

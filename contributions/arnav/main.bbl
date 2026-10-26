@@ -1,0 +1,41 @@
+\begin{thebibliography}{1}
+
+\bibitem{arnav_carpenter2018}
+Bob Carpenter.
+\newblock Predator--prey population dynamics: The {Lotka--Volterra} model in
+  {Stan}.
+\newblock Stan case study, 28 January 2018.
+  \url{https://mc-stan.org/learn-stan/case-studies/lotka-volterra-predator-prey.html},
+  2018.
+\newblock Accessed 26 October 2026. Public transcription and source discussion
+  for the 1900--1920 pelt series; quantities in thousands of pelts.
+
+\bibitem{arnav_holling1959}
+C.~S. Holling.
+\newblock Some characteristics of simple types of predation and parasitism.
+\newblock {\em The Canadian Entomologist}, 91(7):385--398, 1959.
+\newblock \url{https://doi.org/10.4039/Ent91385-7}.
+
+\bibitem{arnav_joel2026}
+{Joel}.
+\newblock Equilibria, stability and hopf bifurcation.
+\newblock Team report contribution, revision \texttt{7d17deee}, 2026.
+\newblock Accessed 26 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/blob/7d17deee1cb685f016ff16cb6706e8db12ebe6b2/report/joel_stability_section.tex}.
+
+\bibitem{arnav_teamrepo2026}
+{Lynx Hare Project team}.
+\newblock Lynx hare project: Shared model, synthetic configuration and {Yash}'s
+  {PINN} method.
+\newblock GitHub repository, revision \texttt{7d17deee}, 2026.
+\newblock Accessed 26 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/7d17deee1cb685f016ff16cb6706e8db12ebe6b2}.
+
+\bibitem{arnav_rosenzweig1963}
+Michael~L. Rosenzweig and Robert~H. MacArthur.
+\newblock Graphical representation and stability conditions of predator--prey
+  interactions.
+\newblock {\em The American Naturalist}, 97(895):209--223, 1963.
+\newblock \url{https://doi.org/10.1086/282272}.
+
+\end{thebibliography}
