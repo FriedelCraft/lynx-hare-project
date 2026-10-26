@@ -1,0 +1,25 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,graphicx,booktabs}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{graphs/}}
+% pdflatex picks graphs/*.pdf; latex -> dvips picks the EPS sources.
+% Built together with Joel's section so cross-references (sec:joel, eq:rm, lem:bounded) resolve.
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\title{Stability Analysis and Numerical Simulations\\\large Rosenzweig--MacArthur model for lynx and hare}
+\author{Joel (Section 1) and Rishi (Section 2)}
+\date{26 October 2026}
+\begin{document}
+\maketitle
+\input{joel_stability_section}
+\clearpage
+\input{rishi_simulation_section}
+\clearpage
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

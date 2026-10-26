@@ -1,0 +1,7 @@
+label,K,regime,eigenvalues,Hmin,Hmax,Pmin,Pmax,period,lag,matches_joel
+A,25.0,predator_extinct,-1.5000+0.0000i -0.0727+0.0000i,25.0,25.0,0.0,0.0,nan,nan,True
+B,60.0,stable_coexistence,-0.1875+0.5146i -0.1875-0.5146i,30.0,30.0,11.25,11.25,nan,nan,True
+C,85.0,stable_coexistence,-0.0221+0.6227i -0.0221-0.6227i,30.0,30.0,14.559,14.559,nan,nan,True
+D,90.0,hopf_point,+0.0000+0.6325i +0.0000-0.6325i,28.481,31.573,14.51,15.487,9.938,2.503,True
+E,95.0,limit_cycle,+0.0197+0.6404i +0.0197-0.6404i,15.758,50.882,9.808,20.755,10.251,2.814,True
+F,150.0,limit_cycle,+0.1500+0.6764i +0.1500-0.6764i,1.109,134.277,1.686,41.162,13.912,4.521,True
