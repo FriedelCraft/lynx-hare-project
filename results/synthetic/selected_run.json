@@ -1,0 +1,13 @@
+{
+  "run_id": "annual_noisy_seed17",
+  "rule": "lowest weighted training objective among default annual seeds; no test data used",
+  "parameters": {
+    "r": 1.00353118312143,
+    "K": 60.0,
+    "a": 1.9976998126358407,
+    "b": 20.0,
+    "e": 0.6,
+    "m": 0.4986634660610171
+  },
+  "forecast_sha256": "fe150904d25c6120c515bf17060d73f908c63592004aeab0c6a41d95372d5bf4"
+}

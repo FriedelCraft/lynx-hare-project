@@ -1,0 +1,30 @@
+\begin{thebibliography}{1}
+
+\bibitem{pytorchgrad}
+{PyTorch Contributors}.
+\newblock torch.autograd.grad documentation.
+\newblock
+  \url{https://docs.pytorch.org/docs/stable/generated/torch.autograd.grad.html}.
+\newblock Accessed 26 October 2026.
+
+\bibitem{raissi2019}
+Maziar Raissi, Paris Perdikaris, and George~Em Karniadakis.
+\newblock Physics-informed neural networks: A deep learning framework for
+  solving forward and inverse problems involving nonlinear partial differential
+  equations.
+\newblock {\em Journal of Computational Physics}, 378:686--707, 2019.
+
+\bibitem{rosenzweig1963}
+Michael~L. Rosenzweig and Robert~H. MacArthur.
+\newblock Graphical representation and stability conditions of predator--prey
+  interactions.
+\newblock {\em The American Naturalist}, 97(895):209--223, 1963.
+
+\bibitem{scipysolve}
+{SciPy Contributors}.
+\newblock scipy.integrate.solve\_ivp documentation.
+\newblock
+  \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html}.
+\newblock Accessed 26 October 2026.
+
+\end{thebibliography}

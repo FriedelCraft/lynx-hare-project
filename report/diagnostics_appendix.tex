@@ -1,0 +1,38 @@
+\section{Supporting diagnostics}
+The following figures complete the numerical checks described in the main section.
+All inputs and results remain synthetic. Every plot has an included EPS source and
+a vector PDF companion for direct compilation with a PDF engine.
+
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=0.88\linewidth]{training_losses.eps}
+\caption{Weighted total loss and unweighted data, physics and initial-condition
+losses for the selected annual run. The horizontal coordinate combines joint Adam
+steps and subsequent L-BFGS closure evaluations. The warmup is omitted, and line-search
+trials need not be monotonic.}
+\label{fig:yash-losses}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{network_ode_consistency.eps}
+\caption{Neural predictions and the ODE trajectory with inferred parameters on
+the training interval. Their agreement checks whether fitting the network also
+produces a consistent mechanistic trajectory.}
+\label{fig:yash-consistency}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=0.82\linewidth]{identifiability.eps}
+\caption{Singular values of the normalized training-trajectory sensitivity matrix
+with respect to log parameters, evaluated at the selected annual estimate. Locally
+varying all six parameters introduces less sensitive directions than varying only
+$r,a,m$. This is not an all-six PINN fit or a proof of global identifiability.}
+\label{fig:yash-identifiability}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{residual_check.eps}
+\caption{Hare and lynx residuals evaluated at 307 offset points in the training
+interval after fitting. These points diagnose error between collocation points and
+do not tune the model. Residual units are inverse years.}
+\label{fig:yash-residuals}
+\end{figure}

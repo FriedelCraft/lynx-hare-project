@@ -1,0 +1,88 @@
+{
+  "run_id": "annual_noisy_seed17_initial_1.4",
+  "case": "annual_noisy",
+  "seed": 17,
+  "variant": "initial_1.4",
+  "parameters": {
+    "r": 1.0035557450014159,
+    "K": 60.0,
+    "a": 1.9977383999275204,
+    "b": 20.0,
+    "e": 0.6,
+    "m": 0.49867535895852033
+  },
+  "audit": {
+    "seed": 17,
+    "settings": {
+      "width": 48,
+      "depth": 3,
+      "collocation_points": 161,
+      "warmup_steps": 500,
+      "adam_steps": 5000,
+      "lbfgs_steps": 600,
+      "learning_rate": 0.002,
+      "data_weight": 1.0,
+      "physics_weight": 10.0,
+      "ic_weight": 10.0,
+      "log_every": 100,
+      "patience": 15,
+      "min_delta": 1e-08,
+      "gradient_clip": 10.0,
+      "threads": 1
+    },
+    "trainable": [
+      "r",
+      "a",
+      "m"
+    ],
+    "initial_guess": {
+      "r": 0.9799999999999999,
+      "K": 60.0,
+      "a": 1.9599999999999997,
+      "b": 20.0,
+      "e": 0.6,
+      "m": 0.48999999999999994
+    },
+    "fixed": {
+      "K": 60.0,
+      "b": 20.0,
+      "e": 0.6
+    },
+    "scale": [
+      38.35852980458876,
+      22.254199229231556
+    ],
+    "train_years": [
+      1900.0,
+      1901.0,
+      1902.0,
+      1903.0,
+      1904.0,
+      1905.0,
+      1906.0,
+      1907.0,
+      1908.0,
+      1909.0,
+      1910.0,
+      1911.0,
+      1912.0,
+      1913.0,
+      1914.0,
+      1915.0
+    ],
+    "training_objective": 0.00015711934708012148,
+    "best_iteration": 5651,
+    "adam_stop": "maximum_steps",
+    "lbfgs_iterations": 600,
+    "lbfgs_closure_evaluations": 651,
+    "elapsed_seconds": 15.815052399993874,
+    "selection_rule": "minimum weighted training loss; held-out data never used"
+  },
+  "config_sha256": "44a4938ea43b8a5cf14e945b337dfc4b4c3a67e0c438b390184730e8554bb007",
+  "training_normalized_ode_mse": 0.0001689559202974477,
+  "residual_check_rms": [
+    0.0007229345643599302,
+    0.0007251229756820622
+  ],
+  "forecast_sha256": "eb431c281decd10db83da98622d88c1b8be1a6a1082963452db77ac8d7d9f34b"
+}

@@ -1,0 +1,101 @@
+{
+  "parameters": {
+    "r": 1.005285631393491,
+    "K": 60.0,
+    "a": 2.001331821872594,
+    "b": 20.0,
+    "e": 0.6,
+    "m": 0.5002437063236144
+  },
+  "starts": [
+    {
+      "start": 0,
+      "initial_guess": [
+        0.7,
+        1.4,
+        0.35
+      ],
+      "cost": 0.0026281241209340726,
+      "success": true,
+      "status": 2,
+      "nfev": 7,
+      "message": "`ftol` termination condition is satisfied."
+    },
+    {
+      "start": 1,
+      "initial_guess": [
+        0.8510953709748684,
+        3.6679203960871916,
+        1.0012400243136184
+      ],
+      "cost": 0.0026281241209340596,
+      "success": true,
+      "status": 2,
+      "nfev": 9,
+      "message": "`ftol` termination condition is satisfied."
+    },
+    {
+      "start": 2,
+      "initial_guess": [
+        0.8728136611563055,
+        3.3889529061337336,
+        1.0950687182799084
+      ],
+      "cost": 0.002628124120934055,
+      "success": true,
+      "status": 2,
+      "nfev": 10,
+      "message": "`ftol` termination condition is satisfied."
+    },
+    {
+      "start": 3,
+      "initial_guess": [
+        0.853750098307685,
+        3.604229757477327,
+        0.5382157571844844
+      ],
+      "cost": 0.002628124120934053,
+      "success": true,
+      "status": 2,
+      "nfev": 8,
+      "message": "`ftol` termination condition is satisfied."
+    },
+    {
+      "start": 4,
+      "initial_guess": [
+        1.519738620742376,
+        1.008548096384767,
+        1.0198025577128655
+      ],
+      "cost": 0.0026281241209340474,
+      "success": true,
+      "status": 2,
+      "nfev": 8,
+      "message": "`ftol` termination condition is satisfied."
+    },
+    {
+      "start": 5,
+      "initial_guess": [
+        2.2360294276982833,
+        2.0637557359048593,
+        0.7031754420075667
+      ],
+      "cost": 0.002628124120934042,
+      "success": true,
+      "status": 2,
+      "nfev": 9,
+      "message": "`ftol` termination condition is satisfied."
+    }
+  ],
+  "seed": 91,
+  "trainable": [
+    "r",
+    "a",
+    "m"
+  ],
+  "fixed": {
+    "K": 60.0,
+    "b": 20.0,
+    "e": 0.6
+  }
+}

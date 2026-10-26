@@ -1,0 +1,35 @@
+{
+  "three_parameters": {
+    "names": [
+      "r",
+      "a",
+      "m"
+    ],
+    "singular_values": [
+      8.767111355892308,
+      3.0382232406003626,
+      2.3419881708490546
+    ],
+    "condition_number": 3.743448180062291
+  },
+  "six_parameters": {
+    "names": [
+      "r",
+      "K",
+      "a",
+      "b",
+      "e",
+      "m"
+    ],
+    "singular_values": [
+      11.036435291935716,
+      3.913353646841963,
+      2.895735306400249,
+      1.687924242164453,
+      0.3100081075832236,
+      0.1831946949285972
+    ],
+    "condition_number": 60.244295263229795
+  },
+  "interpretation": "Local finite-difference diagnostic at learned parameters, not a proof of global or structural identifiability"
+}

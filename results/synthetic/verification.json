@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "runs_verified": 13,
+  "executed_notebook_code_cells": 15,
+  "figures_per_format": 7,
+  "forecast_rows": 5,
+  "checks": [
+    "source/configuration hashes",
+    "seed selection from training loss",
+    "training-only years",
+    "correct fixed/estimated rates",
+    "finite positive forecasts",
+    "independent ODE reconstruction",
+    "clean-data recovery",
+    "independently recomputed held-out scores",
+    "handoff schema",
+    "EPS and PNG presence",
+    "notebook schema and error-free execution"
+  ]
+}

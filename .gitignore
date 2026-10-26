@@ -1,4 +1,29 @@
 # Byte-compiled / optimized / DLL files
+# Local runtime, caches and unneeded training binaries
+.python-packages/
+.kernels/
+.pytest-work/
+.pytest-work*/
+results/smoke/
+results/**/checkpoint.pt
+report/images/
+/submission/
+Lynx_Hare_Yash_PINN_Synthetic.zip
+*.log
+report/standalone/*.aux
+report/standalone/*.bbl
+report/standalone/*.blg
+report/standalone/*.out
+report/standalone/*.log
+report/standalone/*.synctex.gz
+report/*.aux
+report/*.blg
+report/*.out
+report/*.log
+report/*.synctex.gz
+report/*.fls
+report/*.fdb_latexmk
+
 __pycache__/
 *.py[codz]
 *$py.class

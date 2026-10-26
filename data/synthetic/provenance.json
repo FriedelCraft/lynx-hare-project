@@ -1,0 +1,29 @@
+{
+  "kind": "synthetic",
+  "historical_data": false,
+  "generator": "Rosenzweig-MacArthur ODE, RK45",
+  "truth": {
+    "r": 1.0,
+    "K": 60.0,
+    "a": 2.0,
+    "b": 20.0,
+    "e": 0.6,
+    "m": 0.5
+  },
+  "initial_state": [
+    35.0,
+    9.0
+  ],
+  "noise_fraction": 0.03,
+  "noise_model": "independent multiplicative Gaussian; clipped at 1e-8; first row exact",
+  "seed": 314,
+  "units": "arbitrary abundance indices; time in years",
+  "years": "1900-1920 labels mimic planned split; these are NOT historical pelt counts",
+  "train_end": 1915,
+  "test_start": 1916,
+  "solver": {
+    "rtol": 1e-08,
+    "atol": 1e-10,
+    "max_step": 0.1
+  }
+}

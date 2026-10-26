@@ -1,0 +1,133 @@
+\section{Inverse inference with a physics informed neural network}
+This section tests whether an inverse PINN can recover known parameters and produce
+ODE forecasts under controlled observation noise. Every observation and result in this
+section is synthetic. The year labels mirror the planned 1900--1915 training and
+1916--1920 testing split; they are not historical pelt counts.
+
+\subsection{Model and normalized approximation}
+We use the Rosenzweig--MacArthur model \cite{rosenzweig1963},
+\begin{align}
+\dot H&=rH(1-H/K)-\frac{aHP}{b+H},\\
+\dot P&=\frac{eaHP}{b+H}-mP.
+\end{align}
+Time is measured in years and both states are synthetic abundance indices. The primary
+inverse task estimates $r,a,m$, with $K=60$, $b=20$ and $e=0.6$ fixed. These constants
+equal their generating values only in the controlled synthetic study; this favorable
+assumption must be revisited for historical observations.
+
+Let $s_H,s_P$ be the maxima of the training observations and $T=15$ years. A network
+with three hidden layers of 48 tanh units maps $x=2t/T-1$ to positive normalized states
+$(u_\theta,v_\theta)=\operatorname{softplus}(N_\theta(x))+10^{-10}$, giving
+$\widehat H=s_Hu_\theta$ and $\widehat P=s_Pv_\theta$. Unknown rates are bounded by
+$q=\ell_q+(h_q-\ell_q)\operatorname{sigmoid}(\eta_q)$, using
+$r\in[0.2,2.5]$, $a\in[0.3,4]$ and $m\in[0.1,1.2]$. These are numerical study bounds,
+not biological conclusions.
+
+\subsection{Physics residuals and optimization}
+Following the data-plus-physics construction of PINNs \cite{raissi2019}, we form
+\begin{align}
+R_H&=\frac{du_\theta}{dt}-\frac{f_H(s_Hu_\theta,s_Pv_\theta;q)}{s_H},\\
+R_P&=\frac{dv_\theta}{dt}-\frac{f_P(s_Hu_\theta,s_Pv_\theta;q)}{s_P},\\
+L&=L_{\mathrm{data}}+10L_{\mathrm{physics}}+10L_{\mathrm{IC}},\qquad
+L_{\mathrm{physics}}=\frac{1}{2N_c}\sum_{j=1}^{N_c}(R_H(t_j)^2+R_P(t_j)^2).
+\end{align}
+Data loss is the mean squared normalized observation error across both species; IC
+loss is the two-state mean squared error at $t=0$. The first observation appears in
+both terms, deliberately emphasizing the initial state. There are $N_c=161$ equally
+spaced collocation points on $[0,15]$, including endpoints, and none in the forecast
+interval. PyTorch automatic differentiation \cite{pytorchgrad} differentiates with
+respect to elapsed time, accounting for the internal factor $2/T$.
+
+Training uses float64, one CPU thread and fixed seeds. Xavier initialization and a
+500-step data/IC warmup precede Adam (learning rate 0.002, at most 5000 joint steps,
+gradient norm clipped at 10). Complete training losses are checked every 100 steps;
+Adam stops after 15 checks without improvement exceeding $10^{-8}$ or at its cap.
+The best state is refined with L-BFGS and strong-Wolfe line search, at most 600 iterations
+and 750 closure evaluations, with gradient and change tolerances $10^{-10}$ and
+$10^{-12}$. The saved state minimizes the recorded training objective. Closure logs
+include line-search trials, so they need not be monotonic. An iteration cap does not
+prove global convergence. An offset grid of 307 training-domain points diagnoses
+residuals between collocation points after fitting.
+
+\subsection{Synthetic validation and forecasting protocol}
+The generating parameters are $(r,K,a,b,e,m)=(1,60,2,20,0.6,0.5)$, with
+$(H_0,P_0)=(35,9)$. Multiplicative noise uses
+$y_i^{\mathrm{obs}}=y_i^{\mathrm{true}}(1+0.03\epsilon_i)$,
+$\epsilon_i\sim\mathcal N(0,1)$ independently per species and time. Values are clipped
+below at $10^{-8}$ and the initial state is exact by design. Noise seed 314 is fixed.
+We compare 61 clean quarterly, 61 noisy quarterly and 16 noisy annual training samples,
+each with optimizer seeds 17, 29 and 43. These optimizer replicates condition on one
+noise realization per case and are not uncertainty intervals.
+
+All ODE integrations use SciPy RK45 \cite{scipysolve}, relative tolerance $10^{-8}$,
+absolute tolerance $10^{-10}$ and maximum step 0.1 years. A six-start least-squares
+benchmark uses the same unknowns, fixed values, bounds, state scaling, initial condition
+and solver. It minimizes normalized training observation errors; an additional physics
+penalty is unnecessary for its directly integrated trajectories. The default annual
+PINN seed is selected by training loss only. Learned parameters are frozen and inserted
+into the ODE solver, which integrates from 1900 through 1920. Neural network
+extrapolation and test-state restarts are not used.
+
+\subsection{Measured recovery and forecast results}
+Absolute relative parameter error is $100|\widehat q/q_{\mathrm{true}}-1|$.
+Table~\ref{tab:yash-recovery} reports mean and maximum errors across three seeds.
+The largest clean-case error was 0.0057\%, compared with 0.796\% for dense noisy data and 0.358\% for annual noisy data. The selected annual estimate was $\widehat r=1.003531$, $\widehat a=1.997700$ and $\widehat m=0.498663$.
+
+The smaller annual error in this realization does not establish a sampling-frequency
+advantage. The finite noise realizations differ and the fixed constants are correct.
+\begin{table}[htbp]\centering
+\caption{Synthetic parameter recovery across optimizer seeds, conditional on correct fixed constants.}
+\label{tab:yash-recovery}\input{tables/recovery}
+\end{table}
+
+Table~\ref{tab:yash-forecast} reports five-point held-out RMSE and MAE separately for each
+species, against both noisy observations and latent generating truth. Least squares
+has lower hare error against noisy observations, while the selected PINN has lower
+lynx error. The selected PINN is closer to latent truth for both species in this
+realization. This mixed result does not establish general superiority.
+\begin{table}[htbp]\centering\small
+\caption{Frozen ODE forecasts for five synthetic held-out years. H and P denote hare and lynx indices.}
+\label{tab:yash-forecast}\input{tables/metrics}
+\end{table}
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{forecast_comparison.eps}
+\caption{Synthetic observations and ODE forecasts. The shaded period is held out.
+Both methods integrate from the first training observation. The PINN seed is chosen
+using training loss only.}\label{fig:yash-forecast}
+\end{figure}
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=0.88\linewidth]{parameter_recovery.eps}
+\caption{Absolute relative recovery errors. Points are optimizer seeds, and black
+marks are means. These are not confidence intervals.}\label{fig:yash-recovery}
+\end{figure}
+
+\subsection{Sensitivity and interpretation}
+Prespecified annual-data runs vary physics weight from 10 to 1 or 100 and multiply
+initial rate guesses by 0.6 or 1.4, holding seed 17 fixed. Their forecasts are shown in
+Figure~\ref{fig:yash-sensitivity}; these variants do not select a configuration on test
+errors. A local finite-difference sensitivity matrix of normalized training trajectories
+with respect to log parameters gives condition numbers
+3.74 for varying $r,a,m$ and 60.24 for varying all six parameters locally.
+The larger local problem contains less sensitive directions. This diagnostic is not
+an all-six PINN fit or a proof of structural or global identifiability.
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{sensitivity.eps}
+\caption{Sensitivity of synthetic forecasts to physics weight and initial guesses.
+Configurations were declared before held-out scoring.}\label{fig:yash-sensitivity}
+\end{figure}
+
+The results rely on a correctly specified generating ODE, three known constants and
+an exact initial state. Finite collocation and nonconvex training may still leave a
+network/ODE mismatch, so residual checks and training-domain consistency plots are
+provided with the code. Three seeds on one noise realization do not quantify measurement
+uncertainty. Five held-out years and an idealized two-species system cannot address pelt
+trading bias, missing ecology or unknown observation scales. Historical fitting must
+use the team's agreed equations, units, feasible ranges and sealed test period.
+
+\subsection{Reproducible handoff}
+The repository supplies source code, configuration, an executed notebook, recovery
+tables, all default-seed forecast scores, EPS/PNG figures, optimization logs and a
+runtime/source-hash manifest. A three-column Year/Hare/Lynx CSV contains only the five
+held-out synthetic predictions for Advay. The solver and least-squares implementation
+are provisional scaffolding pending integration with Rishi and Advay. Yash's personal
+AI assistance log separates assistant-run checks from checks Yash still needs to perform.

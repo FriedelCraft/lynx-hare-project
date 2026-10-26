@@ -1,0 +1,40 @@
+{
+  "kind": "synthetic",
+  "quick": false,
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "versions": {
+    "torch": "2.14.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2"
+  },
+  "config_sha256": "44a4938ea43b8a5cf14e945b337dfc4b4c3a67e0c438b390184730e8554bb007",
+  "selected_run": "annual_noisy_seed17",
+  "run_count": 13,
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "solver": {
+    "rtol": 1e-08,
+    "atol": 1e-10,
+    "max_step": 0.1
+  },
+  "training_source_hashes": {
+    "annual_train.csv": "908f6d89e5210d8af9852669c36883dc54118602e50122c3c940d3450532b722",
+    "dense_clean_train.csv": "aad699113445815d9cf5c2b5c9e4d043c66bceb6391822d0249949bac91ca9c7",
+    "dense_noisy_train.csv": "d3f461ea5cc9bef86f248821b77fdf668c38b59ebf5f5d40fed5d2208724e27c"
+  },
+  "model_source_hashes": {
+    "baseline.py": "6fbd69394b50e109b1ee73063522b6e429e97948e239a55867cae0c002d02e9f",
+    "data.py": "4ab98d0b5db1f9a4e67f48bc198694b4bd75c9d55ce490e6e3484b670a45bf7d",
+    "experiments.py": "3c421b18589f36a9b6a93bed5e435b5534d4df4f2d1a1c2a1c49816d3428b072",
+    "figures.py": "3f38772bfd83f5504950634194f207939e0869ea4f3e17168af2e8f28b085a73",
+    "model.py": "192cadd7b15d90e6bdf6de481ceb6b6a910b2a78b76a48bffa05cc253eac2eea",
+    "pinn.py": "4808ff687597e3c00834087aae54641676a265635b3125f5683c712c3fabe530",
+    "__init__.py": "61730b5ea362eb2b7a157b436efd3e271624fd73f71195ccb288dee3b4f0aab5"
+  },
+  "heldout_rule": "Only final scoring and display read years 1916-1920; no seed, loss-weight or initialization selected on test errors"
+}

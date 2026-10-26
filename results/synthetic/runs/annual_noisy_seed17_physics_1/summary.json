@@ -1,0 +1,88 @@
+{
+  "run_id": "annual_noisy_seed17_physics_1",
+  "case": "annual_noisy",
+  "seed": 17,
+  "variant": "physics_1",
+  "parameters": {
+    "r": 1.0003095635914603,
+    "K": 60.0,
+    "a": 1.990672164146194,
+    "b": 20.0,
+    "e": 0.6,
+    "m": 0.4959589595943735
+  },
+  "audit": {
+    "seed": 17,
+    "settings": {
+      "width": 48,
+      "depth": 3,
+      "collocation_points": 161,
+      "warmup_steps": 500,
+      "adam_steps": 5000,
+      "lbfgs_steps": 600,
+      "learning_rate": 0.002,
+      "data_weight": 1.0,
+      "physics_weight": 1.0,
+      "ic_weight": 10.0,
+      "log_every": 100,
+      "patience": 15,
+      "min_delta": 1e-08,
+      "gradient_clip": 10.0,
+      "threads": 1
+    },
+    "trainable": [
+      "r",
+      "a",
+      "m"
+    ],
+    "initial_guess": {
+      "r": 0.7,
+      "K": 60.0,
+      "a": 1.4,
+      "b": 20.0,
+      "e": 0.6,
+      "m": 0.35
+    },
+    "fixed": {
+      "K": 60.0,
+      "b": 20.0,
+      "e": 0.6
+    },
+    "scale": [
+      38.35852980458876,
+      22.254199229231556
+    ],
+    "train_years": [
+      1900.0,
+      1901.0,
+      1902.0,
+      1903.0,
+      1904.0,
+      1905.0,
+      1906.0,
+      1907.0,
+      1908.0,
+      1909.0,
+      1910.0,
+      1911.0,
+      1912.0,
+      1913.0,
+      1914.0,
+      1915.0
+    ],
+    "training_objective": 0.0001306190713982121,
+    "best_iteration": 5656,
+    "adam_stop": "maximum_steps",
+    "lbfgs_iterations": 600,
+    "lbfgs_closure_evaluations": 656,
+    "elapsed_seconds": 17.284334900032263,
+    "selection_rule": "minimum weighted training loss; held-out data never used"
+  },
+  "config_sha256": "44a4938ea43b8a5cf14e945b337dfc4b4c3a67e0c438b390184730e8554bb007",
+  "training_normalized_ode_mse": 0.00020311069579869855,
+  "residual_check_rms": [
+    0.005365837852309857,
+    0.003730806798922908
+  ],
+  "forecast_sha256": "c1898e28588601622ed74d5f1be6b0a21ccee6805611de3e18c32161a5a8d6ff"
+}

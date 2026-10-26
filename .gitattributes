@@ -1,0 +1,15 @@
+# Preserve byte-for-byte CSV, JSON and notebook evidence for the saved SHA-256 checks.
+* -text whitespace=trailing-space,space-before-tab,cr-at-eol
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+# Canonical source files use LF on every platform.
+*.py text eol=lf
+*.mjs text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+requirements.txt text eol=lf
+
+*.png binary
+*.pdf binary
+*.pptx binary

@@ -1,0 +1,22 @@
+{
+  "description": "SYNTHETIC demonstration only; years are labels, not historical measurements",
+  "truth": {"r": 1.0, "K": 60.0, "a": 2.0, "b": 20.0, "e": 0.6, "m": 0.5},
+  "initial_state": [35.0, 9.0],
+  "start_year": 1900,
+  "train_end_year": 1915,
+  "test_end_year": 1920,
+  "data_seed": 314,
+  "noise_fraction": 0.03,
+  "trainable": ["r", "a", "m"],
+  "initial_guess": {"r": 0.7, "K": 60.0, "a": 1.4, "b": 20.0, "e": 0.6, "m": 0.35},
+  "bounds": {"r": [0.2, 2.5], "K": [25.0, 150.0], "a": [0.3, 4.0], "b": [5.0, 60.0], "e": [0.1, 1.5], "m": [0.1, 1.2]},
+  "solver": {"rtol": 1e-8, "atol": 1e-10, "max_step": 0.1},
+  "training": {
+    "width": 48, "depth": 3, "collocation_points": 161,
+    "warmup_steps": 500, "adam_steps": 5000, "lbfgs_steps": 600,
+    "learning_rate": 0.002, "data_weight": 1.0, "physics_weight": 10.0,
+    "ic_weight": 10.0, "log_every": 100, "patience": 15,
+    "min_delta": 1e-8, "gradient_clip": 10.0, "threads": 1
+  },
+  "seeds": [17, 29, 43]
+}

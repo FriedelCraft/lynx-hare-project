@@ -1,0 +1,60 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{graphs/}}
+% Canonical graph references use EPS. PDF engines read the supplied vector PDF
+% companions, exported from the identical figure, without an external converter.
+% A latex -> dvips workflow uses the EPS sources directly.
+\newif\ifProjectPDF
+\ifdefined\XeTeXversion
+  \ProjectPDFtrue
+\else
+  \ifdefined\pdfoutput
+    \ifnum\pdfoutput>0
+      \ProjectPDFtrue
+    \fi
+  \fi
+\fi
+\makeatletter
+\newcommand{\ReportGraphEPS}[2][]{%
+  \IfFileExists{graphs/#2}{}{\PackageError{project}{Missing required EPS source #2}{Include every EPS graph in graphs/}}%
+  \begingroup
+  \filename@parse{#2}%
+  \ifProjectPDF
+    \edef\ProjectGraphFile{\filename@area\filename@base.pdf}%
+  \else
+    \def\ProjectGraphFile{#2}%
+  \fi
+  \includegraphics[#1]{\ProjectGraphFile}%
+  \endgroup
+}
+\makeatother
+\setcounter{topnumber}{5}
+\setcounter{bottomnumber}{5}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.7}
+\setlength{\floatsep}{12pt}
+\setlength{\textfloatsep}{12pt}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{12pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+\title{Synthetic Inverse PINN Experiments for Lynx and Hare Dynamics}
+\author{Yash}
+\date{26 October 2026}
+\begin{document}
+\maketitle
+\input{yash_pinn_section}
+\clearpage
+\appendix
+\input{diagnostics_appendix}
+\clearpage
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
