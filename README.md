@@ -2,9 +2,25 @@
 
 MAC F314 Mathematical Modelling: Canadian lynx and snowshoe hare dynamics.
 This repository contains **Yash's inverse physics-informed neural network (PINN) work package**,
-**Joel's stability analysis**, and **Arnav's model formulation and scaling contribution**.
-All included observations and reported experiments are **synthetic**. The year labels
-1900–1920 reproduce the intended train/test arrangement; they are not historical pelt counts.
+**Joel's stability analysis**, **Arnav's model formulation**, **Rishi's simulations**,
+and **Advay's historical data contribution from PR #3**.
+Synthetic controlled recovery experiments and historical pelt-index experiments are
+kept separately. Historical counts are abundance indices, not animal censuses.
+
+## Historical results (27 October 2026)
+
+Start with [Yash's executed historical notebook](notebooks/yash_historical_pinn.ipynb),
+[historical report PDF](report/yash_historical_main.pdf),
+[LaTeX source](report/yash_historical_main.tex), or
+[handoff and protocol](docs/yash_historical_handoff.md).
+There are 13 PINN runs and an independent matching benchmark with 18 least-squares starts.
+The primary PINN's held-out hare/lynx RMSE is 2.847/4.317 thousand pelts; matching
+least squares gives 3.072/3.043. The comparison is mixed, and several parameters depend
+strongly on numerical bounds. These choices were made by Yash with assistance;
+approval or completion of other members' fitting work is not implied.
+Training uses only 1900-1915; forecast choices were frozen before scoring 1916-1920.
+The common comparison config is [historical.json](configs/historical.json).
+The old synthetic submission ZIP has not been replaced by a combined group submission.
 
 ## What is included
 
@@ -16,7 +32,7 @@ All included observations and reported experiments are **synthetic**. The year l
 - An executed explanatory notebook, PNG/EPS figures, a LaTeX report section, two-minute
   presentation deck with speaker notes, handoff CSVs, tests and an AI assistance log.
 
-Start with [the notebook](notebooks/yash_pinn.ipynb), [measured results](docs/results_summary.md),
+For the separate synthetic experiment, start with [the notebook](notebooks/yash_pinn.ipynb), [measured results](docs/results_summary.md),
 or [the mathematical method](docs/method.md).
 
 ## Teammate quick start

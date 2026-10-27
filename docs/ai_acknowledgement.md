@@ -16,5 +16,26 @@ the outputs, and record his own manual checks here. Any additional AI tools used
 teammates belong in their own logs. Confirm the course's required acknowledgement wording
 and grading rules before submitting this log.
 
-All included data are synthetic. No historical measurements, teammate contributions,
-manual checks by teammates or successful real-data forecasts have been invented.
+The 26 October experiment above uses synthetic data. Historical work added on
+27 October is recorded separately below. Manual checks by Yash or teammates are not claimed.
+
+## Historical extension prepared on 27 October 2026
+
+OpenAI Codex helped choose and document an explicit historical protocol after Yash
+asked to make the choices locally. It implemented historical PINN sensitivities,
+an independent matched least-squares benchmark, freezing/scoring and verification
+scripts, the executed historical notebook, EPS/PDF/PNG figures and LaTeX/PDF report.
+The dataset and provenance were supplied by Advay in PR #3; the assistant did not
+collect new historical records or obtain approval from other members.
+
+Checks actually performed by the assistant: 42 automated tests; 13 historical PINN
+runs; 18 least-squares starts; source/data/configuration and frozen-output hash checks;
+independent reconstruction of all exported forecasts and recomputation of held-out
+metrics; successful execution of all eight historical notebook code cells; report
+compilation and visual inspection of every final page. A first baseline export failed
+because a NumPy boolean was not JSON-serializable; that partial v1 folder is retained,
+and the corrected complete run is v2. No post-scoring retuning was performed.
+
+Historical bounds and initial guesses are modelling choices in pelt units, not
+measured biological values. Boundary sensitivity and worse outcomes were retained.
+Yash should add his own manual checks after reading and reproducing the work.

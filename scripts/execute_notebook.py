@@ -1,5 +1,6 @@
 """Execute the delivered notebook in a kernel bound to the current Python environment."""
 from pathlib import Path
+import argparse
 import json
 import os
 import sys
@@ -18,7 +19,10 @@ kernel.mkdir(parents=True, exist_ok=True)
     "argv": [sys.executable, "-m", "ipykernel_launcher", "-f", "{connection_file}"],
     "display_name": "Lynx Hare local", "language": "python"}), encoding="utf-8")
 from nbclient import NotebookClient
-notebook_path = ROOT / "notebooks/yash_pinn.ipynb"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--notebook", type=Path, default=ROOT / "notebooks/yash_pinn.ipynb")
+args = parser.parse_args()
+notebook_path = args.notebook.resolve()
 notebook = nbformat.read(notebook_path, as_version=4)
 client = NotebookClient(notebook, timeout=900, kernel_name="lynx-hare-local",
                         startup_timeout=60, resources={"metadata": {"path": str(ROOT)}})

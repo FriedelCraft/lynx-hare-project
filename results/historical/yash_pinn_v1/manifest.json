@@ -1,0 +1,208 @@
+{
+  "kind": "historical",
+  "status": "forecasts_frozen_unscored",
+  "config": {
+    "kind": "historical",
+    "protocol_status": "chosen by Yash with assistant on 2026-10-27; baseline must use these same choices for comparison",
+    "data_source": "Stan compilation provided by Advay, frozen split v1",
+    "observation_convention": "States directly in thousands of pelts; no fitted observation-scale factor; annual totals approximated as point samples",
+    "trainable": [
+      "r",
+      "K",
+      "a",
+      "b",
+      "e",
+      "m"
+    ],
+    "initial_guess": {
+      "r": 0.8,
+      "K": 150.0,
+      "a": 2.0,
+      "b": 30.0,
+      "e": 0.6,
+      "m": 0.6
+    },
+    "bounds": {
+      "r": [
+        0.05,
+        3.0
+      ],
+      "K": [
+        20.0,
+        500.0
+      ],
+      "a": [
+        0.05,
+        10.0
+      ],
+      "b": [
+        0.5,
+        300.0
+      ],
+      "e": [
+        0.02,
+        5.0
+      ],
+      "m": [
+        0.05,
+        3.0
+      ]
+    },
+    "start_year": 1900,
+    "train_end_year": 1915,
+    "forecast_end_year": 1920,
+    "solver": {
+      "rtol": 1e-08,
+      "atol": 1e-10,
+      "max_step": 0.1
+    },
+    "training": {
+      "width": 48,
+      "depth": 3,
+      "collocation_points": 161,
+      "warmup_steps": 500,
+      "adam_steps": 5000,
+      "lbfgs_steps": 600,
+      "learning_rate": 0.002,
+      "data_weight": 1.0,
+      "physics_weight": 10.0,
+      "ic_weight": 10.0,
+      "log_every": 100,
+      "patience": 15,
+      "min_delta": 1e-08,
+      "gradient_clip": 10.0,
+      "threads": 1
+    },
+    "seeds": [
+      17,
+      29,
+      43
+    ],
+    "variants": [
+      "main",
+      "log_errors",
+      "fitted_initial"
+    ],
+    "note": "Exploratory positive box bounds in effective pelt units, not measured ecological ranges. No coexistence constraint and no e<=1 constraint. Every rate is inferred; none of the synthetic fixed constants is carried over. Starting guesses are optimization choices. Bounds expansion is predeclared before any held-out scoring; all runs and sensitivity variants will be retained."
+  },
+  "config_sha256": "785a0a2541d3cf46db282207447675ed2a31c4a454bdebfc4b22a51d762cd20f",
+  "training_sha256": "a28eef603841c30bd50e2b06de7ac6c8847e63ea4adea1253006da17d52c56e7",
+  "source_hashes": {
+    "src\\lynx_hare\\model.py": "192cadd7b15d90e6bdf6de481ceb6b6a910b2a78b76a48bffa05cc253eac2eea",
+    "src\\lynx_hare\\data.py": "4ab98d0b5db1f9a4e67f48bc198694b4bd75c9d55ce490e6e3484b670a45bf7d",
+    "src\\lynx_hare\\pinn.py": "4808ff687597e3c00834087aae54641676a265635b3125f5683c712c3fabe530",
+    "src\\lynx_hare\\historical_pinn.py": "79a9239301cfa76e605a7ddc2a73cc95979e8e2a5686a1cfecb5d3732e756bb0",
+    "src\\lynx_hare\\experiments.py": "3c421b18589f36a9b6a93bed5e435b5534d4df4f2d1a1c2a1c49816d3428b072",
+    "scripts\\run_historical_pinn.py": "31f3105b0dea477148f262de10696d1039523acf63831ca45c614fb4bd7fd8f3"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "versions": {
+    "torch": "2.14.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "heldout_observations_read": false,
+  "selection_rule": "minimum weighted training objective among seeds within each variant",
+  "run_count": 9,
+  "selected_runs": {
+    "main": {
+      "run_id": "main_seed17",
+      "parameters": {
+        "r": 0.6054636470501683,
+        "K": 497.6036084434827,
+        "a": 9.260547309106517,
+        "b": 299.97597885269994,
+        "e": 1.0965764328360263,
+        "m": 0.9938788576936693
+      },
+      "forecast_sha256": "31e2719b683e7fea5cc6bc73d57589275fda7bdfd67c8246c59c546c976fb521"
+    },
+    "log_errors": {
+      "run_id": "log_errors_seed29",
+      "parameters": {
+        "r": 0.5677196050491092,
+        "K": 480.208094755309,
+        "a": 8.109206367302061,
+        "b": 287.32228033361156,
+        "e": 1.4167571556077772,
+        "m": 1.2536310403118214
+      },
+      "forecast_sha256": "cf58ffcefbfbfa48475f744ad1f337ba4ca5e21a4d124d58641bc6a0cf71937e"
+    },
+    "fitted_initial": {
+      "run_id": "fitted_initial_seed17",
+      "parameters": {
+        "r": 0.5369857392202834,
+        "K": 494.3315391000688,
+        "a": 8.4267483705291,
+        "b": 299.78047611799553,
+        "e": 1.2776886710415303,
+        "m": 1.0865641827006949
+      },
+      "forecast_sha256": "2388e0065d01c50f038231839a9c041106a64685d341b1aa9b6c9f81ea119ae1"
+    }
+  },
+  "output_hashes": {
+    "config.json": "19b80289f2e41aa16ee8b974f7a2d123d32a984a02d8b1612286ac20f65bdc42",
+    "parameters_for_team.json": "7d3d6cff30759b0d7b35ce03cf8ea9e6f4cc299ac4dd7cc86c68777a9effdcf0",
+    "predictions_fitted_initial.csv": "2388e0065d01c50f038231839a9c041106a64685d341b1aa9b6c9f81ea119ae1",
+    "predictions_for_advay.csv": "31e2719b683e7fea5cc6bc73d57589275fda7bdfd67c8246c59c546c976fb521",
+    "predictions_log_errors.csv": "cf58ffcefbfbfa48475f744ad1f337ba4ca5e21a4d124d58641bc6a0cf71937e",
+    "selected_runs.json": "60e8e22dbc09ab513de82dfc958b2771c467502a722e0a53c11292b42f3df48c",
+    "runs\\fitted_initial_seed17\\forecast.csv": "2388e0065d01c50f038231839a9c041106a64685d341b1aa9b6c9f81ea119ae1",
+    "runs\\fitted_initial_seed17\\network_train.csv": "eb31e5d2c2a7a605d52d0d3ddf4168cc5099450a359964c1a816d379f92f5084",
+    "runs\\fitted_initial_seed17\\ode_dense.csv": "cf081bf77f8edebe228e43f70adcea5e5b1a8c5686fe7b82ebd9340990781769",
+    "runs\\fitted_initial_seed17\\residual_check.csv": "9580393b90b5192c8217e0196a84628880415e2da9240a2a55bc5498497c96cf",
+    "runs\\fitted_initial_seed17\\summary.json": "0902cfc0be8881826a54ff1c952675b56e74b48ce837ba2e608555a9ab1c2c44",
+    "runs\\fitted_initial_seed17\\training.csv": "579a23f819cb9c4c76e8f135f473433f82b3b7c557b6c2845bfcbd6fdd72861c",
+    "runs\\fitted_initial_seed29\\forecast.csv": "ac80b7d139544f2e8c09ac7c222235f2805b3a00569c6c517e7196d2dfd5ce0d",
+    "runs\\fitted_initial_seed29\\network_train.csv": "14c4f88e82cec376e94727600b6b38ea429cda485f4a91ff9def7aa432826c2a",
+    "runs\\fitted_initial_seed29\\ode_dense.csv": "c2d20c69866eb223980d874088db61aaae5ae55314e69009d48d53f3b95fb880",
+    "runs\\fitted_initial_seed29\\residual_check.csv": "6681a6eaf0f6e7fecc4a7d565a29512e5ba48dfd0f69516c6c657b67a847c3ed",
+    "runs\\fitted_initial_seed29\\summary.json": "dc3c2172d041a3b1c6ac682114baa63415376a9f762002ea31084be8fb1a390a",
+    "runs\\fitted_initial_seed29\\training.csv": "4523dd6032fe9df06799af1edfd943790e8ae6b00e3ab02565b8ac53e96b442c",
+    "runs\\fitted_initial_seed43\\forecast.csv": "bffd6aaa6cf2b39a619f5ebd65b1dfb566242c89dca6717f480b86538316c9ef",
+    "runs\\fitted_initial_seed43\\network_train.csv": "f1db8234cdecdd4eaee68069da8aadf328519adedaa55a86660d0a30626969a2",
+    "runs\\fitted_initial_seed43\\ode_dense.csv": "4a0d229b75f7e7c2b021ccb2d211216be85eb319d84b31d667a0666034902283",
+    "runs\\fitted_initial_seed43\\residual_check.csv": "94574b726083da682cce87c567d2c9aca48fcba6df1708b7ceaa18fc78266b96",
+    "runs\\fitted_initial_seed43\\summary.json": "26b2d7ab95a4c6faeddd618f8c18f6dedaef309a9cedda172a04016a0089866c",
+    "runs\\fitted_initial_seed43\\training.csv": "fe9e1324a3ff346fcb0b867cec212a9a137c03f3cfbb739936cc49610f1918fe",
+    "runs\\log_errors_seed17\\forecast.csv": "2de6d52b7907cf969c7cb4c76a4da119411848cfb668f7fe038cd34772bce459",
+    "runs\\log_errors_seed17\\network_train.csv": "a8738a42e60fa9e7fd7596759bd66666aee29aef540d13d20fe333e6cb6ab207",
+    "runs\\log_errors_seed17\\ode_dense.csv": "1f6f24689ede0dcf83be5b12b44ff13dbe70591b9ff87e4286f7354c8cf846f6",
+    "runs\\log_errors_seed17\\residual_check.csv": "3347da833f979ac7e4e959c14bf5cd06777d55628de4539d9d3fba33d911fc1c",
+    "runs\\log_errors_seed17\\summary.json": "d9771c49a3442aa285adc323cbe6c7591780060f6633fc3eb19ee65b1ac1c797",
+    "runs\\log_errors_seed17\\training.csv": "3ee313b1ebac62275bb1dc39dcc87a4fc7555d84e0bdec71dbaea90cb58bd57e",
+    "runs\\log_errors_seed29\\forecast.csv": "cf58ffcefbfbfa48475f744ad1f337ba4ca5e21a4d124d58641bc6a0cf71937e",
+    "runs\\log_errors_seed29\\network_train.csv": "b64fc4634999b8384cc853fe637f1c0b6ed8e26d8f8358035b104dc862c40672",
+    "runs\\log_errors_seed29\\ode_dense.csv": "a348902b32593051982b7febfd6b4e083e136eaf42bc49208915d530918a1c2e",
+    "runs\\log_errors_seed29\\residual_check.csv": "9de14178f408c0efd9b47d6bb65abac4993ed78440a73db0f6156048eda6e086",
+    "runs\\log_errors_seed29\\summary.json": "982b2d800a71d13fc0252ca867a5345c3290942f936d7440db5cb46c0d84a1f7",
+    "runs\\log_errors_seed29\\training.csv": "680ca5b4a3241f7c0d9168d71b435d9cccb4b4a57cfb0e7440f64f153b96833a",
+    "runs\\log_errors_seed43\\forecast.csv": "cc1b6c84e4a37eb8ec2ec4bcb4eb84d45a1d0604001ee47ee48cc675ee176009",
+    "runs\\log_errors_seed43\\network_train.csv": "05a3ee6da8774f5c2af837b7247508b149d68559315ea78b047efc373488d721",
+    "runs\\log_errors_seed43\\ode_dense.csv": "b20a64c75a997f1190272876f0ebfb2474e3abcdedbbeebb342df5b3e20a08d7",
+    "runs\\log_errors_seed43\\residual_check.csv": "7cab2ea16a5ddf6d9877feb3d69ac67c474057db02a860bd068ebdee9669c3c3",
+    "runs\\log_errors_seed43\\summary.json": "e526e3c7a72dc7e7dbb53d194f282534aaeef0c9776624e87dd2d18ff9116f27",
+    "runs\\log_errors_seed43\\training.csv": "d3f20a5b20741dfa737728580f04d3e58412d4f9a9830f22ac52b7f04af04a4e",
+    "runs\\main_seed17\\forecast.csv": "31e2719b683e7fea5cc6bc73d57589275fda7bdfd67c8246c59c546c976fb521",
+    "runs\\main_seed17\\network_train.csv": "77e1e6536086f01207e899464aa6990afebafd256af708b2445336e9e908522d",
+    "runs\\main_seed17\\ode_dense.csv": "0a2117ee33f27a2f670bafa84613a4000b918b4c6af161cc941477808f300ff2",
+    "runs\\main_seed17\\residual_check.csv": "38aedc256e5e4761ca2ac269ba7a2c5efc92112462e918cf2ca3f815fa6fc872",
+    "runs\\main_seed17\\summary.json": "fd9fc0212def5f8d66e51dc469152a0a141c47c64b6406768cbc6578f862ed01",
+    "runs\\main_seed17\\training.csv": "c4395f82ee30b0cf844e6bc1673dbad3b4826152cea74eee17a98b6b6e273907",
+    "runs\\main_seed29\\forecast.csv": "821822fd05ab732979f7a75a401b8c08becce24af63e5205c0c3f2e1af51cdc7",
+    "runs\\main_seed29\\network_train.csv": "2f22a35dc62f45e0369327d7eeac2aa7d158ea8508b1da25d05afac9e4559695",
+    "runs\\main_seed29\\ode_dense.csv": "b573ae2c3767f44084dda164cec2b7f27dcc1a3dca12df77d076166b35674372",
+    "runs\\main_seed29\\residual_check.csv": "d8471919e13ca453c4aae518cafb4abdbcbeb543cbf84e0881d657b86283bee1",
+    "runs\\main_seed29\\summary.json": "8abf50f996d50e7a06c593c91fbf11ab7de77c3399828ac16034afe69e40db72",
+    "runs\\main_seed29\\training.csv": "e2c91d94851bda206cfa9317da3c70362dd566157bc923b497cc36759972872f",
+    "runs\\main_seed43\\forecast.csv": "ef8edf91d6af291f90a52ae7b2addd7ce869c6709b85b190afd947fa782910c0",
+    "runs\\main_seed43\\network_train.csv": "0f3cc6c75652ab06430989324394511b9910170fc507c4eeda8855890f85dff2",
+    "runs\\main_seed43\\ode_dense.csv": "149120697ba3171c7cde7740378b2f09bf665900260fe615c30a21cd382451f2",
+    "runs\\main_seed43\\residual_check.csv": "8e942b84a996b18095f0c8df945aa17cad1d8efe2960e4f514b7dbb731bce48b",
+    "runs\\main_seed43\\summary.json": "12f061fe046d66d08563144646cd976ebd81abc319a8c77450550ade789e44d9",
+    "runs\\main_seed43\\training.csv": "a93886d2032a2a56989dca0b553553db0c9b72396d3bc3536d2a85df9ff7a959"
+  }
+}
