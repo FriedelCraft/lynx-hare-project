@@ -1,7 +1,7 @@
 # Advay → team: comments and open decisions
 
-Branch `advay/phase2-protocol`. Last updated 27 October 2026 (after PR #3 and Yash's
-historical merge).
+Branch `advay/phase2-protocol`. Last updated 27 October 2026 (after the phase 3
+least-squares baseline).
 
 | Phase 1 step | Status |
 |---|---|
@@ -9,6 +9,35 @@ historical merge).
 | 2. Plots and data checks | Done, merged (`results/historical/data_checks/`) |
 | 3. Observation convention | **Agreed** by Arnav and Yash (`docs/advay_observation_convention.md`) |
 | 4. Train/test split files | Done, merged (`train_1900_1915.csv`, `test_1916_1920.csv`, `split.json`) |
+
+| Phase | Status |
+|---|---|
+| 2. Protocol decisions | Settled de facto by `configs/historical.json` (see §0) |
+| 3. Least-squares baseline | **Done:** `results/historical/advay_baseline_v2` (forecasts frozen, unscored) |
+| 4. Scoring and comparison | Next |
+
+## 0a. Phase 3 results for the team (details in `results/historical/advay_baseline_v2/README.md`)
+
+- **Independent reproduction:** my least-squares code is separate from Yash's and uses a
+  different start design, but reaches the same optimum in all three variants (training
+  cost within 2e-7, forecasts within 0.002 thousand pelts). Forecasts frozen; not scored
+  yet.
+- **Protocol amendment, declared openly:** my first declared run (v1, kept) missed the
+  best `fitted_initial` fit because its log-scale starts rarely landed near the upper
+  bounds. v2 adds 40 starts spread evenly on the ordinary scale per variant. The decision
+  used training cost only. See `docs/advay_baseline_protocol.md`.
+- **Joel and Rishi, σ = K/K_H:** main 1.067 (just above Hopf), fitted 1900 state 0.993
+  (just below), log errors 0.550 (damped). All three match the observed peak timing
+  (period about 10 years, lynx lag about 1.6 years). **The data can't decide between a
+  limit cycle and a damped oscillation.** Please don't describe the fitted system as
+  showing a limit cycle. Parameters are in `parameters_for_team.json`; Rishi, these are
+  for the bifurcation diagram.
+- **Everyone, the saturation isn't identified:** b hits its upper bound (300) in every
+  variant, and a does too in the main fit. With b about 4× the largest hare count,
+  predation is almost linear in H over the data, and a, b, K are each uncertain by a
+  factor of 3 or more (a–b correlation 0.998). Only the ratio a/b ≈ 0.024–0.033 is well
+  determined. Joel: this probably belongs in the sensitivity discussion; the fitted point
+  depends on the box.
 
 ## 0. Phase 2 decisions: where things stand
 

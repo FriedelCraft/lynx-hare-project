@@ -2,7 +2,7 @@
 and draw the training fits. Uses training data and frozen forecasts only; the test
 file is not opened and no held-out score is computed.
 
-    python scripts/advay_compare_benchmark.py
+    python scripts/advay_compare_benchmark.py [results/historical/advay_baseline_v2]
 """
 import csv
 import json
@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from lynx_hare.data import read_training
 
-MINE = ROOT / "results" / "historical" / "advay_baseline_v1"
+MINE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "results" / "historical" / "advay_baseline_v2"
 YASH = ROOT / "results" / "historical" / "yash_matching_baseline_v2"
 GRAPHS = ROOT / "report" / "graphs"
 VARIANTS = ["main", "log_errors", "fitted_initial"]
@@ -68,7 +68,8 @@ def figure():
         ax.plot(data.years, data.observations[:, 1], "s", color=LYNX, mfc="white", ms=6, label="Lynx, training data")
         ax.set(ylabel="Thousands of pelts", title=TITLES[v], xlim=(1899.5, 1920.5))
         ax.text(1915.8, ax.get_ylim()[1] * 0.92, "forecast\n(scored in phase 4)", color=GREY, fontsize=9, va="top")
-    axes[0].legend(loc="upper left", bbox_to_anchor=(0.3, 1.0), ncol=2, fontsize=9)
+    fig.legend(*axes[0].get_legend_handles_labels(), loc="upper center", ncol=4, fontsize=9,
+               bbox_to_anchor=(0.5, 1.03), frameon=False)
     axes[-1].set(xlabel="Year")
     axes[-1].set_xticks(np.arange(1900, 1921, 2))
     fig.tight_layout()
@@ -90,7 +91,9 @@ def sigma_figure():
         ok = np.isfinite(sig)
         ax.scatter(sig[ok], cost[ok], s=36, color="#333333", edgecolor="white", linewidth=1, zorder=3)
         ax.axvline(1, color=LYNX, lw=1.5, ls="--")
-        ax.set(xscale="log", yscale="log", xlabel="σ = K / K_H", title=TITLES[v].split(":")[-1].strip())
+        ax.annotate(f"selected: σ = {sig[cost == 1][0]:.2f}", (sig[cost == 1][0], 1),
+                    textcoords="offset points", xytext=(10, 8), fontsize=9)
+        ax.set(xscale="log", yscale="log", xlabel="σ = K / K_H", title={"main": "Main", "log_errors": "Log errors", "fitted_initial": "Fitted 1900 state"}[v])
         ax.text(0.03, 0.95, f"{(~ok).sum()} starts without coexistence\nnot shown", transform=ax.transAxes,
                 fontsize=9, va="top", color=GREY) if (~ok).any() else None
     axes[0].set_ylabel("Training cost / best cost")
