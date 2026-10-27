@@ -33,6 +33,8 @@ def embed(filename):
     src = (ROOT / "src" / "lynx_hare" / filename).read_text(encoding="utf-8")
     src = re.sub(r"^from \.model import", "from lynx_hare.model import", src, flags=re.M)
     src = re.sub(r"^from \. import (.+)$", r"from lynx_hare import \1", src, flags=re.M)
+    # notebook cells have no __file__; ROOT (repository root) is defined in the setup cell
+    src = src.replace('Path(__file__).resolve().parents[2]', 'ROOT')
     code(f"# Generated from src/lynx_hare/{filename}\n" + src)
 
 
