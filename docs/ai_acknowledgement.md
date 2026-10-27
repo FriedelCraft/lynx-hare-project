@@ -39,3 +39,17 @@ and the corrected complete run is v2. No post-scoring retuning was performed.
 Historical bounds and initial guesses are modelling choices in pelt units, not
 measured biological values. Boundary sensitivity and worse outcomes were retained.
 Yash should add his own manual checks after reading and reproducing the work.
+
+## Advay work package, 27–28 October 2026
+
+| Tool | Task assisted | Generated material | Checks actually performed |
+|---|---|---|---|
+| Claude Code (Anthropic, Claude Opus 5.5) | Read the work distribution; locate and document the historical data; implement the data checks, train/test split, least-squares baseline, scoring and comparison; write team notes, protocols, report section, notebook and talk notes | `data/historical/` (CSV, provenance, split), `scripts/advay_*.py`, `scripts/build_advay_notebook.py`, `src/lynx_hare/historical_ls.py`, `tests/test_historical_{data,ls}.py`, `results/historical/{data_checks,advay_baseline_v1,advay_baseline_v2,advay_evaluation_v1}/`, `report/advay_*.tex`, `report/tables/advay_heldout_metrics.tex`, `report/graphs/advay_*`, `notebooks/advay_data_validation.ipynb`, `docs/advay_*.md`, `presentation/advay_notes.md` | Data values compared against both downloaded sources; 9 automated tests (split integrity, checksums, residual scaling, bounds, recovery of known parameters from simulated data); least-squares optimum reproduced Yash's independent benchmark in all three variants; held-out scores reproduced Yash's evaluation exactly; notebook executed end to end; every figure inspected visually and re-drawn where labels covered data |
+| SciPy `solve_ivp` and `least_squares` | ODE integration and bounded nonlinear least squares | Fitted parameters, forecasts, Jacobian diagnostics | Solver settings as in the shared config; known-parameter recovery test |
+
+Protocol decisions (baseline starts, the v2 amendment and the scoring plan) were committed
+before the runs and data they govern; the git history records the order. The LaTeX section
+could not be compiled in the assistant's environment (no TeX installation); compilation and
+a visual check of the PDF are still needed. The checks above were run by the assistant.
+Advay should add his own manual checks after reading and rerunning the work, and confirm the
+course's required acknowledgement wording before submission.
