@@ -289,7 +289,8 @@ for k, (lo, hi) in res["summary"]["sigma_range_by_group_excluding_poor_minima"].
 """)
 code(r"""
 fig_sigma, fig_bif = placement["figures"](res)
-plt.show()
+display(fig_sigma, fig_bif)
+plt.close("all")
 """)
 box(GREEN, "Reading Figures 7 and 8", r"""
 - **Same behaviour over the data window.** Every well-fitting set oscillates with a period of about 10 years and a lynx lag of
