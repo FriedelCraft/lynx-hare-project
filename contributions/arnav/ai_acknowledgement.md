@@ -22,3 +22,7 @@ Do not state that you wrote or checked these materials unaided. Before submissio
 - Presentation rehearsal and remaining questions:
 
 Use the professor's required acknowledgement wording when it is available. This record documents assistance; it does not itself establish eligibility for bonus marks or independent understanding.
+
+## Follow-up on 27 October 2026
+
+Codex read the merged repository documentation and configuration at bcc0a2b, drafted `observation_model_followup.md`, added an observation model and conditional parameter interpretations to `equations_and_units.md`, and added dated pointers in the README and team handoff. The draft includes recommendations and a suggested group message; neither personal nor group approval is claimed. The test CSV was not opened. Yash's handoff contained reported evaluation scores; they were not used to select these recommendations. No fitting code, data, configuration, saved prediction, notebook or PDF was changed or rerun. Arnav's review and ability to explain the observation assumptions remain to be recorded above.

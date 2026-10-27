@@ -2,6 +2,8 @@
 
 Prepared 26 October 2026 against [repository commit 7d17deee](https://github.com/FriedelCraft/lynx-hare-project/tree/7d17deee1cb685f016ff16cb6706e8db12ebe6b2), including Joel's added analysis. This is a proposed contract for team review, not evidence that teammates have approved it.
 
+**Update, 27 October 2026:** the [observation-model follow-up](observation_model_followup.md) supplements this dated handoff after the historical-data merges. It recommends direct pelt-state units under O1, adds the explicit observation equation, and distinguishes the current implementation from group agreement. The [units sheet](equations_and_units.md) contains that clarification. The historical-run status and remaining questions in the follow-up supersede the older status statements below; the dimensional interface and scaling are unchanged.
+
 ## Keep the current dimensional interface
 
 - States in order H, P; parameters named r, K, a, b, e, m.

@@ -1,6 +1,25 @@
 # Equation and units sheet
 
-State order: **Hare H, Lynx P**. Elapsed time t = Year − 1900, in years. UH and UP are separately declared abundance-index units. Proposed historical units are thousands of pelts, pending the data contract; repository demonstration values are synthetic indices.
+State order: **Hare H, Lynx P**. Elapsed time t = Year − 1900, in years. For the historical convention reviewed on 27 October 2026, UH means thousands of hare pelts and UP means thousands of lynx pelts. These are abundance-index units, not animal counts. This matches the current historical fitting configuration; group approval remains separate. Synthetic demonstrations retain their own declared index units. See the [observation follow-up](observation_model_followup.md) for decisions, alternatives and sources.
+
+## Observation model
+
+For observation year Year_i, let t_i = Year_i − 1900:
+
+\[
+Y_{H,i}=H(t_i)+\varepsilon_{H,i},\qquad
+Y_{P,i}=P(t_i)+\varepsilon_{P,i}.
+\]
+
+Here Y denotes the recorded annual pelt count in thousands, H and P the model's noiseless pelt indices, and ε the observation discrepancy in the corresponding pelt units. Under the working proportional-index assumption O1,
+
+\[
+H(t)=c_H N_H(t),\qquad P(t)=c_P N_P(t),\qquad c_H,c_P>0.
+\]
+
+N denotes latent animal abundance. The factors cH and cP are constant and unknown, and are absorbed into the effective coefficients; they are not fitted or assumed numerically equal to one. Annual totals are approximated as point samples. No seasonal observation integral is introduced. This follows [Advay's proposed convention](https://github.com/FriedelCraft/lynx-hare-project/blob/bcc0a2b1ba4a277712ccd43ee3ff81e1397e7f03/docs/advay_observation_convention.md) and matches [Yash's historical configuration](https://github.com/FriedelCraft/lynx-hare-project/blob/bcc0a2b1ba4a277712ccd43ee3ff81e1397e7f03/configs/historical.json).
+
+H and P are in thousands of pelts; their time derivatives are in thousands of pelts per year. The annual collection interval does not add a second time denominator to the model states. The additive discrepancy notation alone does not establish a Gaussian error distribution or independent observations. Training-maximum normalization supplies comparison weights, not measured noise standard deviations.
 
 ## Dimensional model
 
@@ -13,13 +32,15 @@ State order: **Hare H, Lynx P**. Elapsed time t = Year − 1900, in years. UH an
 |---|---|---|
 | H, P | Hare and lynx states | UH, UP |
 | r | Intrinsic prey net growth | year⁻¹ |
-| K | Prey carrying capacity | UH |
-| a | Maximum consumption per predator | UH / UP / year |
-| b | Half-saturation prey abundance | UH |
+| K | Effective prey carrying-capacity index | UH |
+| a | Effective maximum consumption coefficient | UH / UP / year |
+| b | Half-saturation prey index | UH |
 | e | Effective predator conversion | UP / UH |
 | m | Predator mortality | year⁻¹ |
 
 All parameters are positive. H0 and P0 are nonnegative. e is not automatically an efficiency between zero and one in these index units. a/b, not a, is the low-density predation coefficient.
+
+r and m retain their growth/mortality-rate interpretation only conditional on O1 and the adequacy of the dynamical model. K, b, a and e are effective coefficients in pelt units. Invariance to observation scaling does not establish that any fitted parameter is accurate or well determined.
 
 ## Theory coordinates
 
@@ -62,7 +83,7 @@ For H̃ = cH H and P̃ = cP P, with time unchanged:
 \quad \widetilde r=r,\quad \widetilde m=m.
 \]
 
-The dimensionless variables and groups are unchanged. This does not determine unknown conversion factors from pelts to animal populations.
+The dimensionless variables and groups are unchanged. This does not determine unknown conversion factors from pelts to animal populations. The same invariance holds for Joel's σ = K/K_H where the coexistence threshold is applicable. These are model-based stability quantities, not independent confirmation of ecological mechanisms. Fixing the observation convention removes the free predator-scale ambiguity; it does not by itself establish identifiability of all six effective coefficients from the available annual observations.
 
 ## Synthetic example only
 
