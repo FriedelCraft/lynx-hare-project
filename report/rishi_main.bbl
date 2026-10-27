@@ -1,0 +1,48 @@
+\begin{thebibliography}{1}
+
+\bibitem{cheng1981}
+Kuo-Shung Cheng.
+\newblock Uniqueness of a limit cycle for a predator--prey system.
+\newblock {\em SIAM Journal on Mathematical Analysis}, 12(4):541--548, 1981.
+
+\bibitem{dormand1980}
+J.~R. Dormand and P.~J. Prince.
+\newblock A family of embedded {R}unge--{K}utta formulae.
+\newblock {\em Journal of Computational and Applied Mathematics}, 6(1):19--26,
+  1980.
+
+\bibitem{hsu1978}
+Sze-Bi Hsu.
+\newblock On global stability of a predator--prey system.
+\newblock {\em Mathematical Biosciences}, 39:1--10, 1978.
+
+\bibitem{kuznetsov2004}
+Yuri~A. Kuznetsov.
+\newblock {\em Elements of Applied Bifurcation Theory}.
+\newblock Springer, New York, 3rd edition, 2004.
+
+\bibitem{rosenzweig1971}
+Michael~L. Rosenzweig.
+\newblock Paradox of enrichment: Destabilization of exploitation ecosystems in
+  ecological time.
+\newblock {\em Science}, 171(3969):385--387, 1971.
+
+\bibitem{rosenzweig1963}
+Michael~L. Rosenzweig and Robert~H. MacArthur.
+\newblock Graphical representation and stability conditions of predator--prey
+  interactions.
+\newblock {\em The American Naturalist}, 97(895):209--223, 1963.
+
+\bibitem{scipysolve}
+{SciPy Contributors}.
+\newblock scipy.integrate.solve\_ivp documentation.
+\newblock
+  \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html}.
+\newblock Accessed 26 October 2026.
+
+\bibitem{strogatz2015}
+Steven~H. Strogatz.
+\newblock {\em Nonlinear Dynamics and Chaos}.
+\newblock Westview Press, Boulder, CO, 2nd edition, 2015.
+
+\end{thebibliography}

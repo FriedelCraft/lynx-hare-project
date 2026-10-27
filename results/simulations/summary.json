@@ -1,0 +1,56 @@
+{
+  "params": {
+    "r": 1.5,
+    "a": 4.0,
+    "b": 30.0,
+    "e": 0.4,
+    "m": 0.8
+  },
+  "solver": {
+    "method": "RK45",
+    "rtol": 1e-10,
+    "atol": 1e-12
+  },
+  "initial_state": [
+    20.0,
+    5.0
+  ],
+  "burn_in": 3000.0,
+  "burn_in_near_hopf": 20000.0,
+  "Hstar": 30.0,
+  "K_H": 90.00000000000001,
+  "T0": 9.934588265796101,
+  "solver_check": {
+    "max_drift_rk45": 3.7046976597565617e-10,
+    "max_drift_euler": 0.15286213781014257,
+    "relative_change_with_100x_tighter_tolerance": 8.098183014375165e-10,
+    "min_state_K150": 1.1085276766364318
+  },
+  "regimes_match_joel_targets": true,
+  "limit_cycle_last_peaks": {
+    "start inside (next to E*)": [
+      134.27699851192955,
+      134.27697537254056,
+      134.27699647741312
+    ],
+    "start outside": [
+      134.27698364273033,
+      134.27699275187913,
+      134.27699073652914
+    ]
+  },
+  "hopf_crossing_numerical": 90.0,
+  "node_to_focus_K": 42.591989987484354,
+  "max_spread_below_KH": 4.754508991311468e-05,
+  "cycle_min_at_K200": {
+    "H": 0.115166292448958,
+    "P": 0.45435820042882513
+  },
+  "amplitude_law": {
+    "slope": 0.5066897385549098,
+    "coefficient": 7.771393831895714,
+    "coefficient_sqrt": 7.807661448865903,
+    "onset_period": 9.934588265796101
+  },
+  "period_closest_to_onset": 9.965897435897391
+}
