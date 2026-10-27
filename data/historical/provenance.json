@@ -1,0 +1,76 @@
+{
+  "kind": "historical",
+  "historical_data": true,
+  "file": "pelts_1900_1920.csv",
+  "file_sha256": "091ab1d1c16bc803de3efdc37acf5776e383ee61d858fa29f773d1359c637472",
+  "version": "1.0.0",
+  "created": "2026-10-27",
+  "created_by": "Advay",
+  "columns": {
+    "Year": "calendar year of the trading record (integer, 1900-1920)",
+    "Hare": "snowshoe hare pelts traded by the Hudson's Bay Company, thousands of pelts",
+    "Lynx": "Canadian lynx pelts traded by the Hudson's Bay Company, thousands of pelts"
+  },
+  "units": "thousands of pelts per year (values copied unchanged from the source)",
+  "years": [
+    1900,
+    1920
+  ],
+  "n_rows": 21,
+  "missing_values": 0,
+  "observation_note": "Fur-trade counts, not population censuses. Treat as abundance indices only; absolute population sizes cannot be inferred from them.",
+  "source": {
+    "name": "Stan case study data file hudson-bay-lynx-hare.csv",
+    "url": "https://raw.githubusercontent.com/stan-dev/example-models/master/knitr/lotka-volterra/hudson-bay-lynx-hare.csv",
+    "repository_commit": "d52cde56962939abfcc522e3b795e0b7de4813b9",
+    "downloaded": "2026-10-27",
+    "raw_copy": "raw/stan_hudson-bay-lynx-hare.csv",
+    "raw_sha256": "66d3b24d30221a5654ab48cc461ea1d3f725f8f5719016f702cfb56610b4ee63",
+    "described_in": "Carpenter, B. (2018). Predator-Prey Population Dynamics: the Lotka-Volterra model in Stan. https://mc-stan.org/learn-stan/case-studies/lotka-volterra-predator-prey.html",
+    "lineage": [
+      "Hudson's Bay Company fur-trade records (original)",
+      "Purves, Sadava, Orians and Heller, Life: The Science of Biology (textbook figure)",
+      "Mahaffy, J. M. (2010), Math 636 lecture notes, San Diego State University",
+      "Howard, P. (2009), Modeling Basics, Math 442 lecture notes, Texas A&M University (http://www.math.tamu.edu/~phoward/m442/modbasics.pdf)",
+      "Carpenter (2018) Stan case study CSV (this file)"
+    ],
+    "transformations": "Removed the two '#' comment lines, removed spaces after commas, reordered columns from Year,Lynx,Hare to Year,Hare,Lynx. No values changed."
+  },
+  "cross_check": {
+    "name": "tsibbledata pelt (Hudson Bay Company trading records, 1845-1935)",
+    "url": "https://raw.githubusercontent.com/tidyverts/tsibbledata/master/data-raw/pelt/lynxhare.csv",
+    "repository_commit": "9ec282a04f7fc3d1cfa3a3113c75bea78efca731",
+    "raw_copy": "raw/tsibbledata_lynxhare.csv",
+    "raw_sha256": "e1a25f2ef4cf1334f898c9ffe208bf54d6eb1b779c1e4c197f9669f28686ee23",
+    "units": "thousands of pelts in the CSV (the R package multiplies by 1000)",
+    "agreement_1900_1920": {
+      "hare_correlation": 0.32,
+      "lynx_correlation": 0.81,
+      "hare_peaks": {
+        "primary": [
+          1903,
+          1913
+        ],
+        "cross_check": [
+          1904,
+          1912
+        ]
+      },
+      "note": "The two compilations differ substantially year by year, especially for hare. Not used for fitting; recorded so the choice of series is explicit."
+    }
+  },
+  "split_protocol": {
+    "train": [
+      1900,
+      1915
+    ],
+    "test": [
+      1916,
+      1920
+    ],
+    "train_file": "train_1900_1915.csv",
+    "test_file": "test_1916_1920.csv",
+    "record": "split.json",
+    "status": "split files created 2026-10-27 by scripts/advay_make_split.py"
+  }
+}
