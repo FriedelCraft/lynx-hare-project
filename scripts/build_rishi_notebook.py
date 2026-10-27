@@ -260,6 +260,51 @@ box(GREEN, "Reading Figures 5 and 6", r"""
   The ODE never reaches zero, but a real, finite population at such troughs would risk extinction.
 """)
 
+box(ORANGE, "Step 8 &mdash; Where do the historical fits lie? (Figures 7 and 8)", r"""
+The fitting sections estimated all six coefficients from the 1900&ndash;1915 pelt indices (thousands of pelts) with a PINN
+(13 runs: three error models &times; three seeds, wider bounds, physics weight 100) and matched least squares (18 starts).
+For **every** saved parameter set we compute, with Joel's closed forms:
+
+- the stability margin $\sigma = K/K_H$ ($\sigma < 1$: $E^*$ stable, oscillations damp; $\sigma > 1$: limit cycle);
+- the eigenvalues $\mu \pm i\omega$ at $E^*$, the **e-folding time** $1/|\mu|$ and the **linear period** $2\pi/\omega$;
+- the period and lynx lag of the first century simulated from the fitted 1900 state (Advay's check: about 10 yr, 1&ndash;2 yr);
+- which coefficients sit within 0.5% of a box limit.
+
+Only saved parameters and the training file are read; the test file is never opened. First we confirm the parameters are
+read correctly: re-integrating Yash's selected fit with `model.solve` and the historical settings must reproduce his saved path.
+The bifurcation sweeps take several minutes.
+""")
+code(r"""
+import runpy
+placement = runpy.run_path(str(ROOT / "scripts" / "rishi_historical_placement.py"))
+res = placement["compute"]()
+print(f"model.solve reconstruction difference: {res['summary']['reconstruction_max_abs_difference']:.1e}")
+cols = ["label", "sigma", "regime", "eigenvalue", "efold_years", "linear_period",
+        "first_century_period", "first_century_lag", "cycle_H_range", "cycle_period", "parameters_on_bounds"]
+display(pd.DataFrame([r for r in res["table"] if r["selected"]])[cols].set_index("label"))
+for k, (lo, hi) in res["summary"]["sigma_range_by_group_excluding_poor_minima"].items():
+    print(f"{k:38s} sigma in [{lo:.3f}, {hi:.3f}]")
+""")
+code(r"""
+fig_sigma, fig_bif = placement["figures"](res)
+plt.show()
+""")
+box(GREEN, "Reading Figures 7 and 8", r"""
+- **Same behaviour over the data window.** Every well-fitting set oscillates with a period of about 10 years and a lynx lag of
+  1.3&ndash;2 years, matching the data.
+- **Different side of the threshold.** PINN fits give $\sigma \approx 1.32$&ndash;$1.48$; least squares gives 1.07 (main),
+  0.99 (fitted initial state) and 0.55 (log errors).
+- **Why the data cannot decide.** $|\mu|$ is only 0.0002&ndash;0.019 per year, so the e-folding time is 53&ndash;5600 years.
+  Over 16 training years oscillations change by a factor $e^{16\mu} \approx 0.74$&ndash;$1.16$: a slowly damped focus and a slowly
+  growing spiral give almost the same two cycles.
+- **Bounds matter.** $b$ sits on its upper limit in nearly every fit; widening the box moves the PINN's $\sigma$ from 1.36 to 1.48.
+- **Long run (Figure 8).** The least-squares fit's eventual cycle ($H$ 5.6&ndash;85, period 10.8 yr) resembles the data; the PINN
+  fit's is much larger ($H$ 0.1&ndash;247, period 18.5 yr), so its 1900&ndash;1920 trajectory is an early part of a slowly growing spiral.
+
+**Conclusion:** the fitted model sits close to the Hopf threshold and reproduces the observed period and lag, but these data do
+not establish whether the real system is on a stable limit cycle or a slowly damped oscillation.
+""")
+
 box(PURPLE, "Summary and handoff", r"""
 | Claim | Numerical evidence | Where |
 |---|---|---|
@@ -269,8 +314,7 @@ box(PURPLE, "Summary and handoff", r"""
 | Stable limit cycle | Inside and outside starts reach the same loop | Fig. 3 |
 | Hopf at $K_H = b + 2H^*$ | Trace zero at $K = 90.0000000000$, $|\operatorname{Im}\lambda| = \omega_0$ | Fig. 4 |
 | Supercritical Hopf; enrichment | Amplitude $\propto (K-K_H)^{0.507}$, period $\to T_0$, troughs $\to 0$ | Figs. 5, 6 |
-
-HISTORICAL_SUMMARY_ROW
+| Historical fits | Period ~10 yr, lag 1.3&ndash;2 yr for every good fit; $\sigma$ 0.55&ndash;1.48 depending on method, error model and bounds | Figs. 7, 8 |
 
 **Solvers:** fitting and 1900&ndash;1920 forecasts use `model.solve` (rtol 1e-8, atol 1e-10, max_step 0.1); long-run runs here use
 `simulation.integrate` (rtol 1e-10, atol 1e-12).

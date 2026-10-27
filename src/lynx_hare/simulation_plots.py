@@ -219,8 +219,10 @@ def historical_sigma(rows, order):
     xs = [r["sigma"] for r in rows]
     ax.set_xlim(min(0.4, min(xs) / 1.3), max(xs) * 1.3)
     ax.set_yticks(list(y.values()), list(y.keys()))
-    ax.text(0.98, 1.02, "sigma > 1: limit cycle", transform=ax.get_xaxis_transform(), ha="right", fontsize=9)
-    ax.text(0.02, 1.02, "sigma < 1: damped, E* stable", transform=ax.get_xaxis_transform(), ha="left", fontsize=9)
+    ax.text(1.04, 1.01, "sigma > 1: E* unstable, limit cycle", transform=ax.get_xaxis_transform(),
+            ha="left", va="bottom", fontsize=9)
+    ax.text(0.96, 1.01, "sigma < 1: E* stable, damped", transform=ax.get_xaxis_transform(),
+            ha="right", va="bottom", fontsize=9)
     ax.set_xlabel("stability margin sigma = K / K_H  (log scale)")
     ax.grid(axis="y", visible=False)
     ax.legend(fontsize=8, loc="lower right")

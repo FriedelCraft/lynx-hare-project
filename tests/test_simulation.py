@@ -76,3 +76,21 @@ def test_direction_field_arrows_follow_the_flow():
     assert np.all(U * dH + V * dP > 0)
     # equal length in axis-fraction units
     np.testing.assert_allclose(np.hypot(U / 160.0, V / 50.0), 0.045, rtol=1e-12)
+
+
+def test_historical_fits_reconstruct_and_sigma_matches_yash():
+    """Saved PINN parameters reproduce Yash's 1900-1920 path with model.solve, and
+    linear_summary's sigma equals the sigma he reported for every run."""
+    import csv
+    from lynx_hare.model import solve
+    hist = ROOT / "results" / "historical" / "yash_pinn_v1"
+    solver = json.loads((ROOT / "configs" / "historical.json").read_text())["solver"]
+    sel = json.loads((hist / "selected_runs.json").read_text())["main"]
+    with open(hist / "runs" / sel["run_id"] / "ode_dense.csv") as f:
+        rows = np.array([[float(x) for x in r] for r in list(csv.reader(f))[1:]])
+    y = solve(rows[:, 0] - 1900.0, rows[0, 1:], Parameters(**sel["parameters"]), **solver)
+    np.testing.assert_allclose(y, rows[:, 1:], atol=1e-8)
+    for r in json.loads((hist / "parameters_for_team.json").read_text()):
+        lin = sim.linear_summary(Parameters(**{k: r[k] for k in "rKabem"}))
+        assert lin["sigma"] == pytest.approx(r["sigma"], rel=1e-10)
+        assert lin["linear_period"] == pytest.approx(2 * np.pi / np.abs(lin["eigenvalues"].imag).max())

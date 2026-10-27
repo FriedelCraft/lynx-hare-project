@@ -39,3 +39,17 @@ and the corrected complete run is v2. No post-scoring retuning was performed.
 Historical bounds and initial guesses are modelling choices in pelt units, not
 measured biological values. Boundary sensitivity and worse outcomes were retained.
 Yash should add his own manual checks after reading and reproducing the work.
+
+## Rishi: numerical simulations (26-27 October 2026)
+
+| Tool | Task assisted | Generated material | Checks actually performed |
+|---|---|---|---|
+| Claude (Anthropic), Opus 5.5 | Simulation layer and figures; reproduction of Joel's validation targets; executed notebook; LaTeX section; historical sigma placement; presentation notes; explanations of RK45, Hopf bifurcation and the figures | `src/lynx_hare/simulation.py`, `simulation_plots.py`, `configs/simulations.json`, `scripts/rishi_simulations.py`, `scripts/rishi_historical_placement.py`, `scripts/build_rishi_notebook.py`, `notebooks/rishi_simulations.ipynb`, `tests/test_simulation.py`, `report/rishi_simulation_section.tex`, `report/rishi_main.tex`, `report/graphs/rishi_*`, `results/simulations/`, `presentation/rishi_notes.md`, `docs/rishi_simulation_handoff.md` | Automated tests (solver accuracy, positivity, shared RHS, Joel's targets, Hopf crossing, arrow directions, config consistency); all six of Joel's regimes reproduced; reconstruction of Yash's selected 1900-1920 path with model.solve (difference 5e-12); sigma recomputed for every saved fit and matched to Yash's reported values; notebook executed end to end; report compiled and figures inspected |
+| SciPy solve_ivp | RK45 integration | All trajectories and long-run summaries | Lotka-Volterra invariant drift 4e-10; 100x tighter tolerances change results by 8e-10 |
+
+The checks above were run by the assistant. A phase-portrait arrow error in the first version
+(arrow directions skewed by unequal axis ranges) was found in group review and corrected on
+27 October; a test now checks every arrow against the vector field.
+
+**Rishi's own manual checks:** (to be filled in by Rishi, e.g. which figures he re-ran,
+which numbers he compared with Joel's Table 2 by hand, which derivations he worked through.)

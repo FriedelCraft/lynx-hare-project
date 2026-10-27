@@ -167,7 +167,7 @@ def compute():
         f = next(x for x in fits if x["label"] == label and x["selected"])
         sw = sweep_in_sigma(Parameters(**f["params"]), SIGMA_GRID, f["y0"])
         rng = None if f["cycle"] is None else (f["cycle"]["Hmin"], f["cycle"]["Hmax"])
-        panels.append(dict(title=f"Selected {label.lower()} fit", fit_sigma=f["sigma"], fit_range=rng, **sw))
+        panels.append(dict(title=f"Selected {label} fit", fit_sigma=f["sigma"], fit_range=rng, **sw))
 
     groups = {}
     for f in fits:
@@ -205,7 +205,7 @@ def main():
         w.writeheader()
         w.writerows(res["table"])
     for pn in res["panels"]:
-        with open(OUT / f"sweep_{pn['title'].split()[1]}_main.csv", "w", newline="") as fh:
+        with open(OUT / f"sweep_{pn['title'].split()[1].lower()}_main.csv", "w", newline="") as fh:
             w = csv.writer(fh)
             w.writerow(["sigma", "Hmax", "Hmin"])
             w.writerows(zip(pn["sigma"], pn["Hmax"], pn["Hmin"]))
