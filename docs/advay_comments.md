@@ -1,13 +1,47 @@
 # Advay → team: comments and open decisions
 
-Branch `advay/data-validation`. Last updated 27 October 2026.
+Branch `advay/phase2-protocol`. Last updated 27 October 2026 (after PR #3 and Yash's
+historical merge).
 
 | Phase 1 step | Status |
 |---|---|
-| 1. Source, cite, tidy CSV | Done (`data/historical/`) |
-| 2. Plots and data checks | Done (`results/historical/data_checks/`) |
-| 3. Observation convention | Proposed (`docs/advay_observation_convention.md`), **awaiting Arnav/Yash/Joel** |
-| 4. Train/test split files | Done (`data/historical/train_1900_1915.csv`, `test_1916_1920.csv`, `split.json`) |
+| 1. Source, cite, tidy CSV | Done, merged in PR #3 (`data/historical/`) |
+| 2. Plots and data checks | Done, merged (`results/historical/data_checks/`) |
+| 3. Observation convention | **Agreed** by Arnav and Yash (`docs/advay_observation_convention.md`) |
+| 4. Train/test split files | Done, merged (`train_1900_1915.csv`, `test_1916_1920.csv`, `split.json`) |
+
+## 0. Phase 2 decisions: where things stand
+
+The historical protocol is now `configs/historical.json`. Yash chose it for his runs, and
+his PINN and matched least-squares forecasts were **frozen and then scored** on
+1916–1920 (`results/historical/yash_evaluation_v1/`). So changing any of these choices
+now would be a revision made after scoring, and would have to be labelled that way.
+**The baseline will use this config unchanged.**
+
+| Decision | Outcome | Who agreed |
+|---|---|---|
+| Data source | Stan compilation, frozen split v1; tsibbledata disagreement reported as a limitation | Arnav, Yash |
+| Observation convention (O1) | H, P directly in thousands of pelts; no fitted scale factor; observed = state + error; annual totals as point samples | Arnav (units sheet updated), Yash |
+| Error model and scaling | Additive; residuals divided by training maxima (77.4, 59.4) | Yash (already in code) |
+| Fitted parameters | **All six** (r, K, a, b, e, m) fitted; e not fixed; no e ≤ 1 limit; no coexistence constraint | Yash's choice; **Joel to acknowledge** |
+| Bounds | r, m ∈ [0.05, 3]; K ∈ [20, 500]; a ∈ [0.05, 10]; b ∈ [0.5, 300]; e ∈ [0.02, 5]; start r=0.8, K=150, a=2, b=30, e=0.6, m=0.6. Exploratory numerical limits, not ecological ranges | Yash's choice; **Joel to acknowledge** |
+| Solver | `model.solve`: RK45, rtol 1e-8, atol 1e-10, max_step 0.1, for fitting **and** forecasting | Yash; **Rishi to acknowledge** (his tighter `simulation.integrate` stays for long-run simulations) |
+| Initial state | Main: 1900 observation (30.0, 4.0). PINN uses a soft penalty; its main ODE forecasts still start at the observed state | Yash |
+| Sensitivity runs | Log residuals; fitted H0, P0 within ±50%. Run as separate variants | Arnav, Yash (both implemented) |
+| Evaluation | Train-only fitting; integrate from 1900; separate hare/lynx RMSE and MAE in thousands of pelts | Arnav, Yash |
+
+**Still needed:** a short acknowledgement from Joel (all six fitted, bounds) and Rishi
+(solver for fitting/forecasting). Neither blocks the baseline, since the config is fixed.
+
+**What this changes for Advay's work:**
+- Yash's `results/historical/yash_matching_baseline_v2` is an independent benchmark, not
+  Advay's baseline (as Yash's manifest states). Advay's baseline will be a separate
+  implementation on the same config, with its own multistart settings declared before it
+  runs. It will be checked against Yash's benchmark, and must not be adjusted using the
+  1916–1920 scores.
+- Yash has already scored the forecasts. Advay will independently recompute all RMSE/MAE
+  from the frozen forecast files and the test CSV, and build the final comparison
+  figures and tables.
 
 ## 1. Historical dataset is in the repo
 
