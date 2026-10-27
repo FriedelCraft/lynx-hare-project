@@ -1,0 +1,78 @@
+{
+  "note": "All statistics use training rows 1900-1915 only, except 'integrity', which checks the whole file for format errors.",
+  "integrity": {
+    "n_rows": 21,
+    "years": [
+      1900,
+      1920
+    ],
+    "consecutive_years": true,
+    "duplicate_years": 0,
+    "missing_values": 0,
+    "nonpositive_values": 0
+  },
+  "training": {
+    "rows": 16,
+    "hare": {
+      "min": 18.1,
+      "max": 77.4,
+      "mean": 40.09,
+      "max_over_min": 4.28,
+      "coefficient_of_variation": 0.523
+    },
+    "lynx": {
+      "min": 4.0,
+      "max": 59.4,
+      "mean": 21.85,
+      "max_over_min": 14.85,
+      "coefficient_of_variation": 0.84
+    },
+    "normalisation_scales": {
+      "hare_max": 77.4,
+      "lynx_max": 59.4
+    },
+    "hare_peaks": [
+      1903,
+      1913
+    ],
+    "lynx_peaks": [
+      1904
+    ],
+    "peak_lags_years": [
+      1
+    ],
+    "hare_peak_spacing_years": [
+      10
+    ],
+    "cross_correlation": {
+      "-4": -0.378,
+      "-3": -0.554,
+      "-2": -0.637,
+      "-1": -0.537,
+      "0": -0.007,
+      "1": 0.761,
+      "2": 0.943,
+      "3": 0.568,
+      "4": 0.06
+    },
+    "best_lag_years": 2,
+    "outliers_hare": {
+      "max_abs_robust_z": 2.94,
+      "threshold": 3.5,
+      "flagged": [],
+      "growth_range": [
+        -0.987,
+        0.453
+      ]
+    },
+    "outliers_lynx": {
+      "max_abs_robust_z": 2.17,
+      "threshold": 3.5,
+      "flagged": [],
+      "growth_range": [
+        -0.786,
+        1.279
+      ]
+    }
+  }
+}

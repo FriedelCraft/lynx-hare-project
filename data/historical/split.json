@@ -1,0 +1,31 @@
+{
+  "master": {
+    "file": "pelts_1900_1920.csv",
+    "sha256": "091ab1d1c16bc803de3efdc37acf5776e383ee61d858fa29f773d1359c637472"
+  },
+  "train": {
+    "file": "train_1900_1915.csv",
+    "years": [
+      1900,
+      1915
+    ],
+    "rows": 16,
+    "sha256": "a28eef603841c30bd50e2b06de7ac6c8847e63ea4adea1253006da17d52c56e7"
+  },
+  "test": {
+    "file": "test_1916_1920.csv",
+    "years": [
+      1916,
+      1920
+    ],
+    "rows": 5,
+    "sha256": "032aec664812cd067b8d30fba2a4700fb7be9d1292a53edeb32c09426222c7d0"
+  },
+  "rules": [
+    "Fitting, scaling, early stopping, seed or configuration choices may read only the train file.",
+    "The test file is opened only by the final scoring step, after forecasts are frozen.",
+    "Forecasts integrate from 1900 (t = 0) through 1920; no restart from any test value.",
+    "If the master file changes, rerun this script and use a new results directory."
+  ],
+  "created_by": "scripts/advay_make_split.py"
+}
