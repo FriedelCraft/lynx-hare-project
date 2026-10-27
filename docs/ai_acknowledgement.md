@@ -51,5 +51,10 @@ The checks above were run by the assistant. A phase-portrait arrow error in the 
 (arrow directions skewed by unequal axis ranges) was found in group review and corrected on
 27 October; a test now checks every arrow against the vector field.
 
-**Rishi's own manual checks:** (to be filled in by Rishi, e.g. which figures he re-ran,
-which numbers he compared with Joel's Table 2 by hand, which derivations he worked through.)
+**Rishi's own checks at submission (27 October):** Rishi worked through the model and theory
+behind this section with the assistant's step-by-step explanations: the Lotka-Volterra model and its
+conserved quantity, the Rosenzweig-MacArthur equilibria, Jacobian and trace-determinant stability,
+the Hopf threshold K_H = b + 2H*, and the RK45 method. He reviewed the summary of results and the
+group plan's checklist for his section. He has not yet independently re-run the scripts, recomputed
+numbers by hand or inspected every figure himself; these are planned before the presentation and
+will be added here only once done.
