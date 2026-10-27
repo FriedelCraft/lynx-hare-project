@@ -115,7 +115,7 @@ def trajectories(variant):
     return ls, pinn
 
 
-def panel(ax, k, train, test, ls, pinn, title, legend=False):
+def panel(ax, k, train, test, ls, pinn, title):
     color = HARE if k == 1 else LYNX
     ax.axvspan(1915.5, 1920.5, color=TEST_FILL, zorder=0)
     ax.plot(ls[:, 0], ls[:, k], color=LS_C, lw=2, label="Least squares (Advay)")
@@ -123,8 +123,11 @@ def panel(ax, k, train, test, ls, pinn, title, legend=False):
     ax.plot(train[:, 0], train[:, k], "o", color="#333333", mfc="white", ms=5, label="Training data")
     ax.plot(test[:, 0], test[:, k], "o", color="#111111", ms=6, label="Held-out data")
     ax.set(title=title, ylabel="Thousands of pelts", xlim=(1899.5, 1920.5))
-    if legend:
-        ax.legend(loc="upper left", fontsize=9, ncol=2)
+
+
+def top_legend(fig, ax):
+    fig.legend(*ax.get_legend_handles_labels(), loc="upper center", ncol=4, fontsize=9,
+               bbox_to_anchor=(0.5, 1.03), frameon=False)
 
 
 def main():
@@ -194,24 +197,26 @@ def main():
     # Figures.
     ls, pinn = trajectories("main")
     fig, ax = plt.subplots(2, 1, figsize=(10, 7.5), sharex=True)
-    panel(ax[0], 1, train, test, ls, pinn, "Hare", legend=True)
+    panel(ax[0], 1, train, test, ls, pinn, "Hare")
     panel(ax[1], 2, train, test, ls, pinn, "Lynx")
     ax[1].set(xlabel="Year")
     ax[1].set_xticks(np.arange(1900, 1921, 2))
     fig.tight_layout()
+    top_legend(fig, ax[0])
     save_fig(fig, "advay_heldout_overlay")
 
     fig, axes = plt.subplots(3, 2, figsize=(12, 10), sharex=True)
     names = {"main": "main", "log_errors": "log errors", "fitted_initial": "fitted 1900 state"}
     for i, v in enumerate(VARIANTS):
         ls, pinn = trajectories(v)
-        panel(axes[i, 0], 1, train, test, ls, pinn, f"Hare, {names[v]}", legend=(i == 0))
+        panel(axes[i, 0], 1, train, test, ls, pinn, f"Hare, {names[v]}")
         panel(axes[i, 1], 2, train, test, ls, pinn, f"Lynx, {names[v]}")
         for a in axes[i]:
             a.set_xlim(1909.5, 1920.5)
     for a in axes[-1]:
         a.set(xlabel="Year")
     fig.tight_layout()
+    top_legend(fig, axes[0, 0])
     save_fig(fig, "advay_heldout_variants")
 
     show = [("LS-Advay", "main", "selected", "Least squares", LS_C),

@@ -1,0 +1,26 @@
+{
+  "main": {
+    "pinn_run": "main_seed17",
+    "pinn_training_cost": 0.15702965892272547,
+    "ls_training_cost": 0.08446931102289185,
+    "ratio": 1.859014321546546,
+    "pinn_sigma": 1.363055717428748,
+    "ls_sigma": 1.0672906566964928
+  },
+  "log_errors": {
+    "pinn_run": "log_errors_seed29",
+    "pinn_training_cost": 3.0680180934134085,
+    "ls_training_cost": 0.9033443696626334,
+    "ratio": 3.3962884991016247,
+    "pinn_sigma": 1.3424641511292394,
+    "ls_sigma": 0.5496476500512657
+  },
+  "fitted_initial": {
+    "pinn_run": "fitted_initial_seed17",
+    "pinn_training_cost": 0.11836121073344687,
+    "ls_training_cost": 0.06343673059938294,
+    "ratio": 1.8658151139743349,
+    "pinn_sigma": 1.3466631084234548,
+    "ls_sigma": 0.9931714664298978
+  }
+}

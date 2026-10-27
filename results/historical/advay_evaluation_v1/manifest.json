@@ -1,0 +1,32 @@
+{
+  "plan": "docs/advay_scoring_plan.md",
+  "test_sha256": "032aec664812cd067b8d30fba2a4700fb7be9d1292a53edeb32c09426222c7d0",
+  "inputs": {
+    "results/historical/advay_baseline_v2/forecast_main.csv": "f078c84bbfb99acdf28fd294365531e6cdffca9bcc54baf47a14031056c32aab",
+    "results/historical/advay_baseline_v2/forecast_log_errors.csv": "2245459617401b6a5b73638d166e53228f77d7f8dd7b8fcc84c4c6675827a095",
+    "results/historical/advay_baseline_v2/forecast_fitted_initial.csv": "1a48cc3d89b7df1d3f675bef4f54426541e773933e866162ca88f34da130fb80",
+    "results/historical/yash_matching_baseline_v2/forecast_main.csv": "6eb12962705c7f99aca8a9589029c1844afa923ba76a593bd1ba3fa02bd7f4a3",
+    "results/historical/yash_matching_baseline_v2/forecast_log_errors.csv": "0054c910a2392375cbeb4a82c99e3505ce881992742d852817258a31cae71014",
+    "results/historical/yash_matching_baseline_v2/forecast_fitted_initial.csv": "7526203438905eaa3b95f0fca3a95c3650db614914c00dd22303114e55016a1d",
+    "results/historical/yash_pinn_v1/runs/fitted_initial_seed17/forecast.csv": "2388e0065d01c50f038231839a9c041106a64685d341b1aa9b6c9f81ea119ae1",
+    "results/historical/yash_pinn_v1/runs/fitted_initial_seed29/forecast.csv": "ac80b7d139544f2e8c09ac7c222235f2805b3a00569c6c517e7196d2dfd5ce0d",
+    "results/historical/yash_pinn_v1/runs/fitted_initial_seed43/forecast.csv": "bffd6aaa6cf2b39a619f5ebd65b1dfb566242c89dca6717f480b86538316c9ef",
+    "results/historical/yash_pinn_v1/runs/log_errors_seed17/forecast.csv": "2de6d52b7907cf969c7cb4c76a4da119411848cfb668f7fe038cd34772bce459",
+    "results/historical/yash_pinn_v1/runs/log_errors_seed29/forecast.csv": "cf58ffcefbfbfa48475f744ad1f337ba4ca5e21a4d124d58641bc6a0cf71937e",
+    "results/historical/yash_pinn_v1/runs/log_errors_seed43/forecast.csv": "cc1b6c84e4a37eb8ec2ec4bcb4eb84d45a1d0604001ee47ee48cc675ee176009",
+    "results/historical/yash_pinn_v1/runs/main_seed17/forecast.csv": "31e2719b683e7fea5cc6bc73d57589275fda7bdfd67c8246c59c546c976fb521",
+    "results/historical/yash_pinn_v1/runs/main_seed29/forecast.csv": "821822fd05ab732979f7a75a401b8c08becce24af63e5205c0c3f2e1af51cdc7",
+    "results/historical/yash_pinn_v1/runs/main_seed43/forecast.csv": "ef8edf91d6af291f90a52ae7b2addd7ce869c6709b85b190afd947fa782910c0",
+    "results/historical/yash_pinn_wider_v1/runs/main_seed17/forecast.csv": "92c0d131578953395231edfa4be6dbd5f3adbfcfb2174bf0e3935db8f22703b6",
+    "results/historical/yash_pinn_wider_v1/runs/main_seed29/forecast.csv": "f5b9a7136bf009511b9238cdacaa8cd1b618e68ea2d59acbde8cd92db6ec5f82",
+    "results/historical/yash_pinn_wider_v1/runs/main_seed43/forecast.csv": "e09f1123bbb25aab575c3e67850c34681f00f30b3f82d49e33418f77c4647894",
+    "results/historical/yash_pinn_physics100_v1/runs/main_seed17/forecast.csv": "fee4ec6c16aeab5bab55ab741b2f3a531a44768bc159f0ca6a5cc1a4ea4fb299"
+  },
+  "script_sha256": "938498800a936c525f579d303dfecde2a4b46dc70cb589c8a4207a1ec4bff1b4",
+  "outputs": {
+    "comparison.json": "08369b100d91f6cff9bd021b677dbff89a9974670537dd00e88509b05a4980d2",
+    "crosscheck_yash.json": "226a74f647beb375d2955f375785ecec132f68722dd1e3cb83c7f97b0b9d4b6f",
+    "metrics.csv": "3eda70eb089ceb304c31692a4795546861897b5ee0b57a6026b84ddfe412bcb2",
+    "yearly_errors.csv": "b76767d3b0c658a3796dfb0ca14355a0dbe2a79b4762411515ec7354b6ca5681"
+  }
+}

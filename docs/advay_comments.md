@@ -1,7 +1,7 @@
 # Advay → team: comments and open decisions
 
 Branch `advay/phase2-protocol`. Last updated 27 October 2026 (after the phase 3
-least-squares baseline).
+held-out evaluation).
 
 | Phase 1 step | Status |
 |---|---|
@@ -14,7 +14,32 @@ least-squares baseline).
 |---|---|
 | 2. Protocol decisions | Settled de facto by `configs/historical.json` (see §0) |
 | 3. Least-squares baseline | **Done:** `results/historical/advay_baseline_v2` (forecasts frozen, unscored) |
-| 4. Scoring and comparison | Next |
+| 4. Scoring and comparison | **Done:** `results/historical/advay_evaluation_v1` (plan in `docs/advay_scoring_plan.md`) |
+| 5. Report section, notebook, slides | Next |
+
+## 0b. Phase 4 held-out results (details in `results/historical/advay_evaluation_v1/README.md`)
+
+- **Scoring followed a pre-declared plan** (`docs/advay_scoring_plan.md`, pushed before the
+  test file was opened). All 19 frozen forecasts were hash-checked. Yash's numbers are
+  reproduced exactly.
+- **Headline (main variant), RMSE in thousands of pelts:**
+  - least squares: hare 3.07, lynx 3.04;
+  - PINN: hare 2.85, lynx 4.32.
+
+  Verdict by the declared rule: hare similar; lynx least squares better (closer in all 5
+  years).
+- **Sensitivity variants:** least squares better or similar in both. Log-error PINN: hare
+  RMSE 18.4, because its training fit misplaces the 1913 peaks.
+- **Both methods beat the trivial forecasts by a wide margin** (holding the 1915 value:
+  lynx RMSE 37; training mean: about 11). The fitted dynamics genuinely predict the crash
+  and recovery.
+- **Yash:** your selected PINN parameters fit the training years 1.9–3.4× worse than the
+  least-squares optimum on the same objective (`pinn_training_fit.json`), with σ ≈ 1.35 in
+  all variants. Worth a line in your section on why the PINN doesn't reach the LS optimum.
+- **Joel and Rishi:** the held-out years don't settle the stability question either. Fits
+  with σ ≈ 1.0 and σ ≈ 1.35 both forecast 1916–1920 reasonably.
+- **Report table:** `report/tables/advay_heldout_metrics.tex`. Figures:
+  `report/graphs/advay_heldout_{overlay,variants,metrics}.{eps,pdf}`.
 
 ## 0a. Phase 3 results for the team (details in `results/historical/advay_baseline_v2/README.md`)
 
