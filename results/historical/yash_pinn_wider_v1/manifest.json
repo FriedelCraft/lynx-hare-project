@@ -1,0 +1,144 @@
+{
+  "kind": "historical",
+  "status": "forecasts_frozen_unscored",
+  "config": {
+    "kind": "historical",
+    "protocol_status": "predeclared wider-box sensitivity; primary protocol remains historical.json",
+    "data_source": "Stan compilation provided by Advay, frozen split v1",
+    "observation_convention": "States directly in thousands of pelts; no fitted observation-scale factor; annual totals approximated as point samples",
+    "trainable": [
+      "r",
+      "K",
+      "a",
+      "b",
+      "e",
+      "m"
+    ],
+    "initial_guess": {
+      "r": 0.8,
+      "K": 150.0,
+      "a": 2.0,
+      "b": 30.0,
+      "e": 0.6,
+      "m": 0.6
+    },
+    "bounds": {
+      "r": [
+        0.025,
+        6.0
+      ],
+      "K": [
+        10.0,
+        1000.0
+      ],
+      "a": [
+        0.025,
+        20.0
+      ],
+      "b": [
+        0.25,
+        600.0
+      ],
+      "e": [
+        0.01,
+        10.0
+      ],
+      "m": [
+        0.025,
+        6.0
+      ]
+    },
+    "start_year": 1900,
+    "train_end_year": 1915,
+    "forecast_end_year": 1920,
+    "solver": {
+      "rtol": 1e-08,
+      "atol": 1e-10,
+      "max_step": 0.1
+    },
+    "training": {
+      "width": 48,
+      "depth": 3,
+      "collocation_points": 161,
+      "warmup_steps": 500,
+      "adam_steps": 5000,
+      "lbfgs_steps": 600,
+      "learning_rate": 0.002,
+      "data_weight": 1.0,
+      "physics_weight": 10.0,
+      "ic_weight": 10.0,
+      "log_every": 100,
+      "patience": 15,
+      "min_delta": 1e-08,
+      "gradient_clip": 10.0,
+      "threads": 1
+    },
+    "seeds": [
+      17,
+      29,
+      43
+    ],
+    "variants": [
+      "main"
+    ],
+    "note": "Exploratory positive box bounds in effective pelt units, not measured ecological ranges. No coexistence constraint and no e<=1 constraint. Every rate is inferred; none of the synthetic fixed constants is carried over. Starting guesses are optimization choices. Bounds expansion is predeclared before any held-out scoring; all runs and sensitivity variants will be retained."
+  },
+  "config_sha256": "9eab0cf55fd6e3c33611f8cc09fc894009882c943705b363321103c03d584540",
+  "training_sha256": "a28eef603841c30bd50e2b06de7ac6c8847e63ea4adea1253006da17d52c56e7",
+  "source_hashes": {
+    "src\\lynx_hare\\model.py": "192cadd7b15d90e6bdf6de481ceb6b6a910b2a78b76a48bffa05cc253eac2eea",
+    "src\\lynx_hare\\data.py": "4ab98d0b5db1f9a4e67f48bc198694b4bd75c9d55ce490e6e3484b670a45bf7d",
+    "src\\lynx_hare\\pinn.py": "4808ff687597e3c00834087aae54641676a265635b3125f5683c712c3fabe530",
+    "src\\lynx_hare\\historical_pinn.py": "79a9239301cfa76e605a7ddc2a73cc95979e8e2a5686a1cfecb5d3732e756bb0",
+    "src\\lynx_hare\\experiments.py": "3c421b18589f36a9b6a93bed5e435b5534d4df4f2d1a1c2a1c49816d3428b072",
+    "scripts\\run_historical_pinn.py": "31f3105b0dea477148f262de10696d1039523acf63831ca45c614fb4bd7fd8f3"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "versions": {
+    "torch": "2.14.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "heldout_observations_read": false,
+  "selection_rule": "minimum weighted training objective among seeds within each variant",
+  "run_count": 3,
+  "selected_runs": {
+    "main": {
+      "run_id": "main_seed17",
+      "parameters": {
+        "r": 0.5737460993696418,
+        "K": 986.3580878560481,
+        "a": 17.196807915747776,
+        "b": 599.8806849028679,
+        "e": 1.058671770023306,
+        "m": 0.9572297740639936
+      },
+      "forecast_sha256": "92c0d131578953395231edfa4be6dbd5f3adbfcfb2174bf0e3935db8f22703b6"
+    }
+  },
+  "output_hashes": {
+    "config.json": "9eab0cf55fd6e3c33611f8cc09fc894009882c943705b363321103c03d584540",
+    "parameters_for_team.json": "8a43cf5947851f176c7ef1942f5e05cd275b89287694c8a0f8d5830dd8ef5d38",
+    "predictions_for_advay.csv": "92c0d131578953395231edfa4be6dbd5f3adbfcfb2174bf0e3935db8f22703b6",
+    "selected_runs.json": "fcdd814c0a7b00986efd208ccc710608234a4fb17591f4919638042df4af6eab",
+    "runs\\main_seed17\\forecast.csv": "92c0d131578953395231edfa4be6dbd5f3adbfcfb2174bf0e3935db8f22703b6",
+    "runs\\main_seed17\\network_train.csv": "29db6f73cdb36c3a45127abb493af0b736bced477326a140e350ba3b20bdad9b",
+    "runs\\main_seed17\\ode_dense.csv": "dab9975e463fce3aabf92d8d6d5178afd4d5a287b655ce57792f7387af965d1f",
+    "runs\\main_seed17\\residual_check.csv": "de19457786f9f29daeae87f941b24c9cbb2ce03f7cef7f3ed7c1045f6ebe8a4d",
+    "runs\\main_seed17\\summary.json": "1dacd7e5195ceec5f0047afbfad0e20d3cd0c6ec0ae500b2c0ae72b804babb99",
+    "runs\\main_seed17\\training.csv": "87a81cf3cf24d7375d1db3b82b3f5690dd7572e0cc387eefa8f0c24f890a8950",
+    "runs\\main_seed29\\forecast.csv": "f5b9a7136bf009511b9238cdacaa8cd1b618e68ea2d59acbde8cd92db6ec5f82",
+    "runs\\main_seed29\\network_train.csv": "c6ac8deab501a14145a735fca99c121281d6212d7d3761f07cf6bb31fbd3046a",
+    "runs\\main_seed29\\ode_dense.csv": "0963ac300c8bab5475d3e58279cd7e86e40fb3da145a701d50f6e868e6c0f8e2",
+    "runs\\main_seed29\\residual_check.csv": "1934925681d9dba0f3315e0402a7fc9de65278f6cd5ec5bffe12481929b4ad12",
+    "runs\\main_seed29\\summary.json": "467f60313dda6f2d950915ec975ce1e777bf444d313f39042d371774464f29ab",
+    "runs\\main_seed29\\training.csv": "a5b860da48203cad3060759435325592dbced1cda02b5a1eb717a496e12c5d7c",
+    "runs\\main_seed43\\forecast.csv": "e09f1123bbb25aab575c3e67850c34681f00f30b3f82d49e33418f77c4647894",
+    "runs\\main_seed43\\network_train.csv": "3c7f4ad1164f8f5e97c138ce2e6fc9465517ec3f72d704d08afbd2342b41eddc",
+    "runs\\main_seed43\\ode_dense.csv": "54444730a626bd43863613586f9990abbd29ae5128cf24968cbe8cba06ed5eea",
+    "runs\\main_seed43\\residual_check.csv": "8007775dfa169a9b5256f28999bc320cf2fa6b8ee84869ea5f00a0ff6fe0c112",
+    "runs\\main_seed43\\summary.json": "068d129efa5b1d19217658aca02723888d4f178de4845ec788ec6f501bff9a59",
+    "runs\\main_seed43\\training.csv": "c586692b7112013251842a87c34dbe7f2abf2ddb37690a6311db3b07138a5624"
+  }
+}

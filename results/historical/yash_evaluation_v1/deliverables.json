@@ -1,0 +1,30 @@
+{
+  "status": "verified",
+  "report_pages": 5,
+  "all_final_pages_visually_reviewed": true,
+  "executed_notebook_code_cells": 8,
+  "test_suite_passed": 42,
+  "PINN_runs": 13,
+  "least_squares_starts": 18,
+  "post_scoring_retuning": false,
+  "files": {
+    "notebooks/yash_historical_pinn.ipynb": "349c237412228c39d9987d1748a3fbbd0b844685c5682c52345dce1323d45538",
+    "report/yash_historical_main.tex": "69d6efd49bd4fcecc6644f74fa531f62e42905c2f13ef2c92fec767652050562",
+    "report/yash_historical_section.tex": "37063b986b26c34711fec5a1fdce277f995c2778186b66bb1d22c9883720a45b",
+    "report/yash_historical_main.pdf": "37641ca5b956e569ae4c36087922a340ef129b18136ba4e2fdfcad339113bf73",
+    "report/yash_historical_main.bbl": "c880c5f3b0fc341d8e46837c38cd313e73616161f3b99d59b4e53d797ba1642d",
+    "docs/yash_historical_handoff.md": "473d993c0b5d55738e0c949b81882aab6127f85bd15d0a5f143fd2102f0b1dc5",
+    "presentation/yash_historical_notes.md": "e78f0d708f8ffe243e6b866f2f2b369bd853d9e365025c92ce9bf988c9dfbc9f",
+    "report/graphs/yash_historical_bounds.eps": "258cb9a467712aeca428e259dea544c6304016302cd03cc2de1939981b6df171",
+    "report/graphs/yash_historical_bounds.pdf": "24adc7df95166fc05c5657e1c981876c511d59c81707c16ac9c9857248b9ea96",
+    "report/graphs/yash_historical_fit.eps": "c8bc8bde0047940f2cfbc635d123a18435baa917f72f20110f9adedf82346f9d",
+    "report/graphs/yash_historical_fit.pdf": "a2576c03f1d7d3d2bf117014cdf85a6f0206cb519b3e81e6e3d9584ffde6726b",
+    "report/graphs/yash_historical_forecast.eps": "288ca95bdb888d9fe8a5c7e137f79ddc43b5323cb922ab41c0e67838be3a3312",
+    "report/graphs/yash_historical_forecast.pdf": "38411a157e45f474f9efeeb198faf228f300cb95afee20581355787920736e75",
+    "report/graphs/yash_historical_loss.eps": "edce54754ca111a0fed3e6a5f781f927534efbedb0a90a1f0cbff72750fc2ce3",
+    "report/graphs/yash_historical_loss.pdf": "66c177e8deaff4c6c984ffd6dc7c66e0a3fa28ca1e240bdb06ed5ba023121609",
+    "report/graphs/yash_historical_sensitivity.eps": "a1b404b326c24c42563f939f4b86f391144b4a90f0927627d3681090c73fbb98",
+    "report/graphs/yash_historical_sensitivity.pdf": "f25f5540a863807379456be5ed70d57939231ec39e6389f466fe171bb2e74ab8"
+  },
+  "publication_note": "Project source and results prepared for publication; submission ZIP and checkpoints excluded."
+}

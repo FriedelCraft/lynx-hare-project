@@ -1,0 +1,142 @@
+{
+  "run_id": "main_seed29",
+  "variant": "main",
+  "parameters": {
+    "r": 0.6053500024895941,
+    "K": 496.3887726925364,
+    "a": 9.250805360534054,
+    "b": 299.9427975014707,
+    "e": 1.097921193922284,
+    "m": 0.9943007149827313
+  },
+  "audit": {
+    "seed": 29,
+    "settings": {
+      "width": 48,
+      "depth": 3,
+      "collocation_points": 161,
+      "warmup_steps": 500,
+      "adam_steps": 5000,
+      "lbfgs_steps": 600,
+      "learning_rate": 0.002,
+      "data_weight": 1.0,
+      "physics_weight": 10.0,
+      "ic_weight": 10.0,
+      "log_every": 100,
+      "patience": 15,
+      "min_delta": 1e-08,
+      "gradient_clip": 10.0,
+      "threads": 1
+    },
+    "trainable": [
+      "r",
+      "K",
+      "a",
+      "b",
+      "e",
+      "m"
+    ],
+    "fixed": {},
+    "initial_guess": {
+      "r": 0.8,
+      "K": 150.0,
+      "a": 2.0,
+      "b": 30.0,
+      "e": 0.6,
+      "m": 0.6
+    },
+    "scale": [
+      77.4,
+      59.4
+    ],
+    "train_years": [
+      1900.0,
+      1901.0,
+      1902.0,
+      1903.0,
+      1904.0,
+      1905.0,
+      1906.0,
+      1907.0,
+      1908.0,
+      1909.0,
+      1910.0,
+      1911.0,
+      1912.0,
+      1913.0,
+      1914.0,
+      1915.0
+    ],
+    "error_model": "additive",
+    "fit_initial": false,
+    "initial_bounds_factors": null,
+    "observed_initial": [
+      30.0,
+      4.0
+    ],
+    "ode_initial": [
+      30.0,
+      4.0
+    ],
+    "network_initial": [
+      30.10036036470651,
+      3.9931916101896117
+    ],
+    "network_minus_ode_initial": [
+      0.10036036470651055,
+      -0.006808389810388338
+    ],
+    "network_minus_observed_initial": [
+      0.10036036470651055,
+      -0.006808389810388338
+    ],
+    "training_objective": 0.0033164329722309115,
+    "best_iteration": 5627,
+    "adam_stop": "maximum_steps",
+    "lbfgs_closure_evaluations": 627,
+    "elapsed_seconds": 20.40506169999935,
+    "selection_rule": "minimum weighted training loss within each variant; no held-out scores"
+  },
+  "residual_check_rms": [
+    0.010765203786712889,
+    0.009308029922443384
+  ],
+  "training_ode_normalized_mse": 0.00982414706703916,
+  "training_ode_rmse": [
+    7.333024515472686,
+    6.136414728568668
+  ],
+  "diagnostics": {
+    "names": [
+      "r",
+      "K",
+      "a",
+      "b",
+      "e",
+      "m"
+    ],
+    "singular_values": [
+      13.051952261342015,
+      5.961422108786333,
+      3.1151226901165323,
+      0.6587757037442898,
+      0.30849268909867933,
+      0.04115656189965256
+    ],
+    "condition_number": 317.1293144739623,
+    "finite_difference_log_step": 0.0001,
+    "coexistence_feasible": true,
+    "K_H": 365.04251315712713,
+    "sigma": 1.3598108570956315,
+    "interpretation": "Local finite-difference training diagnostic; neither structural identifiability nor confidence intervals"
+  },
+  "bound_fractions": {
+    "r": 0.1882542381320658,
+    "K": 0.9924766097761175,
+    "a": 0.9247040563350808,
+    "b": 0.9998090066827068,
+    "e": 0.21645003894021764,
+    "m": 0.32010193728228176
+  },
+  "forecast_sha256": "821822fd05ab732979f7a75a401b8c08becce24af63e5205c0c3f2e1af51cdc7"
+}

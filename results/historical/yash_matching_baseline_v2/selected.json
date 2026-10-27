@@ -1,0 +1,176 @@
+{
+  "main": {
+    "variant": "main",
+    "start": 5,
+    "initial_guess": [
+      0.9458628901076825,
+      200.5021793587543,
+      7.833633668394821,
+      207.9901610868167,
+      2.7658969360407917,
+      1.2661762894802135
+    ],
+    "parameters": {
+      "r": 0.6473694519772988,
+      "K": 382.3726564111025,
+      "a": 9.9999999999999,
+      "b": 299.99999999999994,
+      "e": 0.9673073492564253,
+      "m": 0.8567854708446975
+    },
+    "ode_initial": [
+      30.0,
+      4.0
+    ],
+    "training_mse": 0.0052793318790810145,
+    "cost": 0.08446931006529623,
+    "success": true,
+    "valid": true,
+    "status": 2,
+    "message": "`ftol` termination condition is satisfied.",
+    "nfev": 27,
+    "optimality": 1.453852168332238e-07,
+    "diagnostics": {
+      "names": [
+        "r",
+        "K",
+        "a",
+        "b",
+        "e",
+        "m"
+      ],
+      "singular_values": [
+        10.460165131710946,
+        5.317642082585732,
+        2.891063232295801,
+        0.6101678508684208,
+        0.3145439539328472,
+        0.03714221383121004
+      ],
+      "condition_number": 281.6247081890802,
+      "finite_difference_log_step": 0.0001,
+      "coexistence_feasible": true,
+      "K_H": 358.3092658997043,
+      "sigma": 1.0671581586118788,
+      "interpretation": "Local finite-difference training diagnostic; neither structural identifiability nor confidence intervals"
+    }
+  },
+  "log_errors": {
+    "variant": "log_errors",
+    "start": 4,
+    "initial_guess": [
+      2.7981951878158955,
+      205.19451138724176,
+      4.223268504163023,
+      80.35225750124648,
+      4.932799560672697,
+      1.669933562123204
+    ],
+    "parameters": {
+      "r": 0.5203030863266555,
+      "K": 197.1573971922486,
+      "a": 7.174339521987748,
+      "b": 299.99999999999994,
+      "e": 1.796945531134316,
+      "m": 1.1484387532484295
+    },
+    "ode_initial": [
+      30.0,
+      4.0
+    ],
+    "training_mse": 0.0564590220379315,
+    "cost": 0.903344352606904,
+    "success": true,
+    "valid": true,
+    "status": 2,
+    "message": "`ftol` termination condition is satisfied.",
+    "nfev": 28,
+    "optimality": 6.140855247067556e-06,
+    "diagnostics": {
+      "names": [
+        "r",
+        "K",
+        "a",
+        "b",
+        "e",
+        "m"
+      ],
+      "singular_values": [
+        21.819738900043255,
+        7.868551630660776,
+        4.8312369903109795,
+        1.6235398962881575,
+        0.6456109247360802,
+        0.08166283452665105
+      ],
+      "condition_number": 267.19301413573004,
+      "finite_difference_log_step": 0.0001,
+      "coexistence_feasible": true,
+      "K_H": 358.67634706505135,
+      "sigma": 0.5496805094775071,
+      "interpretation": "Local finite-difference training diagnostic; neither structural identifiability nor confidence intervals"
+    }
+  },
+  "fitted_initial": {
+    "variant": "fitted_initial",
+    "start": 2,
+    "initial_guess": [
+      1.2252115669185673,
+      295.424018713888,
+      1.9554094584474793,
+      250.93897492586424,
+      4.428455303676075,
+      1.4562377758270633,
+      31.45026472910249,
+      2.8354714595930792
+    ],
+    "parameters": {
+      "r": 0.5205614657138198,
+      "K": 362.3058097507148,
+      "a": 8.153602811478804,
+      "b": 299.99999999999994,
+      "e": 1.317074166402857,
+      "m": 1.0475426303853916
+    },
+    "ode_initial": [
+      37.13935676131211,
+      3.6420271942233655
+    ],
+    "training_mse": 0.003964795051512979,
+    "cost": 0.06343672082420765,
+    "success": true,
+    "valid": true,
+    "status": 2,
+    "message": "`ftol` termination condition is satisfied.",
+    "nfev": 26,
+    "optimality": 3.5254381229171636e-07,
+    "diagnostics": {
+      "names": [
+        "r",
+        "K",
+        "a",
+        "b",
+        "e",
+        "m",
+        "H0",
+        "P0"
+      ],
+      "singular_values": [
+        10.958469643339914,
+        5.044034257488269,
+        3.0866480393737876,
+        1.3205804803693233,
+        0.5894108450550105,
+        0.2792580731411591,
+        0.22572148897507946,
+        0.03427654028694806
+      ],
+      "condition_number": 319.7075770074939,
+      "finite_difference_log_step": 0.0001,
+      "coexistence_feasible": true,
+      "K_H": 364.85423852496746,
+      "sigma": 0.9930152140083244,
+      "interpretation": "Local finite-difference training diagnostic; neither structural identifiability nor confidence intervals"
+    }
+  }
+}

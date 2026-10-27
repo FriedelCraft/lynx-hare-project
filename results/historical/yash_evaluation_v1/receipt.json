@@ -1,0 +1,13 @@
+{
+  "status": "scored_frozen_forecasts",
+  "test_sha256": "032aec664812cd067b8d30fba2a4700fb7be9d1292a53edeb32c09426222c7d0",
+  "freeze_sha256": "7d5178d4d3cf2a6a01c5a004cac1e36ac9f4ca5fa8d7eae4b47eb2ed82e92abc",
+  "metrics_sha256": "d514b2098513dd8d763dcf106d703988d361699e9871306e3b9da88c48d7f9e4",
+  "forecast_count": 16,
+  "test_years": [
+    1916,
+    1920
+  ],
+  "units": "thousands of pelts",
+  "test_used_for_model_choices": false
+}

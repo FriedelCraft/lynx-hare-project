@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+
+\bibitem{carpenter2018}
+Bob Carpenter.
+\newblock Predator-prey population dynamics: the {Lotka}-{Volterra} model in
+  {Stan}.
+\newblock Stan case study, 2018.
+\newblock Data file hudson-bay-lynx-hare.csv, stan-dev/example-models commit
+  d52cde5; accessed 27 October 2026.
+
+\bibitem{raissi2019}
+Maziar Raissi, Paris Perdikaris, and George~Em Karniadakis.
+\newblock Physics-informed neural networks: A deep learning framework for
+  solving forward and inverse problems involving nonlinear partial differential
+  equations.
+\newblock {\em Journal of Computational Physics}, 378:686--707, 2019.
+
+\end{thebibliography}

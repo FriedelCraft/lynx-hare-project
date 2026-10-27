@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "PINN_runs": 13,
+  "baseline_variants": 3,
+  "scored_forecasts": 16,
+  "executed_notebook_code_cells": 8,
+  "graph_pairs": 5,
+  "independent_ODE_reconstruction": true,
+  "independent_metric_recomputation": true,
+  "training_only_seed_selection": true
+}

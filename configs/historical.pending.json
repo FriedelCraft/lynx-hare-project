@@ -1,0 +1,22 @@
+{
+  "kind": "historical",
+  "protocol_status": "awaiting common team config; not a fitted result",
+  "data_source": "Stan compilation proposed by Advay; awaiting source confirmation",
+  "observation_convention": "H and P directly in thousands of pelts; no fitted observation scale",
+  "trainable": ["r", "K", "a", "b", "e", "m"],
+  "initial_guess": null,
+  "bounds": null,
+  "start_year": 1900,
+  "train_end_year": 1915,
+  "forecast_end_year": 1920,
+  "solver": {"rtol": 1e-8, "atol": 1e-10, "max_step": 0.1},
+  "training": {
+    "width": 48, "depth": 3, "collocation_points": 161,
+    "warmup_steps": 500, "adam_steps": 5000, "lbfgs_steps": 600,
+    "learning_rate": 0.002, "data_weight": 1.0, "physics_weight": 10.0,
+    "ic_weight": 10.0, "log_every": 100, "patience": 15,
+    "min_delta": 1e-8, "gradient_clip": 10.0, "threads": 1
+  },
+  "seeds": [17, 29, 43],
+  "note": "Copy to historical.json and supply the common team guesses, bounds and fixed/trainable choice. No synthetic biological constants are supplied here. Solver and architecture are proposed defaults; no historical final fit has run."
+}

@@ -1,0 +1,148 @@
+\section{Historical inverse PINN study}
+This is Yash's contribution, using the historical pelt series supplied by Advay. It
+extends the separately preserved synthetic recovery experiment; it is not a complete
+combined group report. The Stan compilation contains annual Hudson's Bay Company
+hare and lynx pelt returns \cite{carpenter2018}. We train on 1900--1915 (16 pairs) and
+evaluate once on frozen forecasts for 1916--1920 (five pairs). Counts are thousands of
+pelts, treated as abundance indices rather than censuses. Annual totals are approximated
+as point samples. No observation scale factor is fitted. Alternative source compilations
+disagree; all results here are conditional on the Stan series.
+
+\subsection{Model and protocol}
+With $t=\mathrm{Year}-1900$, the shared dimensional model is
+\begin{align*}
+\dot H&=rH(1-H/K)-aHP/(b+H), & \dot P&=eaHP/(b+H)-mP.
+\end{align*}
+All six positive coefficients are inferred. Bounds below are exploratory numerical
+choices, not measured biological ranges. No coexistence constraint is imposed and $e$
+is not constrained below one because these are effective coefficients in pelt units.
+The starting vector is $(r,K,a,b,e,m)=(0.8,150,2,30,0.6,0.6)$. Yash chose this protocol
+with assistance; agreement by the other members is not claimed. The local least-squares
+benchmark uses the identical config, data split, scaling and solver.
+\begin{center}\begin{tabular}{lrr}\toprule
+Coefficient & Bounds & Selected primary estimate\\\midrule
+$r$ & 0.05--3 & 0.60546 \\
+$K$ & 20--500 & 497.6 \\
+$a$ & 0.05--10 & 9.2605 \\
+$b$ & 0.5--300 & 299.98 \\
+$e$ & 0.02--5 & 1.0966 \\
+$m$ & 0.05--3 & 0.99388 \\
+\bottomrule\end{tabular}\end{center}
+
+\subsection{Network, loss and optimization}
+The inverse PINN \cite{raissi2019} uses three hidden layers of 48 tanh units, float64,
+softplus-positive normalized outputs, and sigmoid-bounded coefficients. Species scales
+are training maxima $(s_H,s_P)=(77.4,59.4)$; network time is $2t/15-1$.
+For $u_\theta=(H_\theta/s_H,P_\theta/s_P)$, automatic differentiation evaluates
+$R_\theta=\partial_tu_\theta-f(u_\theta\odot s;p)/s$. The loss is
+\[
+L=\operatorname{mean}(u_\theta-y/s)^2+
+10\operatorname{mean}R_\theta^2+
+10\operatorname{mean}(u_\theta(0)-y_0/s)^2.
+\]
+The initial observation is $y_0=(30,4)$. There are 161 collocation times in $[0,15]$.
+Optimization uses 500 data/IC warmup steps, up to 5000 joint Adam steps at learning rate
+0.002 (gradient norm clipped at 10), then up to 600 L-BFGS iterations with strong-Wolfe
+line search. Training loss is logged every 100 Adam steps; plateau stopping uses
+15 checks and minimum improvement $10^{-8}$. The best recorded weighted training
+objective determines the saved state. Seeds are 17, 29 and 43, with one CPU thread and
+deterministic Torch operations. Each variant selects its own lowest-loss seed; objectives
+from different observation models are not used to select the primary analysis.
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{yash_historical_fit.eps}
+\caption{Training observations, learned network and re-integrated ODE. A small local
+physics residual does not guarantee identical long-horizon ODE and network trajectories.}
+\end{figure}
+
+\subsection{Frozen forecasts and matched benchmark}
+The selected primary seed is 17. Forecasts use the learned coefficients in the shared
+RK45 solver with rtol $10^{-8}$, atol $10^{-10}$ and maximum step 0.1 year. Integration
+starts from $(30,4)$ in 1900 and proceeds through 1920, with no restart from a test state.
+The neural network is never extrapolated for forecasting. Its starting-state discrepancy
+is $(0.10060,-0.00723)$ thousand pelts; the ODE still starts at the exact observation.
+The primary ODE training normalized MSE is 0.00981. The matched primary least-squares
+fit uses six starts (RNG seed 91), bounded \texttt{least\_squares}, up to 500 function
+evaluations and ftol=xtol=gtol=$10^{-10}$. Each start and its convergence status is retained.
+This is an independent benchmark computed for this contribution; Advay's own historical
+baseline is not represented as completed. PINN and least squares differ in soft versus
+exact IC enforcement and in the PINN's added physics penalty.
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{yash_historical_forecast.eps}
+\caption{Frozen forecasts. Thin pale lines are the three primary PINN seeds, not confidence
+bands. Shading marks held-out years; observations were used for scoring only after all
+forecast and seed choices were frozen.}
+\end{figure}
+\begin{center}\small\begin{tabular}{lrrrr}\toprule
+& \multicolumn{2}{c}{RMSE} & \multicolumn{2}{c}{MAE}\\
+Method & Hare & Lynx & Hare & Lynx\\\midrule
+PINN fitted IC & 3.687 & 4.697 & 3.057 & 4.530 \\
+PINN log errors & 18.351 & 10.026 & 14.289 & 8.972 \\
+PINN primary & 2.847 & 4.317 & 2.590 & 4.046 \\
+PINN wider bounds & 2.976 & 4.053 & 2.721 & 3.779 \\
+PINN physics 100 & 4.519 & 3.978 & 4.107 & 3.496 \\
+LS primary & 3.072 & 3.043 & 2.586 & 2.559 \\
+LS log errors & 6.874 & 1.596 & 6.626 & 1.381 \\
+LS fitted IC & 2.246 & 3.236 & 2.083 & 2.713 \\
+\bottomrule\end{tabular}\end{center}
+All scores are thousands of pelts on the same five held-out years. The primary PINN has
+slightly lower hare RMSE than primary least squares, but higher lynx RMSE. Hare MAE is
+essentially tied. These results do not establish an overall PINN advantage.
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=0.95\linewidth]{yash_historical_loss.eps}
+\caption{Selected primary training loss components. L-BFGS abscissae count closure
+evaluations after Adam; they are not directly comparable computational steps.}
+\end{figure}
+
+\subsection{Sensitivity and practical identifiability}
+All sensitivities were specified before any test scoring and are reported regardless
+of outcome. The main three seeds were repeated with log observation residuals, and
+separately with trainable initial states in $[0.5,1.5]$ times the 1900 observations. The
+first data point stays in the data loss. The fitted-IC PINN's ODE starts at approximately
+$(34.7477,3.7841)$; the network and ODE initial states are separately recorded. The benchmark
+repeats both observation/IC sensitivities with six starts each. Log residuals worsen hare
+forecast error for both methods, especially the PINN. None of these scores changes the
+predeclared primary choice.
+
+To check arbitrary box limits, each lower bound was halved and each upper bound doubled,
+and the main PINN was repeated for all three seeds. A further seed-17 run increased physics
+weight from 10 to 100. In total there are 13 PINN runs and 18 least-squares starts.
+The wider-box fits move $K$ from about 498 to about 986 and $b$ from about 300 to about 600,
+close to the expanded limits; $a$ also shifts substantially. Similar results across seeds
+therefore do not demonstrate uniquely recovered biological parameters. The wider-box
+forecast changes are smaller than these coefficient shifts.
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{yash_historical_bounds.eps}
+\caption{Primary versus wider-box parameter estimates over three seeds. Several effective
+coefficients track the numerical bounds; narrow seed spread is not parameter certainty.}
+\end{figure}
+\begin{figure}[htbp]\centering
+\ReportGraphEPS[width=\linewidth]{yash_historical_sensitivity.eps}
+\caption{All selected PINN variants. The log-error fit shows appreciable model/ODE forecast
+sensitivity. Variants were retained rather than chosen using held-out errors.}
+\end{figure}
+
+\clearpage
+The local trajectory sensitivity matrix uses central differences with respect to log
+parameters (step $10^{-4}$), normalized using the declared observation loss. Its selected
+primary condition number is approximately 317.5. This is a local diagnostic, not
+a proof of structural identifiability or a confidence interval. For feasible coexistence,
+$H^*=mb/(ea-m)$, $K_H=b+2H^*$ and $\sigma=K/K_H$; the selected primary fit gives
+$\sigma=1.363$. This fitted ODE lies on the cycling side of Joel's threshold, conditional
+on the model and protocol. It does not prove that the historical ecological system has
+a stable limit cycle. All seeds' values and feasibility flags are exported to the team.
+
+\subsection{Reproducibility and limitations}
+\path{configs/historical.json} records every primary choice; the two sensitivity
+configs record the expanded box and physics weight. Run manifests hash sources, config,
+training data, forecasts and diagnostics. A forecast-freeze record is written before the
+test observations are read. \path{scripts/run_historical_pinn.py} accepts only the
+training table; \path{scripts/score_historical.py} handles final scoring. Existing
+synthetic recovery results are preserved as a separate controlled validation.
+
+Six effective coefficients are fitted from roughly two noisy cycles; boundary hits,
+source disagreement, annual season totals, unknown catchability and the small test window
+limit interpretation. PINN physics is a soft constraint, and the log-loss variant exposes
+an appreciable network/ODE discrepancy. Seed spread is optimization sensitivity only.
+Forecast skill on five points cannot establish general superiority, causal mechanisms
+or absolute animal populations. This report and notebook concern Yash's component;
+the final group report and submission still require integration.

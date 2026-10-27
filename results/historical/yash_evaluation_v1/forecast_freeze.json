@@ -1,0 +1,156 @@
+{
+  "rule": "all configuration and seed choices frozen before test scoring",
+  "forecast_choices": [
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "fitted_initial_seed17",
+      "variant": "fitted_initial",
+      "selected": true,
+      "prediction_key": "primary/fitted_initial_seed17",
+      "forecast_sha256": "2388e0065d01c50f038231839a9c041106a64685d341b1aa9b6c9f81ea119ae1"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "fitted_initial_seed29",
+      "variant": "fitted_initial",
+      "selected": false,
+      "prediction_key": "primary/fitted_initial_seed29",
+      "forecast_sha256": "ac80b7d139544f2e8c09ac7c222235f2805b3a00569c6c517e7196d2dfd5ce0d"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "fitted_initial_seed43",
+      "variant": "fitted_initial",
+      "selected": false,
+      "prediction_key": "primary/fitted_initial_seed43",
+      "forecast_sha256": "bffd6aaa6cf2b39a619f5ebd65b1dfb566242c89dca6717f480b86538316c9ef"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "log_errors_seed17",
+      "variant": "log_errors",
+      "selected": false,
+      "prediction_key": "primary/log_errors_seed17",
+      "forecast_sha256": "2de6d52b7907cf969c7cb4c76a4da119411848cfb668f7fe038cd34772bce459"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "log_errors_seed29",
+      "variant": "log_errors",
+      "selected": true,
+      "prediction_key": "primary/log_errors_seed29",
+      "forecast_sha256": "cf58ffcefbfbfa48475f744ad1f337ba4ca5e21a4d124d58641bc6a0cf71937e"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "log_errors_seed43",
+      "variant": "log_errors",
+      "selected": false,
+      "prediction_key": "primary/log_errors_seed43",
+      "forecast_sha256": "cc1b6c84e4a37eb8ec2ec4bcb4eb84d45a1d0604001ee47ee48cc675ee176009"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "main_seed17",
+      "variant": "main",
+      "selected": true,
+      "prediction_key": "primary/main_seed17",
+      "forecast_sha256": "31e2719b683e7fea5cc6bc73d57589275fda7bdfd67c8246c59c546c976fb521"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "main_seed29",
+      "variant": "main",
+      "selected": false,
+      "prediction_key": "primary/main_seed29",
+      "forecast_sha256": "821822fd05ab732979f7a75a401b8c08becce24af63e5205c0c3f2e1af51cdc7"
+    },
+    {
+      "case": "primary",
+      "method": "PINN-derived ODE",
+      "run_id": "main_seed43",
+      "variant": "main",
+      "selected": false,
+      "prediction_key": "primary/main_seed43",
+      "forecast_sha256": "ef8edf91d6af291f90a52ae7b2addd7ce869c6709b85b190afd947fa782910c0"
+    },
+    {
+      "case": "wider_bounds",
+      "method": "PINN-derived ODE",
+      "run_id": "main_seed17",
+      "variant": "main",
+      "selected": true,
+      "prediction_key": "wider_bounds/main_seed17",
+      "forecast_sha256": "92c0d131578953395231edfa4be6dbd5f3adbfcfb2174bf0e3935db8f22703b6"
+    },
+    {
+      "case": "wider_bounds",
+      "method": "PINN-derived ODE",
+      "run_id": "main_seed29",
+      "variant": "main",
+      "selected": false,
+      "prediction_key": "wider_bounds/main_seed29",
+      "forecast_sha256": "f5b9a7136bf009511b9238cdacaa8cd1b618e68ea2d59acbde8cd92db6ec5f82"
+    },
+    {
+      "case": "wider_bounds",
+      "method": "PINN-derived ODE",
+      "run_id": "main_seed43",
+      "variant": "main",
+      "selected": false,
+      "prediction_key": "wider_bounds/main_seed43",
+      "forecast_sha256": "e09f1123bbb25aab575c3e67850c34681f00f30b3f82d49e33418f77c4647894"
+    },
+    {
+      "case": "physics100",
+      "method": "PINN-derived ODE",
+      "run_id": "main_seed17",
+      "variant": "main",
+      "selected": true,
+      "prediction_key": "physics100/main_seed17",
+      "forecast_sha256": "fee4ec6c16aeab5bab55ab741b2f3a531a44768bc159f0ca6a5cc1a4ea4fb299"
+    },
+    {
+      "case": "baseline",
+      "method": "least squares",
+      "run_id": "start5",
+      "variant": "main",
+      "selected": true,
+      "prediction_key": "baseline/main",
+      "forecast_sha256": "6eb12962705c7f99aca8a9589029c1844afa923ba76a593bd1ba3fa02bd7f4a3"
+    },
+    {
+      "case": "baseline",
+      "method": "least squares",
+      "run_id": "start4",
+      "variant": "log_errors",
+      "selected": true,
+      "prediction_key": "baseline/log_errors",
+      "forecast_sha256": "0054c910a2392375cbeb4a82c99e3505ce881992742d852817258a31cae71014"
+    },
+    {
+      "case": "baseline",
+      "method": "least squares",
+      "run_id": "start2",
+      "variant": "fitted_initial",
+      "selected": true,
+      "prediction_key": "baseline/fitted_initial",
+      "forecast_sha256": "7526203438905eaa3b95f0fca3a95c3650db614914c00dd22303114e55016a1d"
+    }
+  ],
+  "manifest_sha256": {
+    "primary": "4399a9dd48b4d62681c683e69c2746501785a8cd1ce576307036065501a8fe6d",
+    "wider_bounds": "46714aac2257e0ab949f525487c914b6b083b6ed83ac4bd187ea4e7d52ecc4ea",
+    "physics100": "f7bf5daa699348308b5928e8ff80303368135190fbe636bb094e90e9aab11956",
+    "baseline": "12aadf63f7c531c8915258646cc4c64288799494ed228ef56adcbecf62fef0eb"
+  },
+  "subsequent_retuning_permitted_for_this_evaluation": false
+}

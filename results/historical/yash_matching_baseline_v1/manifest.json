@@ -1,0 +1,19 @@
+{
+  "kind": "historical",
+  "status": "failed",
+  "config_sha256": "785a0a2541d3cf46db282207447675ed2a31c4a454bdebfc4b22a51d762cd20f",
+  "training_sha256": "a28eef603841c30bd50e2b06de7ac6c8847e63ea4adea1253006da17d52c56e7",
+  "source_hashes": {
+    "scripts\\fit_historical_baseline.py": "9c771c1708dcb393c438ccebfd12b96e87efa3f4611e38b7f5f297a449ce36ed",
+    "scripts\\run_historical_pinn.py": "31f3105b0dea477148f262de10696d1039523acf63831ca45c614fb4bd7fd8f3",
+    "src\\lynx_hare\\model.py": "192cadd7b15d90e6bdf6de481ceb6b6a910b2a78b76a48bffa05cc253eac2eea",
+    "src\\lynx_hare\\data.py": "4ab98d0b5db1f9a4e67f48bc198694b4bd75c9d55ce490e6e3484b670a45bf7d",
+    "src\\lynx_hare\\historical_pinn.py": "79a9239301cfa76e605a7ddc2a73cc95979e8e2a5686a1cfecb5d3732e756bb0"
+  },
+  "multistart": 6,
+  "rng_seed": 91,
+  "heldout_observations_read": false,
+  "purpose": "Independent matching benchmark, not a claim that Advay has completed his baseline",
+  "failure": "JSON export encountered a NumPy boolean after primary fitting; no scores from this partial run were used",
+  "superseded_by": "yash_matching_baseline_v2"
+}
