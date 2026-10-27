@@ -70,14 +70,24 @@ class Problem:
             return np.full(self.data.observations.size, FAILED_RESIDUAL)
 
 
-def starting_points(problem, n_starts, seed):
-    """Start 0 is the config's initial guess; the rest are a Latin hypercube in log space."""
+def _latin_hypercube(rng, m, d):
+    return (np.argsort(rng.random((m, d)), axis=0) + rng.random((m, d))) / m
+
+
+def starting_points(problem, n_starts, seed, space="log"):
+    """Start 0 is the config's initial guess; the rest are a Latin hypercube over the box,
+    uniform in log-parameter space ("log") or in original units ("linear")."""
     rng = np.random.default_rng(seed)
-    d = len(problem.lower)
     m = n_starts - 1
-    cells = (np.argsort(rng.random((m, d)), axis=0) + rng.random((m, d))) / m
-    span = problem.upper - problem.lower
-    inner = problem.lower + 1e-6 * span + cells * span * (1 - 2e-6)
+    cells = _latin_hypercube(rng, m, len(problem.lower))
+    if space == "log":
+        span = problem.upper - problem.lower
+        inner = problem.lower + 1e-6 * span + cells * span * (1 - 2e-6)
+    elif space == "linear":
+        lo, hi = np.exp(problem.lower), np.exp(problem.upper)
+        inner = np.log(lo + (hi - lo) * (1e-6 + cells * (1 - 2e-6)))
+    else:
+        raise ValueError(space)
     return np.vstack([problem.x_guess, inner])
 
 

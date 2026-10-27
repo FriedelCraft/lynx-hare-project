@@ -1,0 +1,58 @@
+{
+  "kind": "historical",
+  "owner": "Advay",
+  "status": "forecasts_frozen_unscored",
+  "purpose": "Advay's least-squares baseline on the shared config (independent of Yash's matched benchmark)",
+  "heldout_observations_read": false,
+  "protocol": {
+    "starts_per_variant": 40,
+    "start_design": "start 0 = config initial_guess; starts 1-39 = Latin hypercube in log-parameter space within the config bounds",
+    "seed": 20261027,
+    "parameterisation": "x = log(theta); bounds = log(config bounds)",
+    "optimizer": {
+      "method": "trf",
+      "x_scale": "jac",
+      "diff_step": 0.0001,
+      "max_nfev": 2000,
+      "ftol": 1e-10,
+      "xtol": 1e-10,
+      "gtol": 1e-10
+    },
+    "selection": "lowest training cost among starts that finished without a failed ODE solve; per variant",
+    "near_best_tolerance": 0.01,
+    "variants": [
+      "main",
+      "log_errors",
+      "fitted_initial"
+    ],
+    "primary_variant": "main"
+  },
+  "config": "configs/historical.json",
+  "config_sha256": "785a0a2541d3cf46db282207447675ed2a31c4a454bdebfc4b22a51d762cd20f",
+  "training_file": "data/historical/train_1900_1915.csv",
+  "training_sha256": "a28eef603841c30bd50e2b06de7ac6c8847e63ea4adea1253006da17d52c56e7",
+  "source_hashes": {
+    "scripts/advay_fit_baseline.py": "953a73ea28e975428e56d58e2c9f2822e77108d0492a0160ae4e44a38eda00aa",
+    "src/lynx_hare/historical_ls.py": "0f8fdcb75a431731494ac11f1e8e31c7ad592169575aced7dbb803bbc29cdf36",
+    "src/lynx_hare/model.py": "192cadd7b15d90e6bdf6de481ceb6b6a910b2a78b76a48bffa05cc253eac2eea",
+    "src/lynx_hare/data.py": "4ab98d0b5db1f9a4e67f48bc198694b4bd75c9d55ce490e6e3484b670a45bf7d",
+    "src/lynx_hare/stability.py": "583c9fff5042c45ac008fbb2ca83e367e4fc9f025a8e272b4c1443e6cc1fda14"
+  },
+  "versions": {
+    "python": "3.12.3",
+    "numpy": "1.26.4",
+    "scipy": "1.11.4"
+  },
+  "output_hashes": {
+    "config.json": "c8c612f15cca399c596c11d9a4ccb973812c73601f5597c9ee69ce783aaabccd",
+    "forecast_fitted_initial.csv": "48712905a3411a4f02393e46b63efb171e27ae97ddf11e5296fd86a835256c61",
+    "forecast_log_errors.csv": "8c6e438105979f35f0253a31964c69383f3eb14938349dea69194745fb4fd625",
+    "forecast_main.csv": "4df51fd521ecdae01ca7b4e2e24c3b21e7bef40ee0bd38c83e6122dce72ec449",
+    "ode_fitted_initial.csv": "1688854a8db436e6d25365778c384794c353e72e0d6c143fa78e6936f57f56b9",
+    "ode_log_errors.csv": "699a3e3b266571bbd74c45f55017008c34ca815fd20cd573d824f4ac72419ca3",
+    "ode_main.csv": "97ce044d2abf3d912bbfb243b7a0fff45626d5dcd22497c1d53a4615f55fbd06",
+    "parameters_for_team.json": "40833e6b0a35fec0617337881cb584012be9c5cf389d2313c315186aaee17185",
+    "selected.json": "209edd57254fef6dd1486d5f9b42321213b9184bed8e63283d53a6bda8b52861",
+    "starts.json": "c035ab37691ad9c9065ca19a97f130cb5384794a126a900761dce8e1a958c398"
+  }
+}

@@ -23,8 +23,8 @@ sys.path.insert(0, str(ROOT / "src"))
 from lynx_hare.data import read_training, write_csv
 from lynx_hare import historical_ls as hls
 
-# Declared in docs/advay_baseline_protocol.md before the first run.
-PROTOCOL = {
+# Declared in docs/advay_baseline_protocol.md before each run. v1 is kept unchanged.
+PROTOCOL_V1 = {
     "starts_per_variant": 40,
     "start_design": "start 0 = config initial_guess; starts 1-39 = Latin hypercube in log-parameter space within the config bounds",
     "seed": 20261027,
@@ -35,7 +35,21 @@ PROTOCOL = {
     "near_best_tolerance": 0.01,
     "variants": ["main", "log_errors", "fitted_initial"],
     "primary_variant": "main",
+    "start_sets": [{"space": "log", "starts": 40, "seed_offset": 0}],
 }
+
+# Amendment declared after v1, before any baseline scoring: v1 missed a known lower
+# training minimum for fitted_initial (training cost only; see protocol doc, section v2).
+PROTOCOL_V2 = {
+    **PROTOCOL_V1,
+    "starts_per_variant": 80,
+    "start_design": "v1's 40 log-space starts (identical) plus 40 more: start 0 = config initial_guess again, "
+                    "starts 1-39 = Latin hypercube uniform in original units within the config bounds",
+    "start_sets": [{"space": "log", "starts": 40, "seed_offset": 0},
+                   {"space": "linear", "starts": 40, "seed_offset": 100}],
+}
+PROTOCOLS = {"v1": PROTOCOL_V1, "v2": PROTOCOL_V2}
+PROTOCOL = PROTOCOL_V1
 
 
 def sha256(path):
@@ -58,12 +72,12 @@ def training_data():
 
 
 def _one(args):
-    config, variant, index, x0 = args
+    config, variant, index, space, x0 = args
     data, _ = training_data()
     problem = hls.Problem(data, config, variant)
     fit = hls.fit_start(problem, np.asarray(x0), PROTOCOL["optimizer"])
     row = hls.describe(problem, fit)
-    row.update(variant=variant, start=index, x0=np.exp(x0).tolist(), x=fit.x.tolist())
+    row.update(variant=variant, start=index, start_space=space, x0=np.exp(x0).tolist(), x=fit.x.tolist())
     print(f"{variant:15s} start {index:2d}  cost {fit.cost:.6f}  status {fit.status}", flush=True)
     return row
 
@@ -73,7 +87,10 @@ def main():
     ap.add_argument("--config", type=Path, default=ROOT / "configs" / "historical.json")
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--protocol", choices=sorted(PROTOCOLS), default="v2")
     args = ap.parse_args()
+    global PROTOCOL
+    PROTOCOL = PROTOCOLS[args.protocol]
     if args.output.exists():
         ap.error("Choose a new output directory; existing evidence is never overwritten")
     config = json.loads(args.config.read_text())
@@ -88,7 +105,7 @@ def main():
         "kind": "historical", "owner": "Advay", "status": "running",
         "purpose": "Advay's least-squares baseline on the shared config (independent of Yash's matched benchmark)",
         "heldout_observations_read": False,
-        "protocol": PROTOCOL,
+        "protocol_version": args.protocol, "protocol": PROTOCOL,
         "config": str(args.config.relative_to(ROOT)), "config_sha256": sha256(args.config),
         "training_file": str(train_path.relative_to(ROOT)), "training_sha256": sha256(train_path),
         "source_hashes": {str(p.resolve().relative_to(ROOT)): sha256(p) for p in sources},
@@ -102,9 +119,12 @@ def main():
     jobs = []
     for variant in PROTOCOL["variants"]:
         problem = hls.Problem(data, config, variant)
-        seed = PROTOCOL["seed"] + PROTOCOL["variants"].index(variant)
-        for i, x0 in enumerate(hls.starting_points(problem, PROTOCOL["starts_per_variant"], seed)):
-            jobs.append((config, variant, i, x0.tolist()))
+        index = 0
+        for block in PROTOCOL["start_sets"]:
+            seed = PROTOCOL["seed"] + block["seed_offset"] + PROTOCOL["variants"].index(variant)
+            for x0 in hls.starting_points(problem, block["starts"], seed, block["space"]):
+                jobs.append((config, variant, index, block["space"], x0.tolist()))
+                index += 1
     with ProcessPoolExecutor(args.workers) as pool:
         rows = list(pool.map(_one, jobs))
     save_json(args.output / "starts.json", rows)

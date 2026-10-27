@@ -46,3 +46,33 @@ Run with:
 ```text
 python scripts/advay_fit_baseline.py --output results/historical/advay_baseline_v1
 ```
+
+## Amendment v2 (declared after the v1 run, before any baseline scoring)
+
+**What happened in v1** (`results/historical/advay_baseline_v1`, kept unchanged):
+- `main` and `log_errors` reproduced Yash's matched benchmark: training costs agree to
+  about 1e-8 relative, parameters to about 1e-4, and forecasts to 0.003 thousand pelts.
+- `fitted_initial` stopped at a training cost of 0.704. Yash's benchmark reached 0.0634.
+  My own objective, evaluated at Yash's parameters, gives the same 0.0634. So this is a
+  **search failure, not a code difference**.
+- Cause: 39 of 40 starts converged to local minima at cost 1.29–2.06. Changing the
+  optimiser's `x_scale` didn't help. The log-space Latin hypercube puts most starts at
+  small parameter values, but the best fits sit near the *upper* bounds (large a, b, K).
+  Even in `main`, only 2 of 40 starts reached the best basin.
+
+**Why the amendment is legitimate:** the evidence is training cost only, compared against
+a known lower minimum of the same training objective. The test file hasn't been opened,
+and the baseline's held-out errors haven't been computed.
+
+**v2 change, only this:** each variant gets 80 starts, namely v1's 40 log-space starts
+(identical seeds) plus 40 starts uniform in original units:
+- start 0 of the new set is the config guess again;
+- the other 39 come from a Latin hypercube with seed 20261027 + 100 + variant index.
+
+Optimiser settings, selection rule (lowest training cost per variant) and everything
+else are unchanged. **v2 is the reported baseline.** v1 stays in the repository as the
+record of the original declared run.
+
+```text
+python scripts/advay_fit_baseline.py --protocol v2 --output results/historical/advay_baseline_v2
+```
