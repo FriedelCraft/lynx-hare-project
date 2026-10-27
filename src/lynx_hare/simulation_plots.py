@@ -46,15 +46,27 @@ def solver_validation(q=sim.LV_DEFAULT, y0=(3.0, 1.0), t_end=100.0, h=0.01):
                      max_drift_euler=float(np.abs(drift_eu).max()))
 
 
+def direction_field(p, Hmax, Pmax, nH=18, nP=14, length=0.045):
+    """Grid points and arrow components for the (H, P) direction field.
+
+    Each arrow points exactly along (dH/dt, dP/dt) in data coordinates, so it is parallel
+    to the trajectories through that point. Lengths are equalised in axis-fraction units
+    (each arrow spans `length` of the axes) so that no region dominates the picture.
+    Returns ((H, P), (U, V)) for quiver with angles="xy", scale_units="xy", scale=1.
+    """
+    Hg, Pg = np.meshgrid(np.linspace(0.04 * Hmax, 0.96 * Hmax, nH),
+                         np.linspace(0.04 * Pmax, 0.96 * Pmax, nP))
+    dH, dP = rhs(0, [Hg, Pg], p)
+    size = np.hypot(dH / Hmax, dP / Pmax) + 1e-300      # speed in axis-fraction units
+    return (Hg, Pg), (length * dH / size, length * dP / size)
+
+
 def _phase_portrait(ax, p, y, title):
     Hs, Ps = st.coexistence_prey(p), st.coexistence_predator(p)
     Hmax = max(p.K, y[0].max()) * 1.05
     Pmax = max(y[1].max(), Ps) * 1.25
-    Hg, Pg = np.meshgrid(np.linspace(0.5, Hmax, 18), np.linspace(0.3, Pmax, 14))
-    dH, dP = rhs(0, [Hg, Pg], p)
-    norm = np.hypot(dH / Hmax, dP / Pmax) + 1e-12
-    ax.quiver(Hg, Pg, dH / norm / Hmax, dP / norm / Pmax, color="#b5b5b5",
-              angles="xy", scale=30, width=0.003)
+    U, V = direction_field(p, Hmax, Pmax)
+    ax.quiver(*U, *V, color="#b5b5b5", angles="xy", scale_units="xy", scale=1, width=0.003)
     Hn = np.linspace(0, p.K, 400)
     ax.plot(Hn, p.r / p.a * (1 - Hn / p.K) * (p.b + Hn), color=NULL_H, lw=2, label="prey nullcline")
     ax.axvline(Hs, color=NULL_P, lw=2, ls="--", label="predator nullcline H = H*")
@@ -172,5 +184,70 @@ def amplitude_and_period(law):
     ax[1].axhline(law["onset_period"], color="#777777", ls="--", label=f"T_0 = {law['onset_period']:.2f} yr")
     ax[1].set(xlabel="K - K_H", ylabel="period (years)", title="Period tends to T_0 as K -> K_H")
     ax[1].legend()
+    fig.tight_layout()
+    return fig
+
+
+# ---------------------------------------------------------------- historical fits
+def historical_sigma(rows, order):
+    """sigma = K/K_H for every fitted parameter set, one row per method/variant.
+
+    rows: dicts with keys label, sigma, selected (bool), poor (bool: local minimum with a
+    training error well above the best start of its variant). order: labels top to bottom.
+    """
+    fig, ax = plt.subplots(figsize=(9, 0.55 * len(order) + 1.6))
+    ax.axvspan(1e-2, 1.0, color="#eef4fb", zorder=0)
+    ax.axvspan(1.0, 1e3, color="#fdf0ee", zorder=0)
+    ax.axvline(1.0, color="black", lw=1.2)
+    y = {lab: len(order) - 1 - i for i, lab in enumerate(order)}
+    shown = set()
+    for r in rows:
+        c = HARE if r["label"].startswith("PINN") else LYNX
+        if r["poor"]:
+            kw = dict(marker="x", color=GREY, ms=7, label="poor local minimum")
+        elif r["selected"]:
+            kw = dict(marker="o", color=c, ms=9, mec="black", label=None)
+        else:
+            kw = dict(marker="o", color="white", mec=c, ms=7, mew=1.5, label=None)
+        if kw["label"] in shown:
+            kw["label"] = None
+        shown.add(kw["label"])
+        ax.plot(r["sigma"], y[r["label"]], ls="none", **kw)
+    ax.plot([], [], "o", color="#777777", mec="black", ms=9, label="selected fit (training objective)")
+    ax.plot([], [], "o", color="white", mec="#777777", mew=1.5, ms=7, label="other seed / start")
+    ax.set_xscale("log")
+    xs = [r["sigma"] for r in rows]
+    ax.set_xlim(min(0.4, min(xs) / 1.3), max(xs) * 1.3)
+    ax.set_yticks(list(y.values()), list(y.keys()))
+    ax.text(0.98, 1.02, "sigma > 1: limit cycle", transform=ax.get_xaxis_transform(), ha="right", fontsize=9)
+    ax.text(0.02, 1.02, "sigma < 1: damped, E* stable", transform=ax.get_xaxis_transform(), ha="left", fontsize=9)
+    ax.set_xlabel("stability margin sigma = K / K_H  (log scale)")
+    ax.grid(axis="y", visible=False)
+    ax.legend(fontsize=8, loc="lower right")
+    fig.tight_layout()
+    return fig
+
+
+def historical_bifurcation(panels, data_range):
+    """Bifurcation in K (other fitted coefficients fixed), plotted against sigma = K/K_H.
+
+    panels: dicts with title, sigma, Hmax, Hmin, Hstar, fit_sigma, fit_range (None if the
+    fitted set has no cycle). data_range: (min, max) of the 1900-1915 hare training data.
+    """
+    fig, axes = plt.subplots(1, len(panels), figsize=(6 * len(panels), 4.4), sharey=True)
+    for ax, pn in zip(np.atleast_1d(axes), panels):
+        s = pn["sigma"]
+        ax.axhspan(*data_range, color="#f1f1f1", zorder=0, label="hare range in 1900-1915 data")
+        ax.plot(s[s <= 1], np.full((s <= 1).sum(), pn["Hstar"]), color="black", lw=2, label="stable E*")
+        ax.plot(s[s > 1], np.full((s > 1).sum(), pn["Hstar"]), color="black", lw=1.5, ls="--", label="unstable E*")
+        ax.plot(s, pn["Hmax"], "o", color=HARE, ms=3, label="max on attractor")
+        ax.plot(s, pn["Hmin"], "^", color=HARE, ms=3, label="min on attractor")
+        ax.axvline(1.0, color="#777777", ls=":")
+        ax.axvline(pn["fit_sigma"], color=LYNX, lw=1.5, label=f"fitted sigma = {pn['fit_sigma']:.3f}")
+        if pn["fit_range"] is not None:
+            ax.plot([pn["fit_sigma"]] * 2, pn["fit_range"], color=LYNX, lw=4)
+        ax.set(xlabel="sigma = K / K_H  (K varied, other fitted coefficients fixed)", title=pn["title"])
+        ax.legend(fontsize=7, loc="upper left")
+    np.atleast_1d(axes)[0].set_ylabel("hare H (thousand pelts)")
     fig.tight_layout()
     return fig

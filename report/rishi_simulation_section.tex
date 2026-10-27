@@ -4,6 +4,7 @@
 %  Needs: amsmath, amssymb, booktabs, graphicx (PDF companions are used under pdflatex)
 %  Figures: graphs/rishi_*.{eps,pdf}
 %  Regenerate: python scripts/rishi_simulations.py   (numbers: results/simulations/)
+%              python scripts/rishi_historical_placement.py   (results/simulations/historical/)
 %  Code: src/lynx_hare/simulation.py, src/lynx_hare/simulation_plots.py,
 %        notebooks/rishi_simulations.ipynb
 % =====================================================================
@@ -26,8 +27,14 @@ $H^*=30$, $K_H=90$ and $T_0=2\pi/\omega_0\approx 9.94$ years. The carrying capac
 Runge--Kutta pair (RK45) in \texttt{scipy.integrate.solve\_ivp}~\cite{dormand1980,scipysolve}.
 At each step a fourth- and a fifth-order estimate are formed from the same seven slope
 evaluations; their difference estimates the local error, and the step is rejected and reduced
-whenever this exceeds $\texttt{rtol}\,|y|+\texttt{atol}$. We use $\texttt{rtol}=10^{-10}$,
-$\texttt{atol}=10^{-12}$ and the initial state $(H_0,P_0)=(20,5)$.
+whenever this exceeds $\texttt{rtol}\,|y|+\texttt{atol}$. The project uses two settings of this
+solver for two different jobs. Fitting and the 1900--1920 forecasts of the historical sections use
+\texttt{model.solve} with $\texttt{rtol}=10^{-8}$, $\texttt{atol}=10^{-10}$ and a maximum step of
+$0.1$ years, identical for both fitting methods. The long-run simulations in this section run for
+thousands of years, so they use tighter tolerances, $\texttt{rtol}=10^{-10}$ and
+$\texttt{atol}=10^{-12}$, without a step cap. Both call the same shared right-hand side. The
+illustrative runs start from $(H_0,P_0)=(20,5)$; all values are in
+\texttt{configs/simulations.json}.
 
 \paragraph{Long-run behaviour.} To describe the attractor we integrate for a burn-in period
 $T_{\mathrm{burn}}$, discard it, and record the next 300--400 years. On the recorded window we
@@ -115,18 +122,9 @@ in agreement with the uniqueness result cited in Section~\ref{sec:joel}~\cite{ch
 
 \subsection{Bifurcation in $K$}
 
-The eigenvalues of $J(E^*)$ (Figure~\ref{fig:rishi_eig}) have real part changing sign at
-$K=90.0000000000$, found by root-finding on the numerically evaluated trace, in agreement with
-$K_H=b+2H^*$; at that point $|\operatorname{Im}\lambda|=\omega_0=0.632$. Below $K\approx42.6$
-the eigenvalues are real and $E^*$ is a stable node.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\linewidth]{rishi_eigenvalues}
-  \caption{Real (left) and imaginary (right) parts of the eigenvalues of $J(E^*)$ against $K$.
-  A complex pair crosses the imaginary axis at $K_H=90$ with nonzero speed.}
-  \label{fig:rishi_eig}
-\end{figure}
+Root-finding on the numerically evaluated trace of $J(E^*)$ places the sign change at
+$K=90.0000000000$, in agreement with $K_H=b+2H^*$ and Figure~\ref{fig:trace-det}; there the
+eigenvalues are $\pm0.632i=\pm i\omega_0$, and they become complex (node to focus) at $K\approx42.6$.
 
 The numerical bifurcation diagram (Figure~\ref{fig:rishi_bif}) records the post-transient maximum
 and minimum for 113 values of $K$ between 32 and 200. For $K<89$ the two coincide (largest

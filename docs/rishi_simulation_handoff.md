@@ -4,15 +4,16 @@
 
 | Path | What |
 |---|---|
+| `configs/simulations.json` | Parameter configuration: illustrative parameters with units, regimes, solver tolerances, initial state, burn-ins, sweep grids |
 | `src/lynx_hare/simulation.py` | RK45 wrapper with declared tolerances, attractor summary (range, period, lag), regime table, bifurcation sweep, amplitude law, Lotka–Volterra solver check |
-| `src/lynx_hare/simulation_plots.py` | The six publication figures (EPS-safe, no transparency) |
+| `src/lynx_hare/simulation_plots.py` | Publication figures (EPS-safe, no transparency) |
 | `scripts/rishi_simulations.py` | Runs everything, checks Joel's targets, writes `results/simulations/` and `report/graphs/rishi_*` (about 9 min on one CPU) |
 | `scripts/build_rishi_notebook.py` | Builds and executes `notebooks/rishi_simulations.ipynb` from the two modules |
 | `notebooks/rishi_simulations.ipynb` | Executed notebook: Markdown explanation, equations and algorithm before each code cell |
 | `tests/test_simulation.py` | Solver accuracy, positivity, shared-RHS use, Joel's targets B/E/F, Hopf crossing |
 | `report/rishi_simulation_section.tex` | Section for the report (`\input{rishi_simulation_section}` after Joel's section) |
 | `report/rishi_main.tex`, `rishi_main.pdf` | Standalone build of Joel's and Rishi's sections together, so cross-references resolve |
-| `report/graphs/rishi_*.{eps,pdf}` | Six figures, EPS plus PDF companion (same convention as Joel and Yash) |
+| `report/graphs/rishi_*.{eps,pdf}` | Five report figures, EPS plus PDF companion (same convention as Joel and Yash) |
 | `report/references.bib` | One entry appended (`dormand1980`); nothing existing changed |
 
 No existing source file or config was modified, so Yash's hash checks and Joel's tests are unaffected.
@@ -41,12 +42,19 @@ Every trajectory uses the shared `model.rhs`; every analytic target comes from J
    with both nullclines, the hump peak and E* (filled stable, open unstable). Oscillations decay below K_H and persist above.
 3. **rishi_limit_cycle**. At K = 150, starts inside and outside the cycle converge to the same orbit; successive hare
    maxima converge to one value. The cycle is orbitally stable, unlike Lotka–Volterra's neutral orbits.
-4. **rishi_eigenvalues**. Real and imaginary parts of the eigenvalues of J(E*) against K: a complex pair crosses the
-   imaginary axis at K_H = 90 with nonzero speed and frequency ω0.
+4. **rishi_eigenvalues** (notebook and `results/simulations/figures/` only, not in the report, because Joel's
+   trace–determinant figure already shows it). Real and imaginary parts of the eigenvalues of J(E*) against K.
 5. **rishi_bifurcation**. Post-transient max and min of H and P against K. The cycle is born at K_H with zero amplitude
    and its minima approach zero as K grows (paradox of enrichment).
 6. **rishi_amplitude_period**. Log–log half-amplitude against K − K_H (slope 0.507, supercritical prediction 1/2) and
    the period tending to T0 = 2π/ω0.
+
+## To Arnav (reply to his handoff)
+
+- The solver keeps the dimensional interface: states (H, P), parameters r, K, a, b, e, m, time in years, shared `model.rhs`.
+  No dimensionless solver is used, so no mapping is needed.
+- Initial state for the simulations is (20, 5) at t = 0, Joel's convention for the illustrative regimes. The fitting
+  protocol's initial state and forecast origin stay with Advay and Yash (below).
 
 ## To Yash and Advay
 
@@ -82,6 +90,6 @@ cd report && latexmk -pdf rishi_main.tex     # Joel + Rishi sections together
   targets; executed notebook; LaTeX section; explanations of RK45, Hopf bifurcation and figure interpretation.
 - Generated material: src/lynx_hare/simulation.py, src/lynx_hare/simulation_plots.py, scripts/rishi_simulations.py,
   scripts/build_rishi_notebook.py, notebooks/rishi_simulations.ipynb, tests/test_simulation.py,
-  report/rishi_simulation_section.tex, report/rishi_main.tex, six figures, results/simulations/, this note.
+  report/rishi_simulation_section.tex, report/rishi_main.tex, configs/simulations.json, figures, results/simulations/, this note.
 - Manually checked: (fill in, e.g. re-ran the script and tests, compared the regime table with Joel's Table 2 by hand,
   inspected every figure)

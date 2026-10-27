@@ -73,11 +73,16 @@ $$H^* = 30,\quad K_H = 90,\quad \omega_0 = \sqrt{rmb/K_H} \approx 0.632,\quad T_
 
 **Solver:** `scipy.integrate.solve_ivp`, RK45 (Dormand&ndash;Prince). Each step evaluates the right-hand side seven times and
 combines the slopes into a 4th- and a 5th-order estimate; their difference estimates the local error. Steps whose error exceeds
-`rtol`$\cdot|y|$ + `atol` are rejected and shrunk, small errors let the next step grow. Declared tolerances
-`rtol = 1e-10`, `atol = 1e-12`; initial state $(20, 5)$; burn-in 3000 years (20,000 years within one unit of $K_H$, where
-the equilibrium is a weak focus and transients decay very slowly).
+`rtol`$\cdot|y|$ + `atol` are rejected and shrunk, small errors let the next step grow.
 
-All trajectories use the team's single right-hand side `model.rhs`; analytic targets come from Joel's `stability.py`.
+**Two solver settings, two jobs.** Fitting and the 1900&ndash;1920 forecasts (Yash, Advay) use `model.solve`:
+RK45, `rtol = 1e-8`, `atol = 1e-10`, `max_step = 0.1` years, identical for both fitting methods (`configs/historical.json`).
+The long-run simulations here run for thousands of years and use tighter tolerances: RK45, `rtol = 1e-10`,
+`atol = 1e-12`, no step cap (`simulation.integrate`). Both call the same `model.rhs`.
+Illustrative runs start at $(20, 5)$ with a 3000-year burn-in (20,000 years within one unit of $K_H$, where the
+equilibrium is a weak focus and transients decay very slowly).
+
+All values above live in `configs/simulations.json`. All trajectories use the team's single right-hand side `model.rhs`; analytic targets come from Joel's `stability.py`.
 """)
 
 code(r"""
@@ -223,7 +228,8 @@ box(ORANGE, "Step 6 &mdash; Numerical bifurcation diagram (Figure 5)", r"""
 and record $\max$ and $\min$ of $H$ and $P$ over 300 further years. Equal max and min: an equilibrium. A gap: a cycle.
 """)
 code(r"""
-sweep = bifurcation_sweep(BASE, np.linspace(32, 200, 113))
+sw = CONFIG["bifurcation_sweep"]
+sweep = bifurcation_sweep(BASE, np.linspace(sw["K_min"], sw["K_max"], sw["points"]), t_record=sw["record_years"])
 fig = bifurcation(BASE, sweep)
 plt.show()
 below = sweep["K"] < KH - 1
@@ -237,7 +243,8 @@ $A \approx c\sqrt{K-K_H}$ (slope $\tfrac12$ on a log&ndash;log plot; Section 2: 
 $T_0 = 2\pi/\omega_0$ as $K \to K_H^+$. A subcritical one would instead jump to a large cycle.
 """)
 code(r"""
-law = amplitude_law(BASE, np.geomspace(0.5, 8.0, 12))
+al = CONFIG["amplitude_law"]
+law = amplitude_law(BASE, np.geomspace(al["dK_min"], al["dK_max"], al["points"]), t_record=al["record_years"])
 fig = amplitude_and_period(law)
 plt.show()
 print(f"log-log slope s = {law['slope']:.3f}  (prediction 0.5)")
@@ -263,10 +270,13 @@ box(PURPLE, "Summary and handoff", r"""
 | Hopf at $K_H = b + 2H^*$ | Trace zero at $K = 90.0000000000$, $|\operatorname{Im}\lambda| = \omega_0$ | Fig. 4 |
 | Supercritical Hopf; enrichment | Amplitude $\propto (K-K_H)^{0.507}$, period $\to T_0$, troughs $\to 0$ | Figs. 5, 6 |
 
-**For Yash and Advay:** use `lynx_hare.simulation.integrate` (shared `model.rhs`, declared tolerances) for forecasts.
-**Open question for the fitting sections:** is $\sigma = K/K_H$ above or below 1 at the fitted parameters?
+HISTORICAL_SUMMARY_ROW
 
-**Limitations:** illustrative parameters, not fitted; simulation is evidence, not proof; near $K_H$ results depend on burn-in length.
+**Solvers:** fitting and 1900&ndash;1920 forecasts use `model.solve` (rtol 1e-8, atol 1e-10, max_step 0.1); long-run runs here use
+`simulation.integrate` (rtol 1e-10, atol 1e-12).
+
+**Limitations:** the illustrative runs use unfitted parameters; simulation is evidence, not proof; near $K_H$ results depend on
+burn-in length; fitted $\sigma$ depends on the box bounds and the error model.
 """)
 
 nb = nbf.v4.new_notebook()

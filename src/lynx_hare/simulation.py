@@ -7,11 +7,21 @@ target comes from Joel's stability module, so this file adds numerics only:
 * attractor_summary  post-transient min/max, period and predator lag
 * bifurcation_sweep  numerical bifurcation diagram in K
 * amplitude_law      cycle half-amplitude and period just above K_H
+* linear_summary     sigma = K/K_H, eigenvalues, e-folding time and linear period at E*
 * Lotka-Volterra helpers for the solver-accuracy check (conserved quantity)
 
-Illustrative parameters and validation targets: docs/joel_stability_handoff.md.
+Solver settings. Two RK45 settings are used in the project, for different jobs:
+* fitting and 1900-1920 forecasts (Yash, Advay): model.solve, rtol 1e-8, atol 1e-10,
+  max_step 0.1 years, from configs/historical.json;
+* long-run simulations here (thousands of years, illustrative and fitted parameters):
+  integrate(), rtol 1e-10, atol 1e-12, no max_step, from configs/simulations.json.
+
+Parameters, solver settings and grids: configs/simulations.json.
+Validation targets: docs/joel_stability_handoff.md.
 """
+import json
 from dataclasses import replace
+from pathlib import Path
 
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -19,12 +29,16 @@ from scipy.integrate import solve_ivp
 from .model import Parameters, rhs
 from . import stability as st
 
-RTOL, ATOL = 1e-10, 1e-12            # declared solver tolerances (Section 2, 1.8)
-Y0 = (20.0, 5.0)                     # standard initial state, thousand pelts
-T_BURN = 3000.0                      # default burn-in, years
-T_BURN_NEAR_HOPF = 20000.0           # weak focus: |K - K_H| < 1 needs a much longer burn-in
-ILLUSTRATIVE = dict(r=1.5, a=4.0, b=30.0, e=0.4, m=0.8)   # not fitted; H* = 30, K_H = 90
-REGIMES = {"A": 25.0, "B": 60.0, "C": 85.0, "D": 90.0, "E": 95.0, "F": 150.0}
+CONFIG_PATH = Path(__file__).resolve().parents[2] / "configs" / "simulations.json"
+CONFIG = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+
+RTOL, ATOL = CONFIG["solver"]["rtol"], CONFIG["solver"]["atol"]   # declared tolerances
+Y0 = tuple(CONFIG["initial_state"])                               # thousand pelts
+T_BURN = CONFIG["burn_in_years"]
+T_BURN_NEAR_HOPF = CONFIG["burn_in_years_near_hopf"]   # weak focus near K_H decays very slowly
+NEAR_HOPF = CONFIG["near_hopf_window"]
+ILLUSTRATIVE = dict(CONFIG["params"])                  # not fitted; H* = 30, K_H = 90
+REGIMES = dict(CONFIG["regimes_K"])
 
 
 def with_K(p: Parameters, K: float) -> Parameters:
@@ -47,7 +61,7 @@ def local_maxima(x):
 
 
 def default_burn_in(p: Parameters) -> float:
-    if st.coexistence_feasible(p) and abs(p.K - st.hopf_threshold(p)) < 1.0:
+    if st.coexistence_feasible(p) and abs(p.K - st.hopf_threshold(p)) < NEAR_HOPF:
         return T_BURN_NEAR_HOPF
     return T_BURN
 
@@ -112,6 +126,27 @@ def amplitude_law(base, dK, y0=Y0, t_record=400.0, samples=80001):
                 coefficient=float(np.exp(log_c)),
                 coefficient_sqrt=float(np.mean(amp / np.sqrt(dK))),
                 onset_period=float(st.onset_period(base)))
+
+
+def linear_summary(p: Parameters) -> dict:
+    """Linearisation at the coexistence equilibrium E*, using Joel's closed forms.
+
+    Returns feasibility, H*, P*, K_H, sigma = K/K_H, the eigenvalues of J(E*), the growth
+    rate Re(lambda) (> 0: oscillations grow towards a cycle, < 0: they decay), the
+    e-folding time 1/|Re(lambda)| and the period of small oscillations 2 pi / |Im(lambda)|.
+    """
+    out = dict(feasible=bool(st.coexistence_feasible(p)))
+    if not out["feasible"]:
+        return out
+    H, P = st.coexistence_prey(p), st.coexistence_predator(p)
+    lam = np.linalg.eigvals(st.jacobian(H, P, p))
+    growth = float(lam.real.max())
+    omega = float(np.abs(lam.imag).max())
+    out.update(Hstar=H, Pstar=P, K_H=st.hopf_threshold(p), sigma=st.stability_margin(p),
+               regime=st.regime(p), eigenvalues=lam, growth_rate=growth,
+               efold_years=float(1 / abs(growth)) if growth != 0 else np.inf,
+               linear_period=float(2 * np.pi / omega) if omega > 0 else np.nan)
+    return out
 
 
 def hopf_crossing(base, K_low, K_high):

@@ -57,3 +57,22 @@ def test_numerical_hopf_crossing_matches_closed_form():
 def test_near_hopf_points_get_long_burn_in():
     assert sim.default_burn_in(sim.with_K(BASE, 90.5)) == sim.T_BURN_NEAR_HOPF
     assert sim.default_burn_in(sim.with_K(BASE, 150.0)) == sim.T_BURN
+
+
+def test_config_is_single_source_and_matches_joel_regimes():
+    cfg = json.loads((ROOT / "configs" / "simulations.json").read_text())
+    assert sim.ILLUSTRATIVE == cfg["params"]
+    assert (sim.RTOL, sim.ATOL) == (cfg["solver"]["rtol"], cfg["solver"]["atol"])
+    assert {k: v for k, v in sim.REGIMES.items()} == {r["label"]: r["K"] for r in TARGETS.values()}
+
+
+def test_direction_field_arrows_follow_the_flow():
+    from lynx_hare.simulation_plots import direction_field
+    p = sim.with_K(BASE, 150.0)
+    (H, P), (U, V) = direction_field(p, Hmax=160.0, Pmax=50.0)   # unequal axis ranges
+    dH, dP = rhs(0, [H, P], p)
+    # arrows are parallel to (dH/dt, dP/dt) in data coordinates and point the same way
+    np.testing.assert_allclose(U * dP - V * dH, 0, atol=1e-9 * np.abs(U * dP).max())
+    assert np.all(U * dH + V * dP > 0)
+    # equal length in axis-fraction units
+    np.testing.assert_allclose(np.hypot(U / 160.0, V / 50.0), 0.045, rtol=1e-12)
