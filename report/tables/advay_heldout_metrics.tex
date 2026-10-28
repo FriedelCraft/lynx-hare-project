@@ -1,0 +1,15 @@
+\begin{tabular}{llrrrr}
+\hline
+Variant & Method & Hare RMSE & Hare MAE & Lynx RMSE & Lynx MAE \\
+\hline
+Main (headline) & Least squares & 3.07 & 2.59 & 3.04 & 2.56 \\
+ & PINN-derived ODE (seed17) & 2.85 & 2.59 & 4.32 & 4.05 \\
+Log errors & Least squares & 6.87 & 6.63 & 1.60 & 1.38 \\
+ & PINN-derived ODE (seed29) & 18.35 & 14.29 & 10.03 & 8.97 \\
+Fitted 1900 state & Least squares & 2.25 & 2.08 & 3.24 & 2.71 \\
+ & PINN-derived ODE (seed17) & 3.69 & 3.06 & 4.70 & 4.53 \\
+\hline
+Reference & Persistence (1915 value) & 7.38 & 6.72 & 37.16 & 36.32 \\
+Reference & Training mean & 25.87 & 25.23 & 10.58 & 10.21 \\
+\hline
+\end{tabular}

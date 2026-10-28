@@ -1,7 +1,9 @@
-# Observation convention for the historical pelt data (proposal)
+# Observation convention for the historical pelt data
 
-Owner: Advay. Needs sign-off from **Arnav** (model and units) and **Yash** (PINN).
-Status: **proposed, not yet agreed**. Last updated 27 October 2026.
+Owner: Advay. Status: **agreed by Arnav (model and units) and Yash (PINN)**, 27 October
+2026. Implemented in `configs/historical.json` and Arnav's units sheet
+(`contributions/arnav/equations_and_units.md`). Open items in §6 are resolved as noted
+there.
 
 This note states exactly how the numbers in `data/historical/pelts_1900_1920.csv` connect
 to the model states H and P. Both fitting methods must use these rules unchanged. Any
@@ -88,11 +90,13 @@ this point, so treating it as exact matters.
 - Scoring: RMSE and MAE for hare and lynx separately, in thousands of pelts, on
   1916–1920 only.
 
-## 6. Questions to confirm
+## 6. Resolution of the questions
 
-| To | Question |
-|---|---|
-| Arnav | OK to define H and P directly in thousands of pelts (O1), with the interpretation limits in §2? Does the units sheet need an "observation model" line? |
-| Yash | OK with the error model and scaling in §3 (unchanged from your code)? Can the PINN support fitting H0, P0 for the §4 sensitivity run? |
-| Joel | With no lynx scale factor, do you agree a and e are separable in principle (§2)? Fix e anyway, or decide after the sensitivity results? |
-| All | Any objection to the two declared sensitivity runs (log residuals; fitted initial state)? |
+| To | Question | Answer |
+|---|---|---|
+| Arnav | H and P directly in thousands of pelts (O1)? Observation-model line? | Yes. The units sheet now has observed = H(t) + error and observed = P(t) + error |
+| Yash | Error model and scaling as in §3? | Yes, unchanged from his code |
+| Yash | Fitted H0, P0 in the PINN? | Yes, within [0.5, 1.5] × the 1900 values; run as a separate variant |
+| Yash | PINN t = 0 state vs (30.0, 4.0)? | Recorded per seed in pelt units; main forecasts start at the observed state |
+| Joel | a and e separable? Fix e? | Arnav agrees they are separable in principle under O1. The config fits **all six, including e**. Joel to acknowledge |
+| All | The two sensitivity runs? | Supported by Arnav; implemented by Yash for both methods |
