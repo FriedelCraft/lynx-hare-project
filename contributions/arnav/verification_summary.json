@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-26",
-  "repository_revision": "7d17deee1cb685f016ff16cb6706e8db12ebe6b2",
+  "date": "2026-10-28",
+  "repository_revision": "28dbe1e2a611719f3d65e5922db528ae423724f2",
   "python_version": "3.12.14",
   "code_cells_executed": 6,
   "checks": {
@@ -24,5 +24,5 @@
   "total_exact_equalities": 558,
   "maximum_discrepancy_at_tested_inputs": "0 (exact rational arithmetic)",
   "scope": "Finite algebra checks, not empirical validation or a general symbolic proof.",
-  "notebook_sha256": "69a762625c3a3d371f85e8c9c8e8464a8438c8818facc870bfec8fb39fe0e4e7"
+  "notebook_sha256": "200fc55cff6693e933d0d8a520ab580518ad0fb36f04e765333e708177800b54"
 }

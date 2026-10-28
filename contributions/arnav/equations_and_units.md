@@ -1,6 +1,6 @@
 # Equation and units sheet
 
-State order: **Hare H, Lynx P**. Elapsed time t = Year − 1900, in years. For the historical convention reviewed on 27 October 2026, UH means thousands of hare pelts and UP means thousands of lynx pelts. These are abundance-index units, not animal counts. This matches the current historical fitting configuration; group approval remains separate. Synthetic demonstrations retain their own declared index units. See the [observation follow-up](observation_model_followup.md) for decisions, alternatives and sources.
+State order: **Hare H, Lynx P**. Elapsed time t = Year − 1900, in years. For the historical convention finalized in this contribution on 28 October 2026, UH means thousands of hare pelts and UP means thousands of lynx pelts. These are abundance-index units, not animal counts. The reference for the completed iteration is `configs/historical.json`, as specified in the latest integration task. Synthetic demonstrations retain their own declared index units. The [final model section](sections/arnav_model.tex) incorporates the observation convention; the [27 October follow-up](observation_model_followup.md) records the decision history.
 
 ## Observation model
 
@@ -63,6 +63,8 @@ During a K sweep, recompute x0 and y0 when holding H0 and P0 fixed.
 ## Existing numerical coordinates
 
 u = H/sH, v = P/sP, ξ = 2t/T − 1, T = 15 years; sH and sP use training data only.
+
+For the historical split, (sH,sP)=(77.4,59.4). All six coefficients are fitted. The reference historical solver is `model.solve`, RK45, rtol=1e-8, atol=1e-10, max_step=0.1 years. Main ODE initial state: (30,4) at 1900; the PINN's soft initial penalty leaves a reported discrepancy. The fitted-initial-state sensitivity instead starts each method at its fitted 1900 state. Source: [historical handoff](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/docs/yash_historical_handoff.md).
 
 \[
 u_t=ru(1-s_Hu/K)-\frac{a s_Puv}{b+s_Hu},\quad

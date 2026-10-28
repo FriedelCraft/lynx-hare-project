@@ -1,5 +1,15 @@
 \begin{thebibliography}{1}
 
+\bibitem{arnav_advay2026}
+{Advay}.
+\newblock Historical pelt data, provenance and observation convention.
+\newblock Team repository, revision \texttt{28dbe1e}, files
+  \texttt{data/historical/README.md}, \texttt{provenance.json},
+  \texttt{split.json} and \texttt{docs/advay\_observation\_convention.md},
+  2026.
+\newblock Reviewed 28 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/28dbe1e2a611719f3d65e5922db528ae423724f2}.
+
 \bibitem{arnav_carpenter2018}
 Bob Carpenter.
 \newblock Predator--prey population dynamics: The {Lotka--Volterra} model in
@@ -31,11 +41,29 @@ C.~S. Holling.
 \newblock Accessed 26 October 2026.
   \url{https://github.com/FriedelCraft/lynx-hare-project/tree/7d17deee1cb685f016ff16cb6706e8db12ebe6b2}.
 
+\bibitem{arnav_rishi2026}
+{Rishi}.
+\newblock Numerical simulations: Team handoff.
+\newblock Team repository, revision \texttt{28dbe1e}, file
+  \texttt{docs/rishi\_simulation\_handoff.md}, 2026.
+\newblock Reviewed 28 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/28dbe1e2a611719f3d65e5922db528ae423724f2}.
+
 \bibitem{arnav_rosenzweig1963}
 Michael~L. Rosenzweig and Robert~H. MacArthur.
 \newblock Graphical representation and stability conditions of predator--prey
   interactions.
 \newblock {\em The American Naturalist}, 97(895):209--223, 1963.
 \newblock \url{https://doi.org/10.1086/282272}.
+
+\bibitem{arnav_historical2026}
+{Yash and Lynx Hare Project team}.
+\newblock Historical fitting configuration, implementation and handoff.
+\newblock Team repository, revision \texttt{28dbe1e}, files
+  \texttt{configs/historical.json},
+  \texttt{src/lynx\_hare/historical\_pinn.py}, \texttt{model.py},
+  \texttt{pinn.py} and \texttt{docs/yash\_historical\_handoff.md}, 2026.
+\newblock Reviewed 28 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/28dbe1e2a611719f3d65e5922db528ae423724f2}.
 
 \end{thebibliography}

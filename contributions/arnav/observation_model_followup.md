@@ -1,5 +1,7 @@
 # Arnav: observation-model follow-up, 27 October 2026
 
+**28 October integration update:** the [final model section](sections/arnav_model.tex), [units sheet](equations_and_units.md) and [team handoff](team_handoff.md) now incorporate this observation convention. The latest task designates `configs/historical.json` as the reference for the completed iteration, including its historical solver settings. The proposal and open-decision language below is retained as dated history, not the current integration instructions. This does not record anyone's personal manual review.
+
 Prepared against repository commit [bcc0a2b](https://github.com/FriedelCraft/lynx-hare-project/tree/bcc0a2b1ba4a277712ccd43ee3ff81e1397e7f03). This is an AI-assisted recommendation and reply draft for Arnav to understand and review. It does not record personal approval from Arnav or agreement from the group. It supplements the model-foundation report prepared on 26 October; that report and its synthetic algebra examples remain a dated mathematical reference.
 
 ## Phase 1: Establish what has changed

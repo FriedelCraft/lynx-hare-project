@@ -1,51 +1,45 @@
-# Proposed model handoff from Arnav
+# Arnav's final integration handoff
 
-Prepared 26 October 2026 against [repository commit 7d17deee](https://github.com/FriedelCraft/lynx-hare-project/tree/7d17deee1cb685f016ff16cb6706e8db12ebe6b2), including Joel's added analysis. This is a proposed contract for team review, not evidence that teammates have approved it.
+Prepared 28 October 2026 against [28dbe1e](https://github.com/FriedelCraft/lynx-hare-project/tree/28dbe1e2a611719f3d65e5922db528ae423724f2). The user's latest task identifies `configs/historical.json` as the reference for the completed iteration. The final model section now documents that reference; this note does not assert another member's personal approval or manual review.
 
-**Update, 27 October 2026:** the [observation-model follow-up](observation_model_followup.md) supplements this dated handoff after the historical-data merges. It recommends direct pelt-state units under O1, adds the explicit observation equation, and distinguishes the current implementation from group agreement. The [units sheet](equations_and_units.md) contains that clarification. The historical-run status and remaining questions in the follow-up supersede the older status statements below; the dimensional interface and scaling are unchanged.
+## Report
 
-## Keep the current dimensional interface
+Use `sections/arnav_model.tex` before Joel's stability section. It contains the observation-model follow-up, not just a link to it. From a combined entry point inside `report/`, the section can be included without copying:
 
-- States in order H, P; parameters named r, K, a, b, e, m.
-- dH/dt = rH(1−H/K) − aHP/(b+H).
-- dP/dt = eaHP/(b+H) − mP.
-- Time in years since the first training observation; for this protocol, Year − 1900.
-- Historical measurement proposal: thousands of pelts as effective abundance indices, subject to Advay's source verification. Synthetic indices have no verified physical conversion.
-- All parameters positive; initial states nonnegative. Bounds remain a separate inference decision. Do not impose e ≤ 1 merely by calling it an efficiency.
+```latex
+\input{../contributions/arnav/sections/arnav_model}
+```
 
-## Add the theoretical scaling without changing the PINN
+The host preamble needs `amsmath`, `amssymb`, `booktabs`, `array`, `tabularx` and `hyperref`. Merge `contributions/arnav/references.bib` into the group bibliography, or include both bibliography databases after checking that no key already appears twice. All of this contribution's keys and equation labels have the `arnav_` or `eq:arnav_` prefix. Keep one bibliography in the combined document; do not paste this contribution's document class or title page into it.
 
-Use s = rt, x = H/K, y = aP/(rK), beta = b/K, alpha = ea/r, delta = m/r, matching [Joel's section](https://github.com/FriedelCraft/lynx-hare-project/blob/7d17deee1cb685f016ff16cb6706e8db12ebe6b2/report/joel_stability_section.tex).
+The standalone `main.pdf` is a reading copy. The final group report should use the editable LaTeX section. Its compatibility and responsibility paragraphs can be shortened if Yash's methods section repeats them; retain the observation equations and interpretation limits.
 
-Then x_s = x(1−x) − xy/(beta+x), and y_s = alpha xy/(beta+x) − delta y.
+## Notebook and presentation
 
-Convert back with H = Kx, P = (rK/a)y and Year = 1900 + s/r. A K sweep changes beta and both state scales, so recompute x0 = H0/K and y0 = aP0/(rK) to keep the dimensional initial state fixed. Any change to r or a also changes the mapping.
+- Append the cells of `arnav_model_explained.ipynb` as a model-foundation part of the combined notebook. Use a fresh namespace or prefix its helper names during integration: it defines `rhs`, `groups`, `checks`, `F` and other local helpers. Rerun the combined notebook after combining cells to catch name collisions.
+- The notebook needs only the Python standard library and reads no observation files. Its worked values and normalization examples are synthetic algebra inputs, explicitly labelled.
+- Import the two slides from `arnav_model_slides.pptx` into the group deck. Both slides and their equations are editable text. Speaking notes contain citations; `presentation_notes.md` supplies the script and questions.
+- No EPS figures or external artwork are needed for this section. Do not add decorative plots to meet a graph-count requirement.
 
-Yash can retain u = H/sH, v = P/sP and xi = 2t/T − 1, where sH and sP are training maxima and T = 15 years. The bridge and residual-weight conversion are in the report. Do not call either normalized coordinate set by the other's name.
+## Fixed interface for this iteration
 
-## Decisions still requiring the relevant owner
-
-| Owner | Action before group integration |
+| Item | Convention |
 |---|---|
-| Arnav and all members | Review the units and K-based dimensionless form shared with Joel |
-| Joel | Integrate the supplied analysis with the model section; distinguish positive parameter bounds from coexistence conditions |
-| Rishi | Confirm the common solver and numerical checks, preserving the dimensional interface or explicitly mapping any dimensionless solver |
-| Advay | Freeze the exact source CSV, units, observation convention, missing-data handling and evaluation rules |
-| Advay and Yash | Agree fixed versus trainable parameters and bounds for historical fitting; synthetic K=60, b=20, e=0.6 are not measured historical constants |
-| Rishi, Advay and Yash | Keep the same initial-state convention, forecast origin and tolerances for both fitting methods |
+| States and time | H then P, in thousands of hare/lynx pelts; t=Year-1900, in years |
+| Observation | Y_H=H(t)+error, Y_P=P(t)+error; O1 is constant proportionality to latent abundance; no fitted observation scales |
+| Dimensional equations | Hdot=rH(1-H/K)-aHP/(b+H); Pdot=eaHP/(b+H)-mP |
+| Joel's coordinates | s=rt, x=H/K, y=aP/(rK); beta=b/K, alpha=ea/r, delta=m/r |
+| Back conversion | Year=1900+s/r; H=Kx; P=(rK/a)y |
+| PINN coordinates | u=H/sH, v=P/sP, xi=2t/T-1; T=15, historical training maxima (77.4,59.4) |
+| Fitted coefficients | All r,K,a,b,e,m, with the bounds in `configs/historical.json` |
+| Historical solver | model.solve, RK45, rtol=1e-8, atol=1e-10, max_step=0.1 years |
+| Initial state | Main ODE: (30,4) at 1900; PINN uses a soft penalty and reports the gap; sensitivity fits initial states within 0.5 to 1.5 times observed |
+| Forecast and evaluation | Integrate from 1900 without a test restart; separate hare/lynx MAE and RMSE in thousands of pelts for 1916-1920 |
 
-The existing synthetic experiments infer r, a, m while fixing K, b, e. Their solver uses RK45, rtol 1e−8, atol 1e−10 and max_step 0.1 years. Forecasts are integrated from the first training observation, then scored at 1916–1920; there is no restart from a held-out state. These are compatibility facts from the existing repository, not new choices made on another member's behalf.
+Sources: [historical config](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/configs/historical.json), [Yash's handoff](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/docs/yash_historical_handoff.md), [Advay's convention](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/docs/advay_observation_convention.md), and [Joel's notation](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/report/joel_stability_section.tex).
 
-## Notes prompted by the new analysis
+K sweeps must recompute x0 and y0 if the dimensional initial state stays fixed. a and e are effective coefficients; fixed observation units remove the free scale ambiguity without proving practical identifiability. Use sigma only with the applicable coexistence conditions, and describe its classification as a property of the fitted model. The completed iteration fits all six coefficients without an e<=1 or coexistence constraint. Bounds are exploratory numerical choices.
 
-Joel's formulas map directly: x* = beta·delta/(alpha−delta), and the threshold becomes beta·(alpha+delta)/(alpha−delta) = 1, with alpha > delta. These are restatements of his results, not a replacement Hopf derivation.
+## Remaining responsibility
 
-Use a stability ratio only after checking feasible coexistence. Below its threshold, a stable equilibrium may be a node or a focus; it need not display damped oscillations. Unknown pelt-to-population scales prevent interpreting a and e as uniquely recovered absolute biological rates. That does not alone prove they are unidentifiable as effective coefficients when the observation units are fixed and known. Do not automatically constrain all fits to coexistence without stating that ecological assumption; it excludes extinction regimes from the inverse problem.
-
-Joel's illustrative parameter set and long-run tolerances differ from Yash's synthetic recovery experiment. Keep their labels and purposes distinct. The current paper draft is aligned with Joel's coordinates, while leaving Yash's code and dummy data unchanged.
-
-## Validation and submission boundaries
-
-This contribution supplies model reasoning, dimensional checks and exact arithmetic transformation checks. It does not supply new historical predictions, fitted parameters, RMSE/MAE or a Hopf proof. Those belong in the combined project after the relevant work is performed.
-
-For prediction claims, retain the held-out years and use separate hare/lynx MAE and RMSE with comparison graphs in original evaluation units. Include the dataset and its provenance, the complete group notebook, the combined report source and PDF, all report EPS figures and any external diagram assets in the final ZIP. This section uses no external images, graphs or datasets.
+Arnav must personally review and explain the equations and rehearse the talk, then complete the manual-check log honestly. Yash owns combined-package assembly and validation. The other owners retain their analysis, plotting and evaluation tasks. This update changes no shared model code, fitting configuration, data or saved results; later substantive revisions must preserve the scored iteration and be labelled accordingly.

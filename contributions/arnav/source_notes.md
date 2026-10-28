@@ -2,6 +2,25 @@
 
 Sources were checked on 26 October 2026. The derivations and algebra checks in this package are written out independently; citations attribute the established model, response law and dataset context. No published numerical result is claimed to have been reproduced.
 
+The historical-context sources below were additionally reviewed on 28 October 2026. Earlier entries retain their original access dates and scope.
+
+## Sources added for final integration
+
+All project links in this table are pinned to the pulled reference revision, 28dbe1e. The final report bibliography cites these records as `arnav_advay2026`, `arnav_historical2026` and `arnav_rishi2026`.
+
+| Source | What it supports |
+|---|---|
+| [Advay's data README](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/data/historical/README.md), [provenance](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/data/historical/provenance.json) and [split record](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/data/historical/split.json) | Frozen Stan compilation, secondary-source caveat, source disagreement, years and units. Reported data comparisons are attributed to Advay, not independently recalculated here. |
+| [Observation convention](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/docs/advay_observation_convention.md) | O1, annual totals approximated as point states, additive observation errors, training-only scales and sensitivity proposals. Its status label is historical; the user's 28 October task specifies the current configuration as the iteration reference. |
+| [Historical config](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/configs/historical.json) and [Yash's handoff](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/docs/yash_historical_handoff.md) | All six fitted coefficients, bounds, solver, sensitivities, initial-state mismatch, forecast origin and completed-iteration status. No new fitting/scoring or independent freeze-history audit is claimed. |
+| [Shared model](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/src/lynx_hare/model.py), [PINN](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/src/lynx_hare/pinn.py) and [historical extension](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/src/lynx_hare/historical_pinn.py) | State order, parameter names, RHS, normalization, derivative chain rule, soft initial penalty and fitted-initial-state implementation. |
+| [Rishi's handoff](https://github.com/FriedelCraft/lynx-hare-project/blob/28dbe1e2a611719f3d65e5922db528ae423724f2/docs/rishi_simulation_handoff.md) | Separate illustrative numerical work and tighter simulation tolerances; these do not replace the completed historical comparison settings. |
+| Team task list supplied by the user on 28 October 2026 | Scope: finalize Arnav's model section, notebook/presentation material and honest assistance log; use the completed config without revising scored results. No private chat is redistributed in full. |
+
+The presentation uses editable text and equations, with no external artwork. Speaker notes and `presentation_notes.md` cite the relevant literature and project sources. The report and notebook give the unit transformation and its interpretation explicitly; no additional textbook or empirical claim is introduced without attribution.
+
+## Original foundation sources
+
 | Source | What was verified | How it is used |
 |---|---|---|
 | [Rosenzweig and MacArthur 1963](https://www.journals.uchicago.edu/doi/abs/10.1086/282272) | Publisher title, authors, year, journal, pages and abstract | Attribution for the predator-prey framework; no claim of having verified the paywalled full article line by line |
