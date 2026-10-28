@@ -1,0 +1,106 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{graphs/}}
+% Canonical graph references use EPS. PDF engines read the supplied vector PDF
+% companions, exported from the identical figure, without an external converter.
+% A latex -> dvips workflow uses the EPS sources directly.
+\newif\ifProjectPDF
+\ifdefined\XeTeXversion
+  \ProjectPDFtrue
+\else
+  \ifdefined\pdfoutput
+    \ifnum\pdfoutput>0
+      \ProjectPDFtrue
+    \fi
+  \fi
+\fi
+\makeatletter
+\newcommand{\ReportGraphEPS}[2][]{%
+  \IfFileExists{graphs/#2}{}{\PackageError{project}{Missing required EPS source #2}{Include every EPS graph in graphs/}}%
+  \begingroup
+  \filename@parse{#2}%
+  \ifProjectPDF
+    \edef\ProjectGraphFile{\filename@area\filename@base.pdf}%
+  \else
+    \def\ProjectGraphFile{#2}%
+  \fi
+  \includegraphics[#1]{\ProjectGraphFile}%
+  \endgroup
+}
+\makeatother
+\setcounter{topnumber}{5}
+\setcounter{bottomnumber}{5}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.7}
+\setlength{\floatsep}{12pt}
+\setlength{\textfloatsep}{12pt}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{12pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+\usepackage{amsthm,array,tabularx}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}\newtheorem{remark}{Remark}
+\title{Lynx and Hare Dynamics\\Model, Stability, Numerical Simulation and Inverse Inference}
+\author{Arnav \and Joel \and Rishi \and Yash \and Advay}
+\date{28 October 2026}
+\begin{document}\maketitle
+\begin{abstract}
+We combine a Rosenzweig--MacArthur model, equilibrium and Hopf analysis, numerical
+experiments, and historical parameter fitting using least squares and an inverse PINN.
+The Stan pelt-index compilation is split into 1900--1915 training and 1916--1920
+evaluation. Primary held-out RMSE is 3.07/3.04 thousand pelts for least squares and
+2.85/4.32 for the PINN-derived ODE (hare/lynx). The comparison is mixed; observation-model
+and bound sensitivity prevent precise biological recovery or a robust ecological
+limit-cycle claim. Frozen numerical evidence, sources and all sensitivity variants
+are retained. No final integration step retunes a model using test-year errors.
+\end{abstract}
+\paragraph{Contributions and evaluation chronology.}
+Arnav: model and units. Joel: theory. Rishi: numerical validation. Yash: PINN and
+integration. Advay: data and independent least squares/evaluation. Historical forecasts
+use the same dimensional RHS and solver configuration. Advay's independent reproduction
+followed Yash's published scored iteration, so it is not a new blinded test. Training
+demonstrations in the combined notebook do not overwrite the frozen forecasts.
+\tableofcontents\clearpage
+\input{arnav_model_section}\clearpage
+\input{joel_group_section}\clearpage
+\input{rishi_simulation_section}\clearpage
+\input{yash_historical_section}
+\paragraph{PINN optimization gap.}
+Advay independently evaluated the training observation objective on the frozen
+PINN-derived ODE trajectories. Their costs are 1.859, 3.396 and 1.866 times the
+least-squares minima for main, log-error and fitted-initial-state variants. These
+are observation costs, not the PINN's weighted neural training loss. The PINN optimizes
+a soft-physics network objective, and reintegration can accumulate phase error; it
+does not attain the least-squares optimum here. These diagnostics motivate the
+reported limitations and do not trigger post-test retuning.
+\clearpage\input{advay_data_validation_section}\clearpage
+\section{Controlled synthetic validation}
+The separate synthetic study tests implementation recovery with known parameters and
+3\% observation noise. Across three annual-data seeds, the largest relative error in
+the three inferred rates is below 0.36\%. K, b and e are correctly fixed at generating
+values for that controlled test; historical fitting instead estimates all six.
+This favorable recovery experiment is not evidence of historical parameter accuracy.
+Its complete program, recovery tables, residuals and sensitivity runs remain in
+\path{notebooks/yash_pinn.ipynb} and \path{results/synthetic/}.
+\ReportGraphEPS[width=\linewidth]{parameter_recovery.eps}
+\paragraph{Reproduction and acknowledgement.}
+Run the combined notebook \path{notebooks/group_project.ipynb} from a fresh Python
+environment using the supplied requirements. Full expensive experiment drivers and
+individual notebooks remain alongside the frozen evidence. All report plots have EPS
+sources and vector PDF companions. Per-person AI assistance and actual manual-review
+records are in \path{docs/ai_acknowledgement.md} and Arnav's contribution folder.
+Each member remains responsible for understanding and explaining their own work.
+\clearpage\bibliographystyle{plain}\bibliography{group_references}
+\end{document}

@@ -1,7 +1,6 @@
 \section{Historical inverse PINN study}
 This is Yash's contribution, using the historical pelt series supplied by Advay. It
-extends the separately preserved synthetic recovery experiment; it is not a complete
-combined group report. The Stan compilation contains annual Hudson's Bay Company
+extends the separately preserved synthetic recovery experiment; its individual scope is retained alongside the combined group deliverables. The Stan compilation contains annual Hudson's Bay Company
 hare and lynx pelt returns \cite{carpenter2018}. We train on 1900--1915 (16 pairs) and
 evaluate once on frozen forecasts for 1916--1920 (five pairs). Counts are thousands of
 pelts, treated as abundance indices rather than censuses. Annual totals are approximated
@@ -16,8 +15,7 @@ With $t=\mathrm{Year}-1900$, the shared dimensional model is
 All six positive coefficients are inferred. Bounds below are exploratory numerical
 choices, not measured biological ranges. No coexistence constraint is imposed and $e$
 is not constrained below one because these are effective coefficients in pelt units.
-The starting vector is $(r,K,a,b,e,m)=(0.8,150,2,30,0.6,0.6)$. Yash chose this protocol
-with assistance; agreement by the other members is not claimed. The local least-squares
+The starting vector is $(r,K,a,b,e,m)=(0.8,150,2,30,0.6,0.6)$. The shared historical configuration records this protocol and its exploratory bounds. The local least-squares
 benchmark uses the identical config, data split, scaling and solver.
 \begin{center}\begin{tabular}{lrr}\toprule
 Coefficient & Bounds & Selected primary estimate\\\midrule
@@ -63,8 +61,7 @@ is $(0.10060,-0.00723)$ thousand pelts; the ODE still starts at the exact observ
 The primary ODE training normalized MSE is 0.00981. The matched primary least-squares
 fit uses six starts (RNG seed 91), bounded \texttt{least\_squares}, up to 500 function
 evaluations and ftol=xtol=gtol=$10^{-10}$. Each start and its convergence status is retained.
-This is an independent benchmark computed for this contribution; Advay's own historical
-baseline is not represented as completed. PINN and least squares differ in soft versus
+This independent benchmark was subsequently reproduced by Advay on the same configuration; the combined report documents the chronology. PINN and least squares differ in soft versus
 exact IC enforcement and in the PINN's added physics penalty.
 \begin{figure}[htbp]\centering
 \ReportGraphEPS[width=\linewidth]{yash_historical_forecast.eps}
@@ -144,5 +141,4 @@ source disagreement, annual season totals, unknown catchability and the small te
 limit interpretation. PINN physics is a soft constraint, and the log-loss variant exposes
 an appreciable network/ODE discrepancy. Seed spread is optimization sensitivity only.
 Forecast skill on five points cannot establish general superiority, causal mechanisms
-or absolute animal populations. This report and notebook concern Yash's component;
-the final group report and submission still require integration.
+or absolute animal populations. This report and notebook concern Yash's component; the accompanying combined notebook and report integrate all five contributions.

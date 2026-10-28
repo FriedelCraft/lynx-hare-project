@@ -180,7 +180,7 @@ PINN study's own evaluation exactly.
 
 \begin{table}[ht]
 \centering
-\input{tables/advay_heldout_metrics}
+\resizebox{\textwidth}{!}{\input{tables/advay_heldout_metrics}}
 \caption{Held-out errors, 1916--1920, thousands of pelts.}\label{tab:advay-metrics}
 \end{table}
 
@@ -242,8 +242,10 @@ vegetation, other predators, weather, disease and spatial structure. Its success
 1916--1920 shows that it captures the dominant short-term feedback, not that it is complete.
 \end{itemize}
 
-\paragraph{Reproduction.} \texttt{scripts/advay\_data\_checks.py},
-\texttt{advay\_make\_split.py}, \texttt{advay\_fit\_baseline.py --protocol v2},
-\texttt{advay\_compare\_benchmark.py} and \texttt{advay\_score\_heldout.py} regenerate every
+\begin{sloppypar}
+\paragraph{Reproduction.} \path{scripts/advay_data_checks.py},
+\path{scripts/advay_make_split.py}, \path{scripts/advay_fit_baseline.py} (\texttt{--protocol v2}),
+\path{scripts/advay_compare_benchmark.py} and \path{scripts/advay_score_heldout.py} regenerate every
 number and figure in this section; the declared protocols are in
-\texttt{docs/advay\_baseline\_protocol.md} and \texttt{docs/advay\_scoring\_plan.md}.
+\path{docs/advay_baseline_protocol.md} and \path{docs/advay_scoring_plan.md}.
+\end{sloppypar}

@@ -1,4 +1,15 @@
-# Advay → team: comments and open decisions
+# Advay → team: comments and protocol record
+
+**Integration update, 28 October 2026:** PRs #4/#6 and Rishi #5 are integrated.
+The baseline and held-out evaluation are complete. Advay's standalone report has
+now compiled successfully and all eight pages were visually checked; its table/path
+layout is repaired. Yash's final report discusses the PINN training-objective gap,
+and the combined notebook/report/deck include all five contributions. Rishi confirmed
+the historical solver in PR #5. Joel's personal acknowledgement of the fitting bounds
+is not recorded here; the frozen protocol already permits fitting all six parameters,
+and this is not an implementation blocker. See
+`docs/completion_status_2026-10-28.md` for the current completion record.
+The dated phase-by-phase notes below preserve the original sequence of decisions.
 
 Branch `advay/phase5-report`. Last updated 27 October 2026 (after the phase 3
 report section).
@@ -15,7 +26,7 @@ report section).
 | 2. Protocol decisions | Settled de facto by `configs/historical.json` (see §0) |
 | 3. Least-squares baseline | **Done:** `results/historical/advay_baseline_v2` (forecasts frozen, unscored) |
 | 4. Scoring and comparison | **Done:** `results/historical/advay_evaluation_v1` (plan in `docs/advay_scoring_plan.md`) |
-| 5. Report section, notebook, talk notes | **Done:** `report/advay_data_validation_section.tex` (+ `advay_main.tex`), `notebooks/advay_data_validation.ipynb`, `presentation/advay_notes.md`, AI log entry. **LaTeX not yet compiled** (no TeX on Advay's machine) |
+| 5. Report section, notebook, talk notes | **Done:** `report/advay_data_validation_section.tex` (+ `advay_main.tex`), `notebooks/advay_data_validation.ipynb`, `presentation/advay_notes.md`, AI log entry. **Compiled and visually checked during 28 October integration** (`report/advay_main.pdf`) |
 
 ## 0c. For whoever assembles the group report
 
@@ -89,13 +100,14 @@ now would be a revision made after scoring, and would have to be labelled that w
 | Error model and scaling | Additive; residuals divided by training maxima (77.4, 59.4) | Yash (already in code) |
 | Fitted parameters | **All six** (r, K, a, b, e, m) fitted; e not fixed; no e ≤ 1 limit; no coexistence constraint | Yash's choice; **Joel to acknowledge** |
 | Bounds | r, m ∈ [0.05, 3]; K ∈ [20, 500]; a ∈ [0.05, 10]; b ∈ [0.5, 300]; e ∈ [0.02, 5]; start r=0.8, K=150, a=2, b=30, e=0.6, m=0.6. Exploratory numerical limits, not ecological ranges | Yash's choice; **Joel to acknowledge** |
-| Solver | `model.solve`: RK45, rtol 1e-8, atol 1e-10, max_step 0.1, for fitting **and** forecasting | Yash; **Rishi to acknowledge** (his tighter `simulation.integrate` stays for long-run simulations) |
+| Solver | `model.solve`: RK45, rtol 1e-8, atol 1e-10, max_step 0.1, for fitting **and** forecasting | Yash; **Rishi confirmed in PR #5** (his tighter `simulation.integrate` stays for long-run simulations) |
 | Initial state | Main: 1900 observation (30.0, 4.0). PINN uses a soft penalty; its main ODE forecasts still start at the observed state | Yash |
 | Sensitivity runs | Log residuals; fitted H0, P0 within ±50%. Run as separate variants | Arnav, Yash (both implemented) |
 | Evaluation | Train-only fitting; integrate from 1900; separate hare/lynx RMSE and MAE in thousands of pelts | Arnav, Yash |
 
-**Still needed:** a short acknowledgement from Joel (all six fitted, bounds) and Rishi
-(solver for fitting/forecasting). Neither blocks the baseline, since the config is fixed.
+**Personal acknowledgement record:** Joel has not recorded a separate sign-off on the
+fitting bounds here. Rishi confirmed the historical solver in PR #5. The completed
+baseline uses the frozen config; this record does not block fitting or integration.
 
 **What this changes for Advay's work:**
 - Yash's `results/historical/yash_matching_baseline_v2` is an independent benchmark, not

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lynx-hare-project"
 version = "0.1.0"
-description = "Synthetic inverse PINN experiments for the Rosenzweig-MacArthur predator-prey model"
+description = "Model, stability, simulations and historical inverse PINN analysis of lynx-hare dynamics"
 requires-python = ">=3.11"
 dependencies = ["numpy>=2.0,<3", "scipy>=1.14,<2", "torch>=2.5,<3", "matplotlib>=3.9,<4"]
 

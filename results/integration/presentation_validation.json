@@ -1,0 +1,112 @@
+{
+  "status": "passed",
+  "checked_on": "2026-10-28",
+  "native_powerpoint_open_verified": false,
+  "formal_human_review_claimed": false,
+  "decks": [
+    {
+      "file": "presentation/group_presentation.pptx",
+      "sha256": "e05c5d918d8156494e038c619fc1390299069681ba8dd4270caeae08572c53ad",
+      "bytes": 984059,
+      "slides": 10,
+      "structural_package_findings": 0,
+      "layout_findings": 0,
+      "font_family": "Arial",
+      "font_policy_passed": true,
+      "first_party_import_passed": true,
+      "native_quantitative_chart_validation": {
+        "claim_boundary": "OOXML/workbook structural validation only; source provenance and native PowerPoint opening remain separate checks.",
+        "expected_quantitative_chart_slides": [
+          8
+        ],
+        "failed_slide_count": 0,
+        "failed_slides": [],
+        "formal_human_reviewed": false,
+        "native_application_open_verified": false,
+        "package_sha256": "e05c5d918d8156494e038c619fc1390299069681ba8dd4270caeae08572c53ad",
+        "passed": true,
+        "results": [
+          {
+            "approved_source_figure_exception": false,
+            "charts": [
+              {
+                "cache_reference_ranges_verified": true,
+                "embedded_workbook_count": 1,
+                "embedded_workbook_sheet_count": 1,
+                "native_chart_types": [
+                  "barChart"
+                ],
+                "numeric_cache_point_count": 4,
+                "series_formula_count": 4,
+                "workbook_numeric_cell_count": 4
+              }
+            ],
+            "failure_codes": [],
+            "native_chart_count": 1,
+            "raster_picture_count": 0,
+            "required_native_chart_count": 1,
+            "slide_number": 8,
+            "status": "passed"
+          }
+        ],
+        "schema_version": "owner-private.quantitative-chart-native-gate.v1",
+        "slide_count": 10,
+        "source_attachments_accessed": false,
+        "validated_slide_count": 1
+      },
+      "final_export_renders_visually_reviewed": 10
+    },
+    {
+      "file": "presentation/yash_historical_slides.pptx",
+      "sha256": "0bc80dc0b97a1e45505d760930ed7916ab2ea10e217937ab39a9336c75b51ba0",
+      "bytes": 27457,
+      "slides": 2,
+      "structural_package_findings": 0,
+      "layout_findings": 0,
+      "font_family": "Arial",
+      "font_policy_passed": true,
+      "first_party_import_passed": true,
+      "native_quantitative_chart_validation": {
+        "claim_boundary": "OOXML/workbook structural validation only; source provenance and native PowerPoint opening remain separate checks.",
+        "expected_quantitative_chart_slides": [
+          2
+        ],
+        "failed_slide_count": 0,
+        "failed_slides": [],
+        "formal_human_reviewed": false,
+        "native_application_open_verified": false,
+        "package_sha256": "0bc80dc0b97a1e45505d760930ed7916ab2ea10e217937ab39a9336c75b51ba0",
+        "passed": true,
+        "results": [
+          {
+            "approved_source_figure_exception": false,
+            "charts": [
+              {
+                "cache_reference_ranges_verified": true,
+                "embedded_workbook_count": 1,
+                "embedded_workbook_sheet_count": 1,
+                "native_chart_types": [
+                  "barChart"
+                ],
+                "numeric_cache_point_count": 4,
+                "series_formula_count": 4,
+                "workbook_numeric_cell_count": 4
+              }
+            ],
+            "failure_codes": [],
+            "native_chart_count": 1,
+            "raster_picture_count": 0,
+            "required_native_chart_count": 1,
+            "slide_number": 2,
+            "status": "passed"
+          }
+        ],
+        "schema_version": "owner-private.quantitative-chart-native-gate.v1",
+        "slide_count": 2,
+        "source_attachments_accessed": false,
+        "validated_slide_count": 1
+      },
+      "final_export_renders_visually_reviewed": 2
+    }
+  ]
+}

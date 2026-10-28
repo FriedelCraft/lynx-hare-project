@@ -70,3 +70,33 @@ behind this section with the assistant's step-by-step explanations: the Lotka-Vo
 conserved quantity, the Rosenzweig-MacArthur equilibria, Jacobian and trace-determinant stability,
 the Hopf threshold K_H = b + 2H*, and the RK45 method. He reviewed the summary of results and the
 group plan's checklist for his section.
+
+
+## Yash: final integration, 28 October 2026
+
+OpenAI Codex reviewed and integrated Arnav's final main-branch contribution, Advay's
+PRs #4/#6, and Rishi's PR #5. It preserved both acknowledgement entries during the
+merge; built a combined notebook with isolated author namespaces; compiled the
+combined report and Advay's standalone report; repaired table/path layout; and
+qualified the theory integration copy concerning equilibrium orbits and observation
+scales. Original experimental fits, forecasts and selection rules were not changed.
+
+Codex Artifact Tool generated Yash's two editable historical slides and the ten-slide
+group deck with two slides per member and speaker notes. Both decks passed export,
+layout, font, import and chart/workbook checks. Every final slide was rendered and
+visually inspected by the assistant. All 37 combined-report pages, five updated Yash
+pages and eight Advay pages were rendered and inspected. These checks do not claim
+that Microsoft PowerPoint was opened or that a member personally reviewed the work.
+
+The assistant ran 53 passing automated tests and executed all 39 code cells of the
+combined notebook. Its default mode runs illustrative simulations and live
+training-only least-squares demonstrations, reconstructs frozen PINN evidence and
+recomputes historical sigma values. The full long-run historical simulation replay
+is opt-in; PINN training and the 240-start baseline were not repeated during assembly.
+The packaging audit now follows active TeX inputs and validates every referenced
+EPS/vector-PDF pair, data provenance and notebook execution. Final archive validation
+is recorded separately in results/integration/verification.json.
+
+Yash and each teammate should record only manual checks actually performed. The ZIP
+is prepared locally for the professor's required email submission; no email is sent
+by this workflow.
