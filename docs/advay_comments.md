@@ -1,7 +1,7 @@
 # Advay → team: comments and open decisions
 
-Branch `advay/phase2-protocol`. Last updated 27 October 2026 (after the phase 3
-held-out evaluation).
+Branch `advay/phase5-report`. Last updated 27 October 2026 (after the phase 3
+report section).
 
 | Phase 1 step | Status |
 |---|---|
@@ -15,7 +15,17 @@ held-out evaluation).
 | 2. Protocol decisions | Settled de facto by `configs/historical.json` (see §0) |
 | 3. Least-squares baseline | **Done:** `results/historical/advay_baseline_v2` (forecasts frozen, unscored) |
 | 4. Scoring and comparison | **Done:** `results/historical/advay_evaluation_v1` (plan in `docs/advay_scoring_plan.md`) |
-| 5. Report section, notebook, slides | Next |
+| 5. Report section, notebook, talk notes | **Done:** `report/advay_data_validation_section.tex` (+ `advay_main.tex`), `notebooks/advay_data_validation.ipynb`, `presentation/advay_notes.md`, AI log entry. **LaTeX not yet compiled** (no TeX on Advay's machine) |
+
+## 0c. For whoever assembles the group report
+
+- Drop-in section: `\input{advay_data_validation_section}`. It needs `references.bib`
+  (keys `carpenter2018`, `howard2009`, `hewitt1921`, `tsibbledata_pelt`), the
+  `report/graphs/advay_*` figures and `report/tables/advay_heldout_metrics.tex`.
+- It cites the stability analysis and the historical PINN study by name, not with
+  `\ref`, so it compiles on its own (`report/advay_main.tex`). Swap in `\ref{sec:joel}`
+  etc. if you prefer once everything is in one document.
+- Uses `booktabs`, `amsmath`, `graphicx`, which are already in the other main files.
 
 ## 0b. Phase 4 held-out results (details in `results/historical/advay_evaluation_v1/README.md`)
 
