@@ -1,0 +1,146 @@
+{
+  "inputs": [
+    "results/historical/yash_pinn_v1",
+    "results/historical/yash_pinn_wider_v1",
+    "results/historical/yash_pinn_physics100_v1",
+    "results/historical/yash_matching_baseline_v2"
+  ],
+  "test_file_opened": false,
+  "reconstruction_max_abs_difference": 4.696687483374262e-12,
+  "sigma_range_by_group_excluding_poor_minima": {
+    "PINN main": [
+      1.3598108570956313,
+      1.3658198932860595
+    ],
+    "PINN log errors": [
+      1.3424641511292394,
+      1.3540878837925452
+    ],
+    "PINN fitted initial state": [
+      1.322634777999213,
+      1.3477412529835742
+    ],
+    "PINN main, wider bounds": [
+      1.466447474745029,
+      1.480829293743925
+    ],
+    "PINN main, physics weight 100": [
+      1.363621087220151,
+      1.363621087220151
+    ],
+    "Least squares main": [
+      1.067158158611879,
+      1.067158389510634
+    ],
+    "Least squares log errors": [
+      0.5496805094775071,
+      0.5496807633977304
+    ],
+    "Least squares fitted initial state": [
+      0.9930151026061087,
+      0.9930152140083244
+    ]
+  },
+  "selected": {
+    "PINN main": {
+      "sigma": 1.3631,
+      "regime": "limit_cycle",
+      "eigenvalue": "+0.0079+0.7122i",
+      "efold_years": 126.7,
+      "linear_period": 8.82,
+      "first_century_period": 10.7,
+      "first_century_lag": 1.37,
+      "cycle_H_range": "[0.13, 247.1]",
+      "cycle_period": 18.52,
+      "parameters_on_bounds": "K=upper b=upper"
+    },
+    "PINN log errors": {
+      "sigma": 1.3425,
+      "regime": "limit_cycle",
+      "eigenvalue": "+0.0079+0.7665i",
+      "efold_years": 126.6,
+      "linear_period": 8.2,
+      "first_century_period": 9.91,
+      "first_century_lag": 1.29,
+      "cycle_H_range": "[0.27, 240.1]",
+      "cycle_period": 17.37,
+      "parameters_on_bounds": ""
+    },
+    "PINN fitted initial state": {
+      "sigma": 1.3467,
+      "regime": "limit_cycle",
+      "eigenvalue": "+0.0070+0.6992i",
+      "efold_years": 143.4,
+      "linear_period": 8.99,
+      "first_century_period": 10.71,
+      "first_century_lag": 1.42,
+      "cycle_H_range": "[0.18, 243.4]",
+      "cycle_period": 19.37,
+      "parameters_on_bounds": "b=upper"
+    },
+    "PINN main, wider bounds": {
+      "sigma": 1.48,
+      "regime": "limit_cycle",
+      "eigenvalue": "+0.0049+0.7090i",
+      "efold_years": 204.4,
+      "linear_period": 8.86,
+      "first_century_period": 10.49,
+      "first_century_lag": 1.34,
+      "cycle_H_range": "[0.00, 514.7]",
+      "cycle_period": 33.29,
+      "parameters_on_bounds": "b=upper"
+    },
+    "PINN main, physics weight 100": {
+      "sigma": 1.3636,
+      "regime": "limit_cycle",
+      "eigenvalue": "+0.0091+0.6871i",
+      "efold_years": 110.5,
+      "linear_period": 9.14,
+      "first_century_period": 11.28,
+      "first_century_lag": 1.42,
+      "cycle_H_range": "[0.18, 210.0]",
+      "cycle_period": 17.59,
+      "parameters_on_bounds": ""
+    },
+    "Least squares main": {
+      "sigma": 1.0672,
+      "regime": "limit_cycle",
+      "eigenvalue": "+0.0018+0.6834i",
+      "efold_years": 554.2,
+      "linear_period": 9.19,
+      "first_century_period": 10.37,
+      "first_century_lag": 1.57,
+      "cycle_H_range": "[5.57, 85.0]",
+      "cycle_period": 10.77,
+      "parameters_on_bounds": "a=upper b=upper"
+    },
+    "Least squares log errors": {
+      "sigma": 0.5497,
+      "regime": "stable_coexistence",
+      "eigenvalue": "-0.0190+0.6804i",
+      "efold_years": 52.7,
+      "linear_period": 9.23,
+      "first_century_period": 9.41,
+      "first_century_lag": 2.04,
+      "cycle_H_range": "",
+      "cycle_period": "",
+      "parameters_on_bounds": "b=upper"
+    },
+    "Least squares fitted initial state": {
+      "sigma": 0.993,
+      "regime": "stable_coexistence",
+      "eigenvalue": "-0.0002+0.6694i",
+      "efold_years": 5599.5,
+      "linear_period": 9.39,
+      "first_century_period": 10.34,
+      "first_century_lag": 1.66,
+      "cycle_H_range": "",
+      "cycle_period": "",
+      "parameters_on_bounds": "b=upper"
+    }
+  },
+  "training_hare_range": [
+    18.1,
+    77.4
+  ]
+}

@@ -93,8 +93,9 @@ Give Advay `predictions_for_advay.csv`, `predictions_log_errors.csv`,
 Give Joel and Rishi `parameters_for_team.json`. An independent matching baseline is in
 `results/historical/yash_matching_baseline_v2`, with six starts per variant. Its partial
 v1 predecessor failed during JSON export and is retained as a failed run, not scored.
-Advay's own baseline has not arrived in PR #3. He can independently reproduce this
-benchmark or compare using the identical config rather than adopting different bounds.
+Update, 28 October: Advay's independent 240-start baseline and evaluation arrived in
+PRs #4/#6 and reproduce this benchmark and its scored forecasts. See
+`docs/completion_status_2026-10-28.md` for the final integration status.
 
 ## Validation and deliverables
 
@@ -115,5 +116,8 @@ Notebook: `notebooks/yash_historical_pinn.ipynb`. Report: `report/yash_historica
 and `.pdf`, with `yash_historical_section.tex` for group integration. Five EPS graphs
 and matching vector PDF companions are in `report/graphs/yash_historical_*`.
 Historical presentation notes are in `presentation/yash_historical_notes.md`.
-The older synthetic slide deck and submission ZIP remain separate. This work does not
-claim to be the combined group notebook/report or the final group submission.
+The original 27 October component remains separate from the combined notebook/report.
+The 28 October assembly adds `presentation/yash_historical_slides.pptx`, the ten-slide
+`presentation/group_presentation.pptx`, `notebooks/group_project.ipynb`, and
+`report/group_main.tex`/`.pdf`. The current local group ZIP is built outside Git using
+`python scripts/build_submission.py --scope group --extract-check`.

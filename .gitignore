@@ -23,6 +23,8 @@ report/*.log
 report/*.synctex.gz
 report/*.fls
 report/*.fdb_latexmk
+report/*.toc
+report/*.xdv
 
 __pycache__/
 *.py[codz]

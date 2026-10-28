@@ -4,6 +4,7 @@
 %  Needs: amsmath, amssymb, booktabs, graphicx (PDF companions are used under pdflatex)
 %  Figures: graphs/rishi_*.{eps,pdf}
 %  Regenerate: python scripts/rishi_simulations.py   (numbers: results/simulations/)
+%              python scripts/rishi_historical_placement.py   (results/simulations/historical/)
 %  Code: src/lynx_hare/simulation.py, src/lynx_hare/simulation_plots.py,
 %        notebooks/rishi_simulations.ipynb
 % =====================================================================
@@ -26,8 +27,14 @@ $H^*=30$, $K_H=90$ and $T_0=2\pi/\omega_0\approx 9.94$ years. The carrying capac
 Runge--Kutta pair (RK45) in \texttt{scipy.integrate.solve\_ivp}~\cite{dormand1980,scipysolve}.
 At each step a fourth- and a fifth-order estimate are formed from the same seven slope
 evaluations; their difference estimates the local error, and the step is rejected and reduced
-whenever this exceeds $\texttt{rtol}\,|y|+\texttt{atol}$. We use $\texttt{rtol}=10^{-10}$,
-$\texttt{atol}=10^{-12}$ and the initial state $(H_0,P_0)=(20,5)$.
+whenever this exceeds $\texttt{rtol}\,|y|+\texttt{atol}$. The project uses two settings of this
+solver for two different jobs. Fitting and the 1900--1920 forecasts of the historical sections use
+\texttt{model.solve} with $\texttt{rtol}=10^{-8}$, $\texttt{atol}=10^{-10}$ and a maximum step of
+$0.1$ years, identical for both fitting methods. The long-run simulations in this section run for
+thousands of years, so they use tighter tolerances, $\texttt{rtol}=10^{-10}$ and
+$\texttt{atol}=10^{-12}$, without a step cap. Both call the same shared right-hand side. The
+illustrative runs start from $(H_0,P_0)=(20,5)$; all values are in
+\texttt{configs/simulations.json}.
 
 \paragraph{Long-run behaviour.} To describe the attractor we integrate for a burn-in period
 $T_{\mathrm{burn}}$, discard it, and record the next 300--400 years. On the recorded window we
@@ -115,18 +122,9 @@ in agreement with the uniqueness result cited in Section~\ref{sec:joel}~\cite{ch
 
 \subsection{Bifurcation in $K$}
 
-The eigenvalues of $J(E^*)$ (Figure~\ref{fig:rishi_eig}) have real part changing sign at
-$K=90.0000000000$, found by root-finding on the numerically evaluated trace, in agreement with
-$K_H=b+2H^*$; at that point $|\operatorname{Im}\lambda|=\omega_0=0.632$. Below $K\approx42.6$
-the eigenvalues are real and $E^*$ is a stable node.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\linewidth]{rishi_eigenvalues}
-  \caption{Real (left) and imaginary (right) parts of the eigenvalues of $J(E^*)$ against $K$.
-  A complex pair crosses the imaginary axis at $K_H=90$ with nonzero speed.}
-  \label{fig:rishi_eig}
-\end{figure}
+Root-finding on the numerically evaluated trace of $J(E^*)$ places the sign change at
+$K=90.0000000000$, in agreement with $K_H=b+2H^*$ and Figure~\ref{fig:trace-det}; there the
+eigenvalues are $\pm0.632i=\pm i\omega_0$, and they become complex (node to focus) at $K\approx42.6$.
 
 The numerical bifurcation diagram (Figure~\ref{fig:rishi_bif}) records the post-transient maximum
 and minimum for 113 values of $K$ between 32 and 200. For $K<89$ the two coincide (largest
@@ -156,9 +154,95 @@ hare minimum is $0.12$ thousand pelts, the paradox of enrichment~\cite{rosenzwei
   \label{fig:rishi_amp}
 \end{figure}
 
+\subsection{Where the historical fits lie}\label{sec:rishi_hist}
+
+We now evaluate the same quantities at every parameter set fitted to the 1900--1915 pelt series in
+the historical sections: 13 PINN runs (three seeds for each error model, the wider-bounds runs and
+the physics-weight run) and all 18 matched least-squares starts. Only saved parameters and the
+training file are read; the held-out years are not used. As a check that the parameters are
+interpreted exactly as in fitting, re-integrating the selected PINN fit with \texttt{model.solve}
+and the historical solver settings reproduces the saved 1900--1920 trajectory to within
+$5\times10^{-12}$. For each set we compute $\sigma=K/K_H$, the eigenvalues
+$\lambda=\mu\pm i\omega$ of $J(E^*)$, the e-folding time $1/|\mu|$ and the linear period
+$2\pi/\omega$. We also record the period and lynx lag of the first century simulated from the
+fitted 1900 state, and flag coefficients within $0.5\%$ of a box limit. Five least-squares starts
+end in local minima with a training error at least $1.5$ times the best start of their variant;
+they are shown but not interpreted. The complete table is
+\texttt{results/simulations/historical/fits.csv}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Selected historical fits (lowest training objective within each variant).
+  $\mu\pm i\omega$: eigenvalues at $E^*$; periods and lag in years; ``bounds'': coefficients
+  within 0.5\% of their box limit.}
+  \label{tab:rishi_hist}
+  \small
+  \begin{tabular}{llcccccl}
+    \toprule
+    Method & Variant & $\sigma$ & $\mu\pm i\omega$ & $1/|\mu|$ & $2\pi/\omega$ & Period, lag & Bounds \\
+    \midrule
+    PINN & main            & 1.363 & $+0.0079\pm0.712i$ & 127  & 8.8 & 10.7, 1.4 & $K$, $b$ upper \\
+    PINN & log errors      & 1.343 & $+0.0079\pm0.767i$ & 127  & 8.2 & 9.9, 1.3  & -- \\
+    PINN & fitted $H_0,P_0$& 1.347 & $+0.0070\pm0.699i$ & 143  & 9.0 & 10.7, 1.4 & $b$ upper \\
+    PINN & wider bounds    & 1.480 & $+0.0049\pm0.709i$ & 204  & 8.9 & 10.5, 1.3 & $b$ upper \\
+    PINN & physics $\times10$ & 1.364 & $+0.0091\pm0.687i$ & 111 & 9.1 & 11.3, 1.4 & -- \\
+    Least squares & main   & 1.067 & $+0.0018\pm0.683i$ & 554  & 9.2 & 10.4, 1.6 & $a$, $b$ upper \\
+    Least squares & log errors & 0.550 & $-0.0190\pm0.680i$ & 53 & 9.2 & 9.4, 2.0 & $b$ upper \\
+    Least squares & fitted $H_0,P_0$ & 0.993 & $-0.0002\pm0.669i$ & 5600 & 9.4 & 10.3, 1.7 & $b$ upper \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Table~\ref{tab:rishi_hist} and Figure~\ref{fig:rishi_hist_sigma} show three findings.
+First, every well-fitting set reproduces the qualitative features of the data: an oscillation
+with a period of about 10 years and a lynx lag of 1.3--2 years. Second, these sets disagree about
+the side of the threshold. All PINN fits give $\sigma$ between 1.32 and 1.48, whereas the
+least-squares fits give 1.07, 0.99 and 0.55 for the main, fitted-initial-state and log-error
+variants. Third, the half-saturation constant $b$ lies on its upper box limit in nearly every
+fit, and widening the box moves the PINN estimate from $\sigma\approx1.36$ to $1.48$, so the
+reported $\sigma$ is conditional on the bounds.
+
+The reason the data cannot settle the question is the size of $\mu$. In every well-fitting set
+$|\mu|$ is between $0.0002$ and $0.019$ per year, so oscillations grow or decay by a factor
+$e$ only over 53 to 5600 years. Over the 16 training years the factor $e^{16\mu}$ lies between
+about $0.74$ and $1.16$, and a slowly damped focus and a slowly growing spiral produce almost the same
+two cycles. Figure~\ref{fig:rishi_hist_bif} shows the bifurcation diagram in $K$ for the two
+selected main fits, with all other coefficients held at their fitted values. For the
+least-squares fit the long-run cycle ($H$ between 5.6 and 85 thousand pelts, period 10.8 years)
+resembles the observed range. For the PINN fit the long-run cycle is much larger ($H$ between 0.1
+and 247, period 18.5 years); the fitted trajectory over 1900--1920 is still an early, slowly
+growing part of that spiral.
+
+We therefore do not conclude that the historical system lies on a stable limit cycle. The
+fitted model is close to the Hopf threshold, oscillates with the observed period and lag, and
+which side of the threshold it falls on depends on the fitting method, the error model and the
+bounds.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{rishi_historical_sigma}
+  \caption{Stability margin $\sigma=K/K_H$ of every fitted parameter set (log scale). Filled:
+  selected fit of each variant; open: other seeds or starts; crosses: least-squares local
+  minima with at least 1.5 times the best training error. PINN fits lie at $\sigma\approx1.3$--$1.5$;
+  least-squares fits straddle $\sigma=1$.}
+  \label{fig:rishi_hist_sigma}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{rishi_historical_bifurcation}
+  \caption{Bifurcation diagram in $K$ for the selected PINN (left) and least-squares (right) main
+  fits, plotted against $\sigma=K/K_H$ with the other fitted coefficients fixed. Red line: fitted
+  $\sigma$; thick red bar: long-run hare range at the fitted parameters; grey band: hare range in
+  the 1900--1915 training data. Near $\sigma=1$ transients decay very slowly, so points there
+  still carry residual oscillation after the burn-in (at most 60{,}000 years).}
+  \label{fig:rishi_hist_bif}
+\end{figure}
+
 \subsection{Scope}
 
-These simulations use illustrative, unfitted parameters and provide numerical evidence for one
-parameter set, not proofs. Near $K_H$ the results depend on the burn-in length, which is why it
-is lengthened there. Whether the historical hare--lynx series lies above or below the threshold
-depends on $\sigma=K/K_H$ at the fitted parameters and is addressed in the fitting sections.
+The illustrative simulations provide numerical evidence for one parameter set, not proofs. Near
+$K_H$ the results depend on the burn-in length, which is why it is lengthened there. The
+historical placement uses the saved fits as given; their $\sigma$ values inherit the bounds,
+the error model and the observation convention of the fitting sections, and the pelt series
+are abundance indices rather than population counts.

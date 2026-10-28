@@ -1,13 +1,123 @@
-# Advay → team: comments and open decisions
+# Advay → team: comments and protocol record
 
-Branch `advay/data-validation`. Last updated 27 October 2026.
+**Integration update, 28 October 2026:** PRs #4/#6 and Rishi #5 are integrated.
+The baseline and held-out evaluation are complete. Advay's standalone report has
+now compiled successfully and all eight pages were visually checked; its table/path
+layout is repaired. Yash's final report discusses the PINN training-objective gap,
+and the combined notebook/report/deck include all five contributions. Rishi confirmed
+the historical solver in PR #5. Joel's personal acknowledgement of the fitting bounds
+is not recorded here; the frozen protocol already permits fitting all six parameters,
+and this is not an implementation blocker. See
+`docs/completion_status_2026-10-28.md` for the current completion record.
+The dated phase-by-phase notes below preserve the original sequence of decisions.
+
+Branch `advay/phase5-report`. Last updated 27 October 2026 (after the phase 3
+report section).
 
 | Phase 1 step | Status |
 |---|---|
-| 1. Source, cite, tidy CSV | Done (`data/historical/`) |
-| 2. Plots and data checks | Done (`results/historical/data_checks/`) |
-| 3. Observation convention | Proposed (`docs/advay_observation_convention.md`), **awaiting Arnav/Yash/Joel** |
-| 4. Train/test split files | Done (`data/historical/train_1900_1915.csv`, `test_1916_1920.csv`, `split.json`) |
+| 1. Source, cite, tidy CSV | Done, merged in PR #3 (`data/historical/`) |
+| 2. Plots and data checks | Done, merged (`results/historical/data_checks/`) |
+| 3. Observation convention | **Agreed** by Arnav and Yash (`docs/advay_observation_convention.md`) |
+| 4. Train/test split files | Done, merged (`train_1900_1915.csv`, `test_1916_1920.csv`, `split.json`) |
+
+| Phase | Status |
+|---|---|
+| 2. Protocol decisions | Settled de facto by `configs/historical.json` (see §0) |
+| 3. Least-squares baseline | **Done:** `results/historical/advay_baseline_v2` (forecasts frozen, unscored) |
+| 4. Scoring and comparison | **Done:** `results/historical/advay_evaluation_v1` (plan in `docs/advay_scoring_plan.md`) |
+| 5. Report section, notebook, talk notes | **Done:** `report/advay_data_validation_section.tex` (+ `advay_main.tex`), `notebooks/advay_data_validation.ipynb`, `presentation/advay_notes.md`, AI log entry. **Compiled and visually checked during 28 October integration** (`report/advay_main.pdf`) |
+
+## 0c. For whoever assembles the group report
+
+- Drop-in section: `\input{advay_data_validation_section}`. It needs `references.bib`
+  (keys `carpenter2018`, `howard2009`, `hewitt1921`, `tsibbledata_pelt`), the
+  `report/graphs/advay_*` figures and `report/tables/advay_heldout_metrics.tex`.
+- It cites the stability analysis and the historical PINN study by name, not with
+  `\ref`, so it compiles on its own (`report/advay_main.tex`). Swap in `\ref{sec:joel}`
+  etc. if you prefer once everything is in one document.
+- Uses `booktabs`, `amsmath`, `graphicx`, which are already in the other main files.
+
+## 0b. Phase 4 held-out results (details in `results/historical/advay_evaluation_v1/README.md`)
+
+- **Scoring followed a pre-declared plan** (`docs/advay_scoring_plan.md`, pushed before the
+  test file was opened). All 19 frozen forecasts were hash-checked. Yash's numbers are
+  reproduced exactly.
+- **Headline (main variant), RMSE in thousands of pelts:**
+  - least squares: hare 3.07, lynx 3.04;
+  - PINN: hare 2.85, lynx 4.32.
+
+  Verdict by the declared rule: hare similar; lynx least squares better (closer in all 5
+  years).
+- **Sensitivity variants:** least squares better or similar in both. Log-error PINN: hare
+  RMSE 18.4, because its training fit misplaces the 1913 peaks.
+- **Both methods beat the trivial forecasts by a wide margin** (holding the 1915 value:
+  lynx RMSE 37; training mean: about 11). The fitted dynamics genuinely predict the crash
+  and recovery.
+- **Yash:** your selected PINN parameters fit the training years 1.9–3.4× worse than the
+  least-squares optimum on the same objective (`pinn_training_fit.json`), with σ ≈ 1.35 in
+  all variants. Worth a line in your section on why the PINN doesn't reach the LS optimum.
+- **Joel and Rishi:** the held-out years don't settle the stability question either. Fits
+  with σ ≈ 1.0 and σ ≈ 1.35 both forecast 1916–1920 reasonably.
+- **Report table:** `report/tables/advay_heldout_metrics.tex`. Figures:
+  `report/graphs/advay_heldout_{overlay,variants,metrics}.{eps,pdf}`.
+
+## 0a. Phase 3 results for the team (details in `results/historical/advay_baseline_v2/README.md`)
+
+- **Independent reproduction:** my least-squares code is separate from Yash's and uses a
+  different start design, but reaches the same optimum in all three variants (training
+  cost within 2e-7, forecasts within 0.002 thousand pelts). Forecasts frozen; not scored
+  yet.
+- **Protocol amendment, declared openly:** my first declared run (v1, kept) missed the
+  best `fitted_initial` fit because its log-scale starts rarely landed near the upper
+  bounds. v2 adds 40 starts spread evenly on the ordinary scale per variant. The decision
+  used training cost only. See `docs/advay_baseline_protocol.md`.
+- **Joel and Rishi, σ = K/K_H:** main 1.067 (just above Hopf), fitted 1900 state 0.993
+  (just below), log errors 0.550 (damped). All three match the observed peak timing
+  (period about 10 years, lynx lag about 1.6 years). **The data can't decide between a
+  limit cycle and a damped oscillation.** Please don't describe the fitted system as
+  showing a limit cycle. Parameters are in `parameters_for_team.json`; Rishi, these are
+  for the bifurcation diagram.
+- **Everyone, the saturation isn't identified:** b hits its upper bound (300) in every
+  variant, and a does too in the main fit. With b about 4× the largest hare count,
+  predation is almost linear in H over the data, and a, b, K are each uncertain by a
+  factor of 3 or more (a–b correlation 0.998). Only the ratio a/b ≈ 0.024–0.033 is well
+  determined. Joel: this probably belongs in the sensitivity discussion; the fitted point
+  depends on the box.
+
+## 0. Phase 2 decisions: where things stand
+
+The historical protocol is now `configs/historical.json`. Yash chose it for his runs, and
+his PINN and matched least-squares forecasts were **frozen and then scored** on
+1916–1920 (`results/historical/yash_evaluation_v1/`). So changing any of these choices
+now would be a revision made after scoring, and would have to be labelled that way.
+**The baseline will use this config unchanged.**
+
+| Decision | Outcome | Who agreed |
+|---|---|---|
+| Data source | Stan compilation, frozen split v1; tsibbledata disagreement reported as a limitation | Arnav, Yash |
+| Observation convention (O1) | H, P directly in thousands of pelts; no fitted scale factor; observed = state + error; annual totals as point samples | Arnav (units sheet updated), Yash |
+| Error model and scaling | Additive; residuals divided by training maxima (77.4, 59.4) | Yash (already in code) |
+| Fitted parameters | **All six** (r, K, a, b, e, m) fitted; e not fixed; no e ≤ 1 limit; no coexistence constraint | Yash's choice; **Joel to acknowledge** |
+| Bounds | r, m ∈ [0.05, 3]; K ∈ [20, 500]; a ∈ [0.05, 10]; b ∈ [0.5, 300]; e ∈ [0.02, 5]; start r=0.8, K=150, a=2, b=30, e=0.6, m=0.6. Exploratory numerical limits, not ecological ranges | Yash's choice; **Joel to acknowledge** |
+| Solver | `model.solve`: RK45, rtol 1e-8, atol 1e-10, max_step 0.1, for fitting **and** forecasting | Yash; **Rishi confirmed in PR #5** (his tighter `simulation.integrate` stays for long-run simulations) |
+| Initial state | Main: 1900 observation (30.0, 4.0). PINN uses a soft penalty; its main ODE forecasts still start at the observed state | Yash |
+| Sensitivity runs | Log residuals; fitted H0, P0 within ±50%. Run as separate variants | Arnav, Yash (both implemented) |
+| Evaluation | Train-only fitting; integrate from 1900; separate hare/lynx RMSE and MAE in thousands of pelts | Arnav, Yash |
+
+**Personal acknowledgement record:** Joel has not recorded a separate sign-off on the
+fitting bounds here. Rishi confirmed the historical solver in PR #5. The completed
+baseline uses the frozen config; this record does not block fitting or integration.
+
+**What this changes for Advay's work:**
+- Yash's `results/historical/yash_matching_baseline_v2` is an independent benchmark, not
+  Advay's baseline (as Yash's manifest states). Advay's baseline will be a separate
+  implementation on the same config, with its own multistart settings declared before it
+  runs. It will be checked against Yash's benchmark, and must not be adjusted using the
+  1916–1920 scores.
+- Yash has already scored the forecasts. Advay will independently recompute all RMSE/MAE
+  from the frozen forecast files and the test CSV, and build the final comparison
+  figures and tables.
 
 ## 1. Historical dataset is in the repo
 

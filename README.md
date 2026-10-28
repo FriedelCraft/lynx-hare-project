@@ -3,9 +3,27 @@
 MAC F314 Mathematical Modelling: Canadian lynx and snowshoe hare dynamics.
 This repository contains **Yash's inverse physics-informed neural network (PINN) work package**,
 **Joel's stability analysis**, **Arnav's model formulation**, **Rishi's simulations**,
-and **Advay's historical data contribution from PR #3**.
+and **Advay's independent historical baseline and evaluation**.
 Synthetic controlled recovery experiments and historical pelt-index experiments are
 kept separately. Historical counts are abundance indices, not animal censuses.
+
+## Combined deliverables (28 October 2026)
+
+- [Executed group notebook](notebooks/group_project.ipynb): all five credited contributions,
+  with isolated namespaces and 39 executable cells.
+- [Combined report PDF](report/group_main.pdf) and [main LaTeX source](report/group_main.tex).
+- [Ten-slide group presentation](presentation/group_presentation.pptx), two slides per member,
+  and [Yash's historical segment](presentation/yash_historical_slides.pptx).
+- [Current completion record](docs/completion_status_2026-10-28.md), including reproduction modes.
+
+Install `requirements.txt`, then `pip install -e . --no-deps`. Run
+`python scripts/execute_notebook.py --notebook notebooks/group_project.ipynb`.
+The default notebook replays illustrative simulations and training-only LS demos,
+audits frozen PINN outputs, and checks historical sigma. Set `FULL_LONG_RUN_REPLAY=True`
+only to repeat the expensive historical simulations over thousands of years.
+Build the professor-format ZIP with `python scripts/build_submission.py --extract-check`.
+It is written outside Git; no email is sent. Use `--scope synthetic` for the older
+controlled component, or `--scope historical` for Yash's standalone historical component.
 
 ## Historical results (27 October 2026)
 
@@ -20,7 +38,8 @@ strongly on numerical bounds. These choices were made by Yash with assistance;
 approval or completion of other members' fitting work is not implied.
 Training uses only 1900-1915; forecast choices were frozen before scoring 1916-1920.
 The common comparison config is [historical.json](configs/historical.json).
-The old synthetic submission ZIP has not been replaced by a combined group submission.
+Advay has independently reproduced the matching baseline and completed evaluation;
+the combined deliverables above incorporate that contribution.
 
 ## What is included
 
@@ -52,18 +71,18 @@ cd lynx-hare-project
 git switch -c your-name/work
 ```
 
-Follow the environment setup below, then open `notebooks/yash_pinn.ipynb`. It contains
-the complete implementation and saved outputs. You can inspect results immediately;
-retraining is optional. All bundled observations are synthetic, and the shared model,
-solver and baseline are provisional until the group agrees on the interfaces.
+Follow the environment setup below, then open `notebooks/group_project.ipynb`.
+The historical datasets, shared protocol and all five contributions are integrated.
+The original synthetic notebook remains a separate controlled recovery experiment.
+Existing frozen results can be inspected without retraining.
 
-| Member | Integration starting point |
+| Member | Current contribution and review entry point |
 |---|---|
-| Arnav | Confirm equations, units and scaling in `src/lynx_hare/model.py` and `docs/method.md` |
-| Joel | Supply feasibility conditions and parameter ranges for `configs/synthetic.json` |
-| Rishi | Integrate the common solver in `src/lynx_hare/model.py` with the numerical analysis |
-| Advay | Supply the cited dataset and agree on the baseline and evaluation in `docs/team_handoff.md` |
-| Yash | Maintain `src/lynx_hare/pinn.py`, synthetic recovery and PINN-derived forecasts |
+| Arnav | Final model, observation units and scaling in `contributions/arnav/` |
+| Joel | Stability derivation, symbolic checks and `report/joel_group_section.tex` |
+| Rishi | Numerical simulations and historical stability placement in `notebooks/rishi_simulations.ipynb` |
+| Advay | Historical data, independent baseline and evaluation in `notebooks/advay_data_validation.ipynb` |
+| Yash | Historical PINN in `notebooks/yash_historical_pinn.ipynb`, slides and group integration |
 
 After accepting the collaborator invitation, push your branch and open a pull request:
 

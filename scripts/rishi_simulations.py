@@ -4,7 +4,7 @@ Uses the shared src/lynx_hare/model.py (rhs) and Joel's src/lynx_hare/stability.
 reproduces Joel's validation targets, and writes figures, tables and a JSON summary to
 results/simulations/ plus EPS/PDF copies to report/graphs/rishi_*.
 
-Illustrative parameters (NOT fitted): H, P in thousands of pelts, t in years.
+All parameters, tolerances and grids come from configs/simulations.json (illustrative, NOT fitted).
 """
 import csv
 import json
@@ -86,12 +86,14 @@ def main():
     plots.save(fig, "rishi_limit_cycle", FIG, GRAPHS); plt.close(fig)
     summary["limit_cycle_last_peaks"] = peaks
     fig, eig = plots.eigenvalues_vs_K(base, np.linspace(30.5, 200, 800))
-    plots.save(fig, "rishi_eigenvalues", FIG, GRAPHS); plt.close(fig)
+    plots.save(fig, "rishi_eigenvalues", FIG); plt.close(fig)   # notebook/viva only; Joel's trace-det figure covers this in the report
     summary["hopf_crossing_numerical"] = sim.hopf_crossing(base, 60.0, 120.0)
     summary.update(eig)
 
     # Fig 5: bifurcation sweep
-    sweep = sim.bifurcation_sweep(base, np.linspace(32, 200, 113))
+    sw = sim.CONFIG["bifurcation_sweep"]
+    sweep = sim.bifurcation_sweep(base, np.linspace(sw["K_min"], sw["K_max"], sw["points"]),
+                                  t_record=sw["record_years"])
     fig = plots.bifurcation(base, sweep)
     plots.save(fig, "rishi_bifurcation", FIG, GRAPHS); plt.close(fig)
     write_csv(OUT / "bifurcation.csv", [{k: float(v[i]) for k, v in sweep.items()} for i in range(len(sweep["K"]))])
@@ -100,7 +102,9 @@ def main():
     summary["cycle_min_at_K200"] = {"H": float(sweep["Hmin"][-1]), "P": float(sweep["Pmin"][-1])}
 
     # Fig 6: amplitude law and period
-    law = sim.amplitude_law(base, np.geomspace(0.5, 8.0, 12))
+    al = sim.CONFIG["amplitude_law"]
+    law = sim.amplitude_law(base, np.geomspace(al["dK_min"], al["dK_max"], al["points"]),
+                            t_record=al["record_years"])
     fig = plots.amplitude_and_period(law)
     plots.save(fig, "rishi_amplitude_period", FIG, GRAPHS); plt.close(fig)
     write_csv(OUT / "amplitude_law.csv", [dict(dK=float(d), half_amplitude=float(a), period=float(p))

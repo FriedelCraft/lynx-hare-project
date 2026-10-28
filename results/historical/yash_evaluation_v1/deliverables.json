@@ -10,10 +10,10 @@
   "files": {
     "notebooks/yash_historical_pinn.ipynb": "349c237412228c39d9987d1748a3fbbd0b844685c5682c52345dce1323d45538",
     "report/yash_historical_main.tex": "69d6efd49bd4fcecc6644f74fa531f62e42905c2f13ef2c92fec767652050562",
-    "report/yash_historical_section.tex": "37063b986b26c34711fec5a1fdce277f995c2778186b66bb1d22c9883720a45b",
-    "report/yash_historical_main.pdf": "37641ca5b956e569ae4c36087922a340ef129b18136ba4e2fdfcad339113bf73",
+    "report/yash_historical_section.tex": "51cefeb657127944c2bf9a31601a1412999f6f1d9c2996a1d828c012cfd8a163",
+    "report/yash_historical_main.pdf": "100336563831baf3fa79bf0c18473d1b4a03f7a616400c92ca0517d913c799e3",
     "report/yash_historical_main.bbl": "c880c5f3b0fc341d8e46837c38cd313e73616161f3b99d59b4e53d797ba1642d",
-    "docs/yash_historical_handoff.md": "473d993c0b5d55738e0c949b81882aab6127f85bd15d0a5f143fd2102f0b1dc5",
+    "docs/yash_historical_handoff.md": "4bbbfbe59f88eceabb3a7b24c817ca80f873c4280f327a32f0b826759ae38bb3",
     "presentation/yash_historical_notes.md": "e78f0d708f8ffe243e6b866f2f2b369bd853d9e365025c92ce9bf988c9dfbc9f",
     "report/graphs/yash_historical_bounds.eps": "258cb9a467712aeca428e259dea544c6304016302cd03cc2de1939981b6df171",
     "report/graphs/yash_historical_bounds.pdf": "24adc7df95166fc05c5657e1c981876c511d59c81707c16ac9c9857248b9ea96",
@@ -26,5 +26,6 @@
     "report/graphs/yash_historical_sensitivity.eps": "a1b404b326c24c42563f939f4b86f391144b4a90f0927627d3681090c73fbb98",
     "report/graphs/yash_historical_sensitivity.pdf": "f25f5540a863807379456be5ed70d57939231ec39e6389f466fe171bb2e74ab8"
   },
-  "publication_note": "Project source and results prepared for publication; submission ZIP and checkpoints excluded."
+  "publication_note": "Project source and results prepared for publication; submission ZIP and checkpoints excluded.",
+  "integration_update": "28 October 2026: report scope wording and handoff updated; original experiment and score records unchanged. Current group verification is results/integration/verification.json."
 }

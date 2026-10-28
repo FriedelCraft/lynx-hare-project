@@ -1,0 +1,28 @@
+\begin{thebibliography}{1}
+
+\bibitem{carpenter2018}
+Bob Carpenter.
+\newblock Predator-prey population dynamics: the {Lotka}-{Volterra} model in
+  {Stan}.
+\newblock Stan case study, 2018.
+\newblock Data file hudson-bay-lynx-hare.csv, stan-dev/example-models commit
+  d52cde5; accessed 27 October 2026.
+
+\bibitem{hewitt1921}
+C.~Gordon Hewitt.
+\newblock {\em The Conservation of the Wild Life of Canada}.
+\newblock Charles Scribner's Sons, New York, 1921.
+
+\bibitem{howard2009}
+Peter Howard.
+\newblock Modeling basics.
+\newblock Lecture notes for Math 442, Texas A\&M University, 2009.
+
+\bibitem{tsibbledata_pelt}
+Mitchell O'Hara-Wild, Rob Hyndman, and Earo Wang.
+\newblock tsibbledata: Diverse datasets for tsibble -- pelt: Pelt trading
+  records.
+\newblock R package.
+\newblock Hudson Bay Company records 1845--1935; used only as a cross-check.
+
+\end{thebibliography}

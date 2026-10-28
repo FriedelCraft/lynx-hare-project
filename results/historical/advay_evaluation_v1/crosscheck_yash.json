@@ -1,0 +1,103 @@
+{
+  "tolerance": 1e-09,
+  "max_abs_diff": 0.0,
+  "all_match": true,
+  "rows": [
+    {
+      "case": "primary",
+      "run": "fitted_initial_seed17",
+      "variant": "fitted_initial",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "fitted_initial_seed29",
+      "variant": "fitted_initial",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "fitted_initial_seed43",
+      "variant": "fitted_initial",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "log_errors_seed17",
+      "variant": "log_errors",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "log_errors_seed29",
+      "variant": "log_errors",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "log_errors_seed43",
+      "variant": "log_errors",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "main_seed17",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "main_seed29",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "primary",
+      "run": "main_seed43",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "wider_bounds",
+      "run": "main_seed17",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "wider_bounds",
+      "run": "main_seed29",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "wider_bounds",
+      "run": "main_seed43",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "physics100",
+      "run": "main_seed17",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "baseline",
+      "run": "start5",
+      "variant": "main",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "baseline",
+      "run": "start4",
+      "variant": "log_errors",
+      "max_abs_diff": 0.0
+    },
+    {
+      "case": "baseline",
+      "run": "start2",
+      "variant": "fitted_initial",
+      "max_abs_diff": 0.0
+    }
+  ]
+}

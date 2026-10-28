@@ -1,0 +1,146 @@
+\begin{thebibliography}{10}
+
+\bibitem{arnav_advay2026}
+{Advay}.
+\newblock Historical pelt data, provenance and observation convention.
+\newblock Team repository, revision \texttt{28dbe1e}, files
+  \texttt{data/historical/README.md}, \texttt{provenance.json},
+  \texttt{split.json} and \texttt{docs/advay\_observation\_convention.md},
+  2026.
+\newblock Reviewed 28 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/28dbe1e2a611719f3d65e5922db528ae423724f2}.
+
+\bibitem{arnav_carpenter2018}
+Bob Carpenter.
+\newblock Predator--prey population dynamics: The {Lotka--Volterra} model in
+  {Stan}.
+\newblock Stan case study, 28 January 2018.
+  \url{https://mc-stan.org/learn-stan/case-studies/lotka-volterra-predator-prey.html},
+  2018.
+\newblock Accessed 26 October 2026. Public transcription and source discussion
+  for the 1900--1920 pelt series; quantities in thousands of pelts.
+
+\bibitem{carpenter2018}
+Bob Carpenter.
+\newblock Predator-prey population dynamics: the {Lotka}-{Volterra} model in
+  {Stan}.
+\newblock Stan case study, 2018.
+\newblock Data file hudson-bay-lynx-hare.csv, stan-dev/example-models commit
+  d52cde5; accessed 27 October 2026.
+
+\bibitem{cheng1981}
+Kuo-Shung Cheng.
+\newblock Uniqueness of a limit cycle for a predator--prey system.
+\newblock {\em SIAM Journal on Mathematical Analysis}, 12(4):541--548, 1981.
+
+\bibitem{dormand1980}
+J.~R. Dormand and P.~J. Prince.
+\newblock A family of embedded {R}unge--{K}utta formulae.
+\newblock {\em Journal of Computational and Applied Mathematics}, 6(1):19--26,
+  1980.
+
+\bibitem{hewitt1921}
+C.~Gordon Hewitt.
+\newblock {\em The Conservation of the Wild Life of Canada}.
+\newblock Charles Scribner's Sons, New York, 1921.
+
+\bibitem{arnav_holling1959}
+C.~S. Holling.
+\newblock Some characteristics of simple types of predation and parasitism.
+\newblock {\em The Canadian Entomologist}, 91(7):385--398, 1959.
+\newblock \url{https://doi.org/10.4039/Ent91385-7}.
+
+\bibitem{howard2009}
+Peter Howard.
+\newblock Modeling basics.
+\newblock Lecture notes for Math 442, Texas A\&M University, 2009.
+
+\bibitem{hsu1978}
+Sze-Bi Hsu.
+\newblock On global stability of a predator--prey system.
+\newblock {\em Mathematical Biosciences}, 39:1--10, 1978.
+
+\bibitem{arnav_joel2026}
+{Joel}.
+\newblock Equilibria, stability and hopf bifurcation.
+\newblock Team report contribution, revision \texttt{7d17deee}, 2026.
+\newblock Accessed 26 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/blob/7d17deee1cb685f016ff16cb6706e8db12ebe6b2/report/joel_stability_section.tex}.
+
+\bibitem{kuznetsov2004}
+Yuri~A. Kuznetsov.
+\newblock {\em Elements of Applied Bifurcation Theory}.
+\newblock Springer, New York, 3rd edition, 2004.
+
+\bibitem{arnav_teamrepo2026}
+{Lynx Hare Project team}.
+\newblock Lynx hare project: Shared model, synthetic configuration and {Yash}'s
+  {PINN} method.
+\newblock GitHub repository, revision \texttt{7d17deee}, 2026.
+\newblock Accessed 26 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/7d17deee1cb685f016ff16cb6706e8db12ebe6b2}.
+
+\bibitem{tsibbledata_pelt}
+Mitchell O'Hara-Wild, Rob Hyndman, and Earo Wang.
+\newblock tsibbledata: Diverse datasets for tsibble -- pelt: Pelt trading
+  records.
+\newblock R package.
+\newblock Hudson Bay Company records 1845--1935; used only as a cross-check.
+
+\bibitem{raissi2019}
+Maziar Raissi, Paris Perdikaris, and George~Em Karniadakis.
+\newblock Physics-informed neural networks: A deep learning framework for
+  solving forward and inverse problems involving nonlinear partial differential
+  equations.
+\newblock {\em Journal of Computational Physics}, 378:686--707, 2019.
+
+\bibitem{arnav_rishi2026}
+{Rishi}.
+\newblock Numerical simulations: Team handoff.
+\newblock Team repository, revision \texttt{28dbe1e}, file
+  \texttt{docs/rishi\_simulation\_handoff.md}, 2026.
+\newblock Reviewed 28 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/28dbe1e2a611719f3d65e5922db528ae423724f2}.
+
+\bibitem{rosenzweig1971}
+Michael~L. Rosenzweig.
+\newblock Paradox of enrichment: Destabilization of exploitation ecosystems in
+  ecological time.
+\newblock {\em Science}, 171(3969):385--387, 1971.
+
+\bibitem{arnav_rosenzweig1963}
+Michael~L. Rosenzweig and Robert~H. MacArthur.
+\newblock Graphical representation and stability conditions of predator--prey
+  interactions.
+\newblock {\em The American Naturalist}, 97(895):209--223, 1963.
+\newblock \url{https://doi.org/10.1086/282272}.
+
+\bibitem{rosenzweig1963}
+Michael~L. Rosenzweig and Robert~H. MacArthur.
+\newblock Graphical representation and stability conditions of predator--prey
+  interactions.
+\newblock {\em The American Naturalist}, 97(895):209--223, 1963.
+
+\bibitem{scipysolve}
+{SciPy Contributors}.
+\newblock scipy.integrate.solve\_ivp documentation.
+\newblock
+  \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html}.
+\newblock Accessed 26 October 2026.
+
+\bibitem{strogatz2015}
+Steven~H. Strogatz.
+\newblock {\em Nonlinear Dynamics and Chaos}.
+\newblock Westview Press, Boulder, CO, 2nd edition, 2015.
+
+\bibitem{arnav_historical2026}
+{Yash and Lynx Hare Project team}.
+\newblock Historical fitting configuration, implementation and handoff.
+\newblock Team repository, revision \texttt{28dbe1e}, files
+  \texttt{configs/historical.json},
+  \texttt{src/lynx\_hare/historical\_pinn.py}, \texttt{model.py},
+  \texttt{pinn.py} and \texttt{docs/yash\_historical\_handoff.md}, 2026.
+\newblock Reviewed 28 October 2026.
+  \url{https://github.com/FriedelCraft/lynx-hare-project/tree/28dbe1e2a611719f3d65e5922db528ae423724f2}.
+
+\end{thebibliography}
