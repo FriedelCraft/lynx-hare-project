@@ -53,3 +53,20 @@ could not be compiled in the assistant's environment (no TeX installation); comp
 a visual check of the PDF are still needed. The checks above were run by the assistant.
 Advay should add his own manual checks after reading and rerunning the work, and confirm the
 course's required acknowledgement wording before submission.
+
+## Rishi: numerical simulations (26-27 October 2026)
+
+| Tool | Task assisted | Generated material | Checks actually performed |
+|---|---|---|---|
+| Claude (Anthropic), Opus 5.5 | Simulation layer and figures; reproduction of Joel's validation targets; executed notebook; LaTeX section; historical sigma placement; presentation notes; explanations of RK45, Hopf bifurcation and the figures | `src/lynx_hare/simulation.py`, `simulation_plots.py`, `configs/simulations.json`, `scripts/rishi_simulations.py`, `scripts/rishi_historical_placement.py`, `scripts/build_rishi_notebook.py`, `notebooks/rishi_simulations.ipynb`, `tests/test_simulation.py`, `report/rishi_simulation_section.tex`, `report/rishi_main.tex`, `report/graphs/rishi_*`, `results/simulations/`, `presentation/rishi_notes.md`, `docs/rishi_simulation_handoff.md` | Automated tests (solver accuracy, positivity, shared RHS, Joel's targets, Hopf crossing, arrow directions, config consistency); all six of Joel's regimes reproduced; reconstruction of Yash's selected 1900-1920 path with model.solve (difference 5e-12); sigma recomputed for every saved fit and matched to Yash's reported values; notebook executed end to end; report compiled and figures inspected |
+| SciPy solve_ivp | RK45 integration | All trajectories and long-run summaries | Lotka-Volterra invariant drift 4e-10; 100x tighter tolerances change results by 8e-10 |
+
+The checks above were run by the assistant. A phase-portrait arrow error in the first version
+(arrow directions skewed by unequal axis ranges) was found in group review and corrected on
+27 October; a test now checks every arrow against the vector field.
+
+**Rishi's own checks at submission (27 October):** Rishi worked through the model and theory
+behind this section with the assistant's step-by-step explanations: the Lotka-Volterra model and its
+conserved quantity, the Rosenzweig-MacArthur equilibria, Jacobian and trace-determinant stability,
+the Hopf threshold K_H = b + 2H*, and the RK45 method. He reviewed the summary of results and the
+group plan's checklist for his section.

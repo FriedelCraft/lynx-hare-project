@@ -57,3 +57,40 @@ def test_numerical_hopf_crossing_matches_closed_form():
 def test_near_hopf_points_get_long_burn_in():
     assert sim.default_burn_in(sim.with_K(BASE, 90.5)) == sim.T_BURN_NEAR_HOPF
     assert sim.default_burn_in(sim.with_K(BASE, 150.0)) == sim.T_BURN
+
+
+def test_config_is_single_source_and_matches_joel_regimes():
+    cfg = json.loads((ROOT / "configs" / "simulations.json").read_text())
+    assert sim.ILLUSTRATIVE == cfg["params"]
+    assert (sim.RTOL, sim.ATOL) == (cfg["solver"]["rtol"], cfg["solver"]["atol"])
+    assert {k: v for k, v in sim.REGIMES.items()} == {r["label"]: r["K"] for r in TARGETS.values()}
+
+
+def test_direction_field_arrows_follow_the_flow():
+    from lynx_hare.simulation_plots import direction_field
+    p = sim.with_K(BASE, 150.0)
+    (H, P), (U, V) = direction_field(p, Hmax=160.0, Pmax=50.0)   # unequal axis ranges
+    dH, dP = rhs(0, [H, P], p)
+    # arrows are parallel to (dH/dt, dP/dt) in data coordinates and point the same way
+    np.testing.assert_allclose(U * dP - V * dH, 0, atol=1e-9 * np.abs(U * dP).max())
+    assert np.all(U * dH + V * dP > 0)
+    # equal length in axis-fraction units
+    np.testing.assert_allclose(np.hypot(U / 160.0, V / 50.0), 0.045, rtol=1e-12)
+
+
+def test_historical_fits_reconstruct_and_sigma_matches_yash():
+    """Saved PINN parameters reproduce Yash's 1900-1920 path with model.solve, and
+    linear_summary's sigma equals the sigma he reported for every run."""
+    import csv
+    from lynx_hare.model import solve
+    hist = ROOT / "results" / "historical" / "yash_pinn_v1"
+    solver = json.loads((ROOT / "configs" / "historical.json").read_text())["solver"]
+    sel = json.loads((hist / "selected_runs.json").read_text())["main"]
+    with open(hist / "runs" / sel["run_id"] / "ode_dense.csv") as f:
+        rows = np.array([[float(x) for x in r] for r in list(csv.reader(f))[1:]])
+    y = solve(rows[:, 0] - 1900.0, rows[0, 1:], Parameters(**sel["parameters"]), **solver)
+    np.testing.assert_allclose(y, rows[:, 1:], atol=1e-8)
+    for r in json.loads((hist / "parameters_for_team.json").read_text()):
+        lin = sim.linear_summary(Parameters(**{k: r[k] for k in "rKabem"}))
+        assert lin["sigma"] == pytest.approx(r["sigma"], rel=1e-10)
+        assert lin["linear_period"] == pytest.approx(2 * np.pi / np.abs(lin["eigenvalues"].imag).max())

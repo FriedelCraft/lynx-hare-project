@@ -33,6 +33,8 @@ def embed(filename):
     src = (ROOT / "src" / "lynx_hare" / filename).read_text(encoding="utf-8")
     src = re.sub(r"^from \.model import", "from lynx_hare.model import", src, flags=re.M)
     src = re.sub(r"^from \. import (.+)$", r"from lynx_hare import \1", src, flags=re.M)
+    # notebook cells have no __file__; ROOT (repository root) is defined in the setup cell
+    src = src.replace('Path(__file__).resolve().parents[2]', 'ROOT')
     code(f"# Generated from src/lynx_hare/{filename}\n" + src)
 
 
@@ -73,11 +75,16 @@ $$H^* = 30,\quad K_H = 90,\quad \omega_0 = \sqrt{rmb/K_H} \approx 0.632,\quad T_
 
 **Solver:** `scipy.integrate.solve_ivp`, RK45 (Dormand&ndash;Prince). Each step evaluates the right-hand side seven times and
 combines the slopes into a 4th- and a 5th-order estimate; their difference estimates the local error. Steps whose error exceeds
-`rtol`$\cdot|y|$ + `atol` are rejected and shrunk, small errors let the next step grow. Declared tolerances
-`rtol = 1e-10`, `atol = 1e-12`; initial state $(20, 5)$; burn-in 3000 years (20,000 years within one unit of $K_H$, where
-the equilibrium is a weak focus and transients decay very slowly).
+`rtol`$\cdot|y|$ + `atol` are rejected and shrunk, small errors let the next step grow.
 
-All trajectories use the team's single right-hand side `model.rhs`; analytic targets come from Joel's `stability.py`.
+**Two solver settings, two jobs.** Fitting and the 1900&ndash;1920 forecasts (Yash, Advay) use `model.solve`:
+RK45, `rtol = 1e-8`, `atol = 1e-10`, `max_step = 0.1` years, identical for both fitting methods (`configs/historical.json`).
+The long-run simulations here run for thousands of years and use tighter tolerances: RK45, `rtol = 1e-10`,
+`atol = 1e-12`, no step cap (`simulation.integrate`). Both call the same `model.rhs`.
+Illustrative runs start at $(20, 5)$ with a 3000-year burn-in (20,000 years within one unit of $K_H$, where the
+equilibrium is a weak focus and transients decay very slowly).
+
+All values above live in `configs/simulations.json`. All trajectories use the team's single right-hand side `model.rhs`; analytic targets come from Joel's `stability.py`.
 """)
 
 code(r"""
@@ -223,7 +230,8 @@ box(ORANGE, "Step 6 &mdash; Numerical bifurcation diagram (Figure 5)", r"""
 and record $\max$ and $\min$ of $H$ and $P$ over 300 further years. Equal max and min: an equilibrium. A gap: a cycle.
 """)
 code(r"""
-sweep = bifurcation_sweep(BASE, np.linspace(32, 200, 113))
+sw = CONFIG["bifurcation_sweep"]
+sweep = bifurcation_sweep(BASE, np.linspace(sw["K_min"], sw["K_max"], sw["points"]), t_record=sw["record_years"])
 fig = bifurcation(BASE, sweep)
 plt.show()
 below = sweep["K"] < KH - 1
@@ -237,7 +245,8 @@ $A \approx c\sqrt{K-K_H}$ (slope $\tfrac12$ on a log&ndash;log plot; Section 2: 
 $T_0 = 2\pi/\omega_0$ as $K \to K_H^+$. A subcritical one would instead jump to a large cycle.
 """)
 code(r"""
-law = amplitude_law(BASE, np.geomspace(0.5, 8.0, 12))
+al = CONFIG["amplitude_law"]
+law = amplitude_law(BASE, np.geomspace(al["dK_min"], al["dK_max"], al["points"]), t_record=al["record_years"])
 fig = amplitude_and_period(law)
 plt.show()
 print(f"log-log slope s = {law['slope']:.3f}  (prediction 0.5)")
@@ -253,6 +262,52 @@ box(GREEN, "Reading Figures 5 and 6", r"""
   The ODE never reaches zero, but a real, finite population at such troughs would risk extinction.
 """)
 
+box(ORANGE, "Step 8 &mdash; Where do the historical fits lie? (Figures 7 and 8)", r"""
+The fitting sections estimated all six coefficients from the 1900&ndash;1915 pelt indices (thousands of pelts) with a PINN
+(13 runs: three error models &times; three seeds, wider bounds, physics weight 100) and matched least squares (18 starts).
+For **every** saved parameter set we compute, with Joel's closed forms:
+
+- the stability margin $\sigma = K/K_H$ ($\sigma < 1$: $E^*$ stable, oscillations damp; $\sigma > 1$: limit cycle);
+- the eigenvalues $\mu \pm i\omega$ at $E^*$, the **e-folding time** $1/|\mu|$ and the **linear period** $2\pi/\omega$;
+- the period and lynx lag of the first century simulated from the fitted 1900 state (Advay's check: about 10 yr, 1&ndash;2 yr);
+- which coefficients sit within 0.5% of a box limit.
+
+Only saved parameters and the training file are read; the test file is never opened. First we confirm the parameters are
+read correctly: re-integrating Yash's selected fit with `model.solve` and the historical settings must reproduce his saved path.
+The bifurcation sweeps take several minutes.
+""")
+code(r"""
+import runpy
+placement = runpy.run_path(str(ROOT / "scripts" / "rishi_historical_placement.py"))
+res = placement["compute"]()
+print(f"model.solve reconstruction difference: {res['summary']['reconstruction_max_abs_difference']:.1e}")
+cols = ["label", "sigma", "regime", "eigenvalue", "efold_years", "linear_period",
+        "first_century_period", "first_century_lag", "cycle_H_range", "cycle_period", "parameters_on_bounds"]
+display(pd.DataFrame([r for r in res["table"] if r["selected"]])[cols].set_index("label"))
+for k, (lo, hi) in res["summary"]["sigma_range_by_group_excluding_poor_minima"].items():
+    print(f"{k:38s} sigma in [{lo:.3f}, {hi:.3f}]")
+""")
+code(r"""
+fig_sigma, fig_bif = placement["figures"](res)
+display(fig_sigma, fig_bif)
+plt.close("all")
+""")
+box(GREEN, "Reading Figures 7 and 8", r"""
+- **Same behaviour over the data window.** Every well-fitting set oscillates with a period of about 10 years and a lynx lag of
+  1.3&ndash;2 years, matching the data.
+- **Different side of the threshold.** PINN fits give $\sigma \approx 1.32$&ndash;$1.48$; least squares gives 1.07 (main),
+  0.99 (fitted initial state) and 0.55 (log errors).
+- **Why the data cannot decide.** $|\mu|$ is only 0.0002&ndash;0.019 per year, so the e-folding time is 53&ndash;5600 years.
+  Over 16 training years oscillations change by a factor $e^{16\mu} \approx 0.74$&ndash;$1.16$: a slowly damped focus and a slowly
+  growing spiral give almost the same two cycles.
+- **Bounds matter.** $b$ sits on its upper limit in nearly every fit; widening the box moves the PINN's $\sigma$ from 1.36 to 1.48.
+- **Long run (Figure 8).** The least-squares fit's eventual cycle ($H$ 5.6&ndash;85, period 10.8 yr) resembles the data; the PINN
+  fit's is much larger ($H$ 0.1&ndash;247, period 18.5 yr), so its 1900&ndash;1920 trajectory is an early part of a slowly growing spiral.
+
+**Conclusion:** the fitted model sits close to the Hopf threshold and reproduces the observed period and lag, but these data do
+not establish whether the real system is on a stable limit cycle or a slowly damped oscillation.
+""")
+
 box(PURPLE, "Summary and handoff", r"""
 | Claim | Numerical evidence | Where |
 |---|---|---|
@@ -262,11 +317,13 @@ box(PURPLE, "Summary and handoff", r"""
 | Stable limit cycle | Inside and outside starts reach the same loop | Fig. 3 |
 | Hopf at $K_H = b + 2H^*$ | Trace zero at $K = 90.0000000000$, $|\operatorname{Im}\lambda| = \omega_0$ | Fig. 4 |
 | Supercritical Hopf; enrichment | Amplitude $\propto (K-K_H)^{0.507}$, period $\to T_0$, troughs $\to 0$ | Figs. 5, 6 |
+| Historical fits | Period ~10 yr, lag 1.3&ndash;2 yr for every good fit; $\sigma$ 0.55&ndash;1.48 depending on method, error model and bounds | Figs. 7, 8 |
 
-**For Yash and Advay:** use `lynx_hare.simulation.integrate` (shared `model.rhs`, declared tolerances) for forecasts.
-**Open question for the fitting sections:** is $\sigma = K/K_H$ above or below 1 at the fitted parameters?
+**Solvers:** fitting and 1900&ndash;1920 forecasts use `model.solve` (rtol 1e-8, atol 1e-10, max_step 0.1); long-run runs here use
+`simulation.integrate` (rtol 1e-10, atol 1e-12).
 
-**Limitations:** illustrative parameters, not fitted; simulation is evidence, not proof; near $K_H$ results depend on burn-in length.
+**Limitations:** the illustrative runs use unfitted parameters; simulation is evidence, not proof; near $K_H$ results depend on
+burn-in length; fitted $\sigma$ depends on the box bounds and the error model.
 """)
 
 nb = nbf.v4.new_notebook()
